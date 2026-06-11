@@ -1,0 +1,40 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(awk 'NR>=2 && NR<=475' /Users/koray/Desktop/Projuct/bg2.svg)",
+      "Bash(awk 'NR>=474 && NR<=545' /Users/koray/Desktop/Projuct/bg2.svg)",
+      "Bash(awk 'NR>=2 && NR<=145' /Users/koray/Desktop/Projuct/bg2.svg)",
+      "Bash(python3 *)",
+      "Bash(open *)",
+      "Bash(grep *)",
+      "Bash(brew list *)",
+      "Bash(brew install *)",
+      "Bash(npm list *)",
+      "Bash(npm init *)",
+      "Bash(npm install *)",
+      "Bash(node capture_frames.js)",
+      "Bash(gifski --fps 30 --width 590 --quality 90 -o animation.gif frames/frame_*.png)",
+      "Bash(npm run *)",
+      "Bash(node_modules/.bin/vite --port 3000)",
+      "Bash(node -e ' *)",
+      "Bash(ffmpeg -version)",
+      "Bash(npx --version)",
+      "Skill(run)",
+      "WebFetch(domain:www.aura.build)",
+      "WebSearch",
+      "Bash(curl -s http://localhost:5173)",
+      "Bash(curl -s http://localhost:3000)",
+      "WebFetch(domain:miyaip.com)",
+      "Bash(npx tsc *)",
+      "Bash(./node_modules/.bin/vue-tsc --noEmit)",
+      "Bash(echo \"PID=$!\")",
+      "Bash(screencapture -x /tmp/beam-current.png)",
+      "Bash(curl -s https://miyaip.com/)",
+      "Bash(curl -s \"https://miyaip.com/assets/home-7OUbmpzL.js\")",
+      "Bash(curl -s \"https://miyaip.com/assets/home-B-cwdon1.css\")",
+      "Bash(curl -s \"https://miyaip.com/\")",
+      "Bash(screencapture -x /tmp/beam-screenshot.png)",
+      "Bash(screencapture -x /tmp/beam-result.png)"
+    ]
+  }
+}
