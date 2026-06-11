@@ -1,0 +1,36 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# macOS
+.DS_Store
+
+# Editor
+.vscode/
+.idea/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Screenshots & preview images
+*.png
+*.jpg
+*.jpeg
+figma-reference.png
+preview*.png
+*-check*.png
+*-desktop*.png
+*-mobile*.png
+gradient-*.png
+current-compare.png
+
+# Temp files
+.tmp*
