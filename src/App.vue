@@ -219,8 +219,10 @@
 route.country = "US"
 proxy.type = "ISP"</pre>
               </div>
-              <h3>Developer-Friendly Setup</h3>
-              <p>Use standard proxy auth with curl, Python, Node, Playwright, or Scrapy.</p>
+              <div class="scraping-feature-card__copy">
+                <h3>Developer-Friendly Setup</h3>
+                <p>Use standard proxy auth with curl, Python, Node, Playwright, or Scrapy.</p>
+              </div>
             </article>
           </div>
         </div>
