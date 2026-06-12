@@ -1,6 +1,6 @@
 <template>
   <div ref="pageRoot" class="site-page">
-    <header class="site-header" :class="{ 'site-header--scrolled': isHeaderScrolled }" aria-label="Primary">
+    <header class="site-header" :class="{ 'site-header--scrolled': isHeaderScrolled, 'site-header--use-cases': isUseCasesPage }" aria-label="Primary">
       <div class="container site-header__inner">
         <a class="brand" href="/" aria-label="rola-ip home">
           <img class="brand__logo" :src="brandLogo" alt="rola-ip" />
@@ -19,24 +19,61 @@
 
     <main v-if="isUseCasesPage" id="top" class="use-cases-page">
       <section class="use-cases-hero">
-        <HeroParticles class="hero__particles" :quantity="110" :ease="110" color="#70f3a8" :staticity="12" />
+        <HeroParticles class="hero__particles" :quantity="90" :ease="120" color="#0f9f5a" :staticity="16" />
         <div class="container use-cases-hero__inner">
-          <span class="section-label section-label--dark section-label--use-cases">Web Scraping</span>
-          <h1>Scale Web Scraping &amp; Data Collection Without Getting Blocked.</h1>
-          <p>
-            Residential and ISP proxies for public data collection teams that need fewer bans,
-            cleaner geo coverage, and crawler sessions that survive real production workflows.
-          </p>
-          <div class="use-cases-hero__metrics" aria-label="Web scraping network highlights">
-            <div v-for="metric in scrapingHeroStats" :key="metric.label" class="use-cases-hero__metric">
-              <strong>{{ metric.value }}</strong>
-              <span>{{ metric.label }}</span>
+          <div class="use-cases-hero__copy">
+            <span class="section-label section-label--use-cases">Web Scraping</span>
+            <h1>Scale Web Scraping &amp; Data Collection Without Getting Blocked.</h1>
+            <p>
+              Residential and ISP proxies for public data collection teams that need fewer bans,
+              cleaner geo coverage, and crawler sessions that survive real production workflows.
+            </p>
+            <div class="use-cases-hero__metrics" aria-label="Web scraping network highlights">
+              <div v-for="metric in scrapingHeroStats" :key="metric.label" class="use-cases-hero__metric">
+                <strong>{{ metric.value }}</strong>
+                <span>{{ metric.label }}</span>
+              </div>
+            </div>
+            <div class="use-cases-hero__actions">
+              <a class="button button--primary button--large" href="#scraping-code">Start Free Trial</a>
+              <a class="button button--outline button--large" href="/#pricing">View Pricing</a>
             </div>
           </div>
-          <div class="use-cases-hero__actions">
-            <a class="button button--primary button--large" href="#scraping-code">Start Free Trial</a>
-            <a class="button button--dark-outline button--large" href="/#pricing">View Pricing</a>
-          </div>
+
+          <aside class="scraping-hero-panel" aria-label="Web scraping collection preview">
+            <div class="scraping-hero-panel__top">
+              <span class="status-dot"></span>
+              <span>Live Collection Run</span>
+              <strong>session: sticky-24h</strong>
+            </div>
+            <div class="scraping-hero-panel__target">
+              <span>Target</span>
+              <strong>pricing.example.com/products</strong>
+              <small>US market · ISP static · retry budget 2</small>
+            </div>
+            <div class="scraping-hero-panel__flow">
+              <span>Proxy route</span>
+              <div>
+                <i>Collector</i>
+                <b></b>
+                <i>Rola-IP Gateway</i>
+                <b></b>
+                <i>Public Web</i>
+              </div>
+            </div>
+            <div class="scraping-hero-panel__jobs">
+              <div v-for="job in scrapingHeroJobs" :key="job.label" class="scraping-hero-panel__job">
+                <span>{{ job.label }}</span>
+                <strong>{{ job.value }}</strong>
+              </div>
+            </div>
+            <div class="scraping-hero-panel__timeline" aria-hidden="true">
+              <span v-for="point in scrapingHeroTimeline" :key="point.label" :style="{ '--bar-height': point.height }">
+                <i></i>
+                <b>{{ point.label }}</b>
+              </span>
+            </div>
+          </aside>
         </div>
       </section>
 
@@ -51,12 +88,33 @@
             </p>
           </div>
 
-          <div class="scraping-challenge-grid">
-            <article v-for="challenge in scrapingChallenges" :key="challenge.title" class="scraping-challenge-card">
-              <component :is="challenge.icon" aria-hidden="true" :size="22" :stroke-width="2" />
-              <h3>{{ challenge.title }}</h3>
-              <p>{{ challenge.description }}</p>
+          <div class="scraping-challenge-board">
+            <article class="scraping-challenge-summary" aria-label="Scraping risk dashboard">
+              <div>
+                <span>Target Risk Snapshot</span>
+                <strong>Blocked data is usually a routing problem first.</strong>
+              </div>
+              <div class="scraping-challenge-summary__chart" aria-hidden="true">
+                <span v-for="signal in scrapingChallengeSignals" :key="signal.label" :style="{ '--height': signal.height }">
+                  <i></i>
+                  <b>{{ signal.label }}</b>
+                </span>
+              </div>
+              <div class="scraping-challenge-summary__meta" aria-hidden="true">
+                <span v-for="item in scrapingChallengeMeta" :key="item.label">
+                  <strong>{{ item.value }}</strong>
+                  {{ item.label }}
+                </span>
+              </div>
             </article>
+
+            <div class="scraping-challenge-grid">
+              <article v-for="challenge in scrapingChallenges" :key="challenge.title" class="scraping-challenge-card">
+                <component :is="challenge.icon" aria-hidden="true" :size="22" :stroke-width="2" />
+                <h3>{{ challenge.title }}</h3>
+                <p>{{ challenge.description }}</p>
+              </article>
+            </div>
           </div>
         </div>
       </section>
@@ -72,14 +130,97 @@
             </p>
           </div>
 
-          <div class="scraping-capability-panel">
-            <article v-for="capability in scrapingCapabilities" :key="capability.title" class="scraping-capability-card">
-              <span class="scraping-capability-card__icon">
-                <component :is="capability.icon" aria-hidden="true" :size="20" :stroke-width="2" />
-              </span>
-              <span class="scraping-capability-card__metric">{{ capability.metric }}</span>
-              <h3>{{ capability.title }}</h3>
-              <p>{{ capability.description }}</p>
+          <div class="scraping-feature-mosaic">
+            <article class="scraping-feature-card scraping-feature-card--integrations">
+              <h3>Pre-Built Scraper Integrations</h3>
+              <p>Connect proxy routing to the tools your data team already uses.</p>
+              <div class="integration-list" aria-hidden="true">
+                <div v-for="tool in scrapingIntegrationCards" :key="tool.name" class="integration-row" :class="{ 'integration-row--muted': tool.muted }">
+                  <span>{{ tool.short }}</span>
+                  <div>
+                    <strong>{{ tool.name }}</strong>
+                    <small>{{ tool.detail }}</small>
+                  </div>
+                  <em>Connect</em>
+                </div>
+                <div class="integration-connect-pill">
+                  <PlugZap aria-hidden="true" :size="18" :stroke-width="2" />
+                  Connect
+                </div>
+              </div>
+            </article>
+
+            <article class="scraping-feature-card scraping-feature-card--insights">
+              <h3>Cleaner Insights from Every Market</h3>
+              <p>Keep geo context, session behavior, and target status visible.</p>
+              <div class="insights-stack" aria-hidden="true">
+                <div class="insights-panel">
+                  <div class="insights-panel__top">
+                    <Search aria-hidden="true" :size="20" :stroke-width="2" />
+                    <strong>Collection Insights</strong>
+                    <em>Live</em>
+                  </div>
+                  <div class="insights-panel__metric">
+                    <span>Clean read rate</span>
+                    <b>99.1%</b>
+                  </div>
+                  <div class="insights-panel__spark">
+                    <i v-for="point in scrapingHeroTimeline" :key="`insight-${point.label}`" :style="{ '--bar-height': point.height }"></i>
+                  </div>
+                  <div class="insights-panel__rows">
+                    <span><b></b> US Market</span>
+                    <span><b></b> ISP Static</span>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <article class="scraping-feature-card scraping-feature-card--support">
+              <h3>Routing Diagnostics Before Rollout</h3>
+              <p>Review target risk, country coverage, and sticky-session strategy.</p>
+              <div class="routing-diagnostics" aria-hidden="true">
+                <div class="routing-diagnostics__score">
+                  <span>Route health</span>
+                  <strong>96%</strong>
+                </div>
+                <div class="routing-diagnostics__rows">
+                  <div v-for="row in routingDiagnostics" :key="row.label">
+                    <span>{{ row.label }}</span>
+                    <b>{{ row.value }}</b>
+                    <i :style="{ '--fill': row.fill }"></i>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <article class="scraping-feature-card scraping-feature-card--metric">
+              <div class="metric-visual metric-visual--ledger" aria-hidden="true">
+                <div>
+                  <span>
+                    <Zap aria-hidden="true" :size="22" :stroke-width="2.4" />
+                  </span>
+                  <strong>42.8K</strong>
+                </div>
+                <i v-for="job in scrapingHeroJobs" :key="`metric-${job.label}`">
+                  <b>{{ job.label }}</b>
+                  <em>{{ job.value }}</em>
+                </i>
+              </div>
+              <h3>Stable High-Volume Collection</h3>
+              <p>Scale request volume without losing track of clean reads and retries.</p>
+            </article>
+
+            <article class="scraping-feature-card scraping-feature-card--code">
+              <div class="mini-code-window" aria-hidden="true">
+                <span></span>
+                <span></span>
+                <span></span>
+                <pre>session = "sticky-24h"
+route.country = "US"
+proxy.type = "ISP"</pre>
+              </div>
+              <h3>Developer-Friendly Setup</h3>
+              <p>Use standard proxy auth with curl, Python, Node, Playwright, or Scrapy.</p>
             </article>
           </div>
         </div>
@@ -110,26 +251,18 @@
         </div>
       </section>
 
-      <section id="scraping-code" class="section section--dark scraping-code-section">
-        <div class="container scraping-code-layout">
-          <div class="scraping-code-copy">
-            <span class="section-label section-label--dark section-label--quick">Integration</span>
-            <h2>Connect Existing Scrapers in Minutes, Then Tune Routing by Target.</h2>
-            <p>
-              Start with standard proxy auth, pick a country, pass a session key when needed,
-              and keep your current scraping stack.
-            </p>
-            <div class="scraping-steps" aria-label="Quick start steps">
-              <div v-for="step in scrapingQuickSteps" :key="step.title" class="scraping-step">
-                <span>{{ step.index }}</span>
-                <div>
-                  <strong>{{ step.title }}</strong>
-                  <p>{{ step.description }}</p>
-                </div>
-              </div>
-            </div>
-            <div class="scraping-tools" aria-label="Supported scraping tools">
-              <span v-for="tool in scrapingTools" :key="tool">{{ tool }}</span>
+      <section id="scraping-code" class="section section--dark quick-start-section scraping-code-section">
+        <div class="container quick-start scraping-code-layout">
+          <div class="quick-start__copy scraping-code-copy">
+            <span class="section-label section-label--dark section-label--quick">Quick Start</span>
+            <h2>Ship Your First <span class="grad-text grad-text--dark">Scraping Request</span> in Minutes.</h2>
+            <div class="quick-start__list">
+              <article v-for="item in quickStartItems" :key="item.title" class="quick-start-card">
+                <span class="icon-tile icon-tile--dark">
+                  <component :is="item.icon" aria-hidden="true" :size="18" :stroke-width="2" />
+                </span>
+                <h3>{{ item.title }}</h3>
+              </article>
             </div>
           </div>
 
@@ -177,30 +310,24 @@
           </div>
 
           <div class="use-cases-page-grid">
-            <article v-for="(useCase, index) in scrapingUseCases" :key="useCase.title" class="use-cases-page-card">
+            <article
+              v-for="(useCase, index) in displayedScrapingUseCases"
+              :key="useCase.title"
+              class="use-cases-page-card"
+              :class="{ 'use-cases-page-card--featured': index === 0 }"
+            >
               <span class="use-cases-page-card__index">0{{ index + 1 }}</span>
               <span class="icon-tile use-cases-page-card__icon">
                 <component :is="useCase.icon" aria-hidden="true" :size="20" :stroke-width="2" />
               </span>
               <h3>{{ useCase.title }}</h3>
               <p>{{ useCase.description }}</p>
+              <div v-if="index === 0" class="use-cases-page-card__preview" aria-hidden="true">
+                <span v-for="point in scrapingHeroTimeline.slice(0, 5)" :key="`case-${point.label}`" :style="{ '--bar-height': point.height }"></span>
+              </div>
               <span class="use-cases-page-card__signal">{{ useCase.signal }}</span>
             </article>
           </div>
-        </div>
-      </section>
-
-      <section class="section scraping-pricing-strip-section">
-        <div class="container scraping-pricing-strip">
-          <div>
-            <span class="section-label section-label--pricing">Pricing</span>
-            <h2>Validate Reliability First, Then Compare Pricing.</h2>
-          </div>
-          <p>
-            Use case pages should not force a pricing decision too early. Start with target fit,
-            then review per-IP plans, geo availability, and support requirements.
-          </p>
-          <a class="button button--primary" href="/#pricing">View Full Pricing</a>
         </div>
       </section>
 
@@ -227,21 +354,30 @@
               Social proof should make the page feel procurement-ready: practical quotes,
               review-platform badges, and clear signals that real operators use the network.
             </p>
+            <div class="scraping-awards" aria-label="Review and media signals">
+              <span v-for="award in scrapingAwards" :key="award">{{ award }}</span>
+            </div>
           </div>
 
-          <div class="scraping-proof-grid">
-            <article v-for="quote in scrapingTestimonials" :key="quote.author" class="scraping-proof-card">
-              <div class="scraping-proof-card__rating" aria-label="5 star rating">★★★★★</div>
-              <p>{{ quote.quote }}</p>
-              <div>
-                <strong>{{ quote.author }}</strong>
-                <span>{{ quote.role }}</span>
-              </div>
-            </article>
-          </div>
-
-          <div class="scraping-awards" aria-label="Review and media signals">
-            <span v-for="award in scrapingAwards" :key="award">{{ award }}</span>
+          <div class="scraping-proof-window">
+            <div class="scraping-proof-grid">
+              <article
+                v-for="quote in visibleScrapingTestimonials"
+                :key="quote.slot"
+                class="scraping-proof-card"
+              >
+                <div class="scraping-proof-card__rating" aria-label="5 star rating">★★★★★</div>
+                <p>{{ quote.quote }}</p>
+                <div class="scraping-proof-card__author">
+                  <img :src="quote.avatar" alt="" aria-hidden="true" />
+                  <div>
+                    <strong>{{ quote.author }}</strong>
+                    <span>{{ quote.role }}</span>
+                  </div>
+                </div>
+              </article>
+            </div>
+            <span class="scraping-proof-window__fade" aria-hidden="true"></span>
           </div>
         </div>
       </section>
@@ -795,6 +931,23 @@ const isHeaderScrolled = ref(false)
 const isUseCasesPage = computed(() => window.location.pathname === '/use-cases')
 let scrollAnimationContext: ReturnType<typeof gsap.context> | undefined
 let handleHeaderScroll: (() => void) | undefined
+let proofCarouselTimer: number | undefined
+const activeScrapingTestimonialIndex = ref(0)
+
+const visibleScrapingTestimonials = computed(() => {
+  return [0, 1, 2].map((offset) => ({
+    ...scrapingTestimonials[(activeScrapingTestimonialIndex.value + offset) % scrapingTestimonials.length],
+    slot: offset,
+  }))
+})
+
+const displayedScrapingUseCases = computed(() => {
+  return [
+    ...scrapingUseCases.slice(0, 5),
+    scrapingUseCases[5],
+    scrapingUseCases[7],
+  ]
+})
 
 onMounted(() => {
   handleHeaderScroll = () => {
@@ -803,7 +956,15 @@ onMounted(() => {
   handleHeaderScroll()
   window.addEventListener('scroll', handleHeaderScroll, { passive: true })
 
-  if (!pageRoot.value || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+  if (isUseCasesPage.value && !prefersReducedMotion) {
+    proofCarouselTimer = window.setInterval(() => {
+      activeScrapingTestimonialIndex.value = (activeScrapingTestimonialIndex.value + 1) % scrapingTestimonials.length
+    }, 6000)
+  }
+
+  if (!pageRoot.value || prefersReducedMotion) {
     return
   }
 
@@ -898,6 +1059,9 @@ onUnmounted(() => {
     window.removeEventListener('scroll', handleHeaderScroll)
   }
   scrollAnimationContext?.revert()
+  if (proofCarouselTimer) {
+    window.clearInterval(proofCarouselTimer)
+  }
 })
 
 const navItems = [
@@ -946,10 +1110,10 @@ const stats = [
 ]
 
 const socialAvatars = [
-  'https://api.dicebear.com/10.x/fun-emoji/svg?seed=RolaResearchLead',
-  'https://api.dicebear.com/10.x/fun-emoji/svg?seed=RolaOpsLead',
-  'https://api.dicebear.com/10.x/fun-emoji/svg?seed=RolaGrowthLead',
-  'https://api.dicebear.com/10.x/fun-emoji/svg?seed=RolaAutomationLead',
+  'https://api.dicebear.com/10.x/notionists/svg?seed=Maya%20Chen&backgroundColor=ffffff&radius=50',
+  'https://api.dicebear.com/10.x/notionists/svg?seed=Owen%20Park&backgroundColor=ffffff&radius=50',
+  'https://api.dicebear.com/10.x/notionists/svg?seed=Priya%20Nair&backgroundColor=ffffff&radius=50',
+  'https://api.dicebear.com/10.x/notionists/svg?seed=Daniel%20Reyes&backgroundColor=ffffff&radius=50',
 ]
 
 const features = [
@@ -1117,6 +1281,35 @@ const scrapingHeroStats = [
   { value: '195+', label: 'countries and regions' },
 ]
 
+const scrapingHeroJobs = [
+  { label: 'Requests', value: '42.8K' },
+  { label: 'Clean reads', value: '99.1%' },
+  { label: 'Avg latency', value: '0.62s' },
+]
+
+const scrapingHeroTimeline = [
+  { label: 'Mon', height: '42%' },
+  { label: 'Tue', height: '68%' },
+  { label: 'Wed', height: '54%' },
+  { label: 'Thu', height: '82%' },
+  { label: 'Fri', height: '74%' },
+  { label: 'Sat', height: '61%' },
+]
+
+const scrapingChallengeSignals = [
+  { label: 'Blocks', height: '64%' },
+  { label: 'CAPTCHA', height: '42%' },
+  { label: 'Geo drift', height: '72%' },
+  { label: 'Retries', height: '51%' },
+  { label: 'Cost', height: '58%' },
+]
+
+const scrapingChallengeMeta = [
+  { value: '2.8x', label: 'retry cost spike' },
+  { value: '37%', label: 'noisy market reads' },
+  { value: '24h', label: 'sticky session need' },
+]
+
 const scrapingChallenges = [
   {
     icon: Bot,
@@ -1187,6 +1380,19 @@ const scrapingCapabilities = [
     description:
       'Support legitimate public data workflows with clearer sourcing, usage boundaries, and security documentation.',
   },
+]
+
+const scrapingIntegrationCards = [
+  { short: 'Py', name: 'Python requests', detail: 'Session route · US market', muted: false },
+  { short: 'PW', name: 'Playwright', detail: 'Browser collector · sticky', muted: false },
+  { short: 'SC', name: 'Scrapy', detail: 'Queue worker · rotating', muted: false },
+  { short: 'PP', name: 'Puppeteer', detail: 'JS render · retry rules', muted: true },
+]
+
+const routingDiagnostics = [
+  { label: 'US ISP static', value: 'Healthy', fill: '96%' },
+  { label: 'CAPTCHA retry', value: 'Low', fill: '18%' },
+  { label: 'Session drift', value: 'Stable', fill: '88%' },
 ]
 
 const scrapingProxyFit = [
@@ -1281,17 +1487,17 @@ const scrapingUseCases = [
 
 const scrapingQuickSteps = [
   {
-    index: '01',
+    icon: Route,
     title: 'Pick Proxy Type and Market',
     description: 'Choose residential, ISP, datacenter, or mobile based on target risk and geo needs.',
   },
   {
-    index: '02',
+    icon: KeyRound,
     title: 'Create Auth and Session Rules',
     description: 'Generate credentials, country routing, and sticky-session keys for the crawler.',
   },
   {
-    index: '03',
+    icon: Search,
     title: 'Connect and Monitor Results',
     description: 'Plug the endpoint into your scraper, then tune rotation, retries, and target coverage.',
   },
@@ -1305,12 +1511,28 @@ const scrapingTestimonials = [
       'Stable sessions made our price monitoring jobs easier to audit because the market context stopped changing halfway through a run.',
     author: 'Maya Chen',
     role: 'Data Operations Lead',
+    avatar: 'https://api.dicebear.com/10.x/notionists/svg?seed=Maya%20Chen&backgroundColor=ffffff&radius=50',
   },
   {
     quote:
       'The biggest win was reducing maintenance noise. Our team could tune target logic instead of constantly rebuilding proxy retries.',
     author: 'Daniel Reyes',
     role: 'Growth Systems Manager',
+    avatar: 'https://api.dicebear.com/10.x/notionists/svg?seed=Daniel%20Reyes&backgroundColor=ffffff&radius=50',
+  },
+  {
+    quote:
+      'We could compare regional listings with fewer false changes because routing stayed predictable across each collection window.',
+    author: 'Olivia Hart',
+    role: 'Market Intelligence Manager',
+    avatar: 'https://api.dicebear.com/10.x/notionists/svg?seed=Olivia%20Hart&backgroundColor=ffffff&radius=50',
+  },
+  {
+    quote:
+      'Our crawler team stopped treating proxy retries as a black box. Session rules became part of rollout planning instead.',
+    author: 'Ethan Brooks',
+    role: 'Automation Engineering Lead',
+    avatar: 'https://api.dicebear.com/10.x/notionists/svg?seed=Ethan%20Brooks&backgroundColor=ffffff&radius=50',
   },
 ]
 
