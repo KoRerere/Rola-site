@@ -2,7 +2,7 @@
   <div ref="pageRoot" class="site-page">
     <header class="site-header" :class="{ 'site-header--scrolled': isHeaderScrolled }" aria-label="Primary">
       <div class="container site-header__inner">
-        <a class="brand" href="#top" aria-label="rola-ip home">
+        <a class="brand" href="/" aria-label="rola-ip home">
           <img class="brand__logo" :src="brandLogo" alt="rola-ip" />
         </a>
 
@@ -11,13 +11,281 @@
         </nav>
 
         <div class="site-actions">
-          <a class="button button--ghost" href="#faq">Talk to Sales</a>
-          <a class="button button--primary" href="#pricing">Start Free Trial</a>
+          <a class="button button--ghost" href="/#faq">Talk to Sales</a>
+          <a class="button button--primary" href="/#pricing">Start Free Trial</a>
         </div>
       </div>
     </header>
 
-    <main id="top">
+    <main v-if="isUseCasesPage" id="top" class="use-cases-page">
+      <section class="use-cases-hero">
+        <HeroParticles class="hero__particles" :quantity="110" :ease="110" color="#70f3a8" :staticity="12" />
+        <div class="container use-cases-hero__inner">
+          <span class="section-label section-label--dark section-label--use-cases">Web Scraping</span>
+          <h1>Scale Web Scraping &amp; Data Collection Without Getting Blocked.</h1>
+          <p>
+            Residential and ISP proxies for public data collection teams that need fewer bans,
+            cleaner geo coverage, and crawler sessions that survive real production workflows.
+          </p>
+          <div class="use-cases-hero__metrics" aria-label="Web scraping network highlights">
+            <div v-for="metric in scrapingHeroStats" :key="metric.label" class="use-cases-hero__metric">
+              <strong>{{ metric.value }}</strong>
+              <span>{{ metric.label }}</span>
+            </div>
+          </div>
+          <div class="use-cases-hero__actions">
+            <a class="button button--primary button--large" href="#scraping-code">Start Free Trial</a>
+            <a class="button button--dark-outline button--large" href="/#pricing">View Pricing</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section scraping-challenges">
+        <div class="container">
+          <div class="section-heading">
+            <span class="section-label section-label--why">Scraping Challenges</span>
+            <h2>The Problems Scraping Teams Hit Before the Data Arrives.</h2>
+            <p>
+              Modern targets do not only block volume. They challenge identity, location,
+              browser behavior, request timing, and the engineering time needed to keep collectors alive.
+            </p>
+          </div>
+
+          <div class="scraping-challenge-grid">
+            <article v-for="challenge in scrapingChallenges" :key="challenge.title" class="scraping-challenge-card">
+              <component :is="challenge.icon" aria-hidden="true" :size="22" :stroke-width="2" />
+              <h3>{{ challenge.title }}</h3>
+              <p>{{ challenge.description }}</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section scraping-capabilities">
+        <div class="container">
+          <div class="section-heading section-heading--center">
+            <span class="section-label section-label--stats">Why Rola-IP</span>
+            <h2>Core Proxy Capabilities Behind a More Reliable Data Pipeline.</h2>
+            <p>
+              Match each target with the right identity behavior: rotate when you need reach,
+              stay sticky when continuity matters, and keep routing rules visible to the team.
+            </p>
+          </div>
+
+          <div class="scraping-capability-panel">
+            <article v-for="capability in scrapingCapabilities" :key="capability.title" class="scraping-capability-card">
+              <span class="scraping-capability-card__icon">
+                <component :is="capability.icon" aria-hidden="true" :size="20" :stroke-width="2" />
+              </span>
+              <span class="scraping-capability-card__metric">{{ capability.metric }}</span>
+              <h3>{{ capability.title }}</h3>
+              <p>{{ capability.description }}</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="proxy-fit" class="section section--alt proxy-fit-section">
+        <div class="container proxy-fit-layout">
+          <div class="section-heading">
+            <span class="section-label section-label--definition">Proxy Fit</span>
+            <h2>Choose the Proxy Type by Target Risk, Speed, and Session Needs.</h2>
+            <p>
+              Use this as the buyer education layer: not every scraping job needs the same proxy
+              behavior, cost model, or trust signal.
+            </p>
+          </div>
+
+          <div class="proxy-type-grid" aria-label="Proxy type fit for scraping">
+            <article v-for="row in scrapingProxyFit" :key="row.type" class="proxy-type-card">
+              <span class="proxy-type-card__icon">
+                <component :is="row.icon" aria-hidden="true" :size="20" :stroke-width="2" />
+              </span>
+              <span class="proxy-type-card__price">{{ row.price }}</span>
+              <h3>{{ row.type }}</h3>
+              <p>{{ row.fit }}</p>
+              <small>{{ row.note }}</small>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="scraping-code" class="section section--dark scraping-code-section">
+        <div class="container scraping-code-layout">
+          <div class="scraping-code-copy">
+            <span class="section-label section-label--dark section-label--quick">Integration</span>
+            <h2>Connect Existing Scrapers in Minutes, Then Tune Routing by Target.</h2>
+            <p>
+              Start with standard proxy auth, pick a country, pass a session key when needed,
+              and keep your current scraping stack.
+            </p>
+            <div class="scraping-steps" aria-label="Quick start steps">
+              <div v-for="step in scrapingQuickSteps" :key="step.title" class="scraping-step">
+                <span>{{ step.index }}</span>
+                <div>
+                  <strong>{{ step.title }}</strong>
+                  <p>{{ step.description }}</p>
+                </div>
+              </div>
+            </div>
+            <div class="scraping-tools" aria-label="Supported scraping tools">
+              <span v-for="tool in scrapingTools" :key="tool">{{ tool }}</span>
+            </div>
+          </div>
+
+          <div class="quick-start__code">
+            <div class="code-editor" aria-label="Web scraping proxy integration example">
+              <div class="code-editor__header">
+                <div class="code-editor__tabs" aria-label="Code language tabs">
+                  <button
+                    v-for="tab in codeTabs"
+                    :key="tab.key"
+                    class="code-editor__tab"
+                    :class="{ 'code-editor__tab--active': activeCodeTab === tab.key }"
+                    type="button"
+                    :aria-pressed="activeCodeTab === tab.key"
+                    @click="activeCodeTab = tab.key"
+                  >
+                    <img class="code-editor__logo" :src="tab.logo" alt="" aria-hidden="true" />
+                    {{ tab.label }}
+                  </button>
+                </div>
+                <div class="code-editor__actions">
+                  <span class="code-editor__icon" aria-label="Request example info" title="Request example info">
+                    <TerminalSquare aria-hidden="true" :size="18" :stroke-width="1.9" />
+                  </span>
+                  <button class="code-editor__copy" type="button" :aria-label="hasCopiedCode ? 'Copied' : 'Copy code'" @click="copyCodeSample">
+                    <component :is="hasCopiedCode ? CheckCircle2 : Copy" aria-hidden="true" :size="18" :stroke-width="1.9" />
+                  </button>
+                </div>
+              </div>
+              <pre><code><span v-for="line in codeSampleLines" :key="line.number" class="code-editor__line"><span class="code-editor__line-number">{{ line.number }}</span><span class="code-editor__line-text"><span v-for="(token, tokenIndex) in line.tokens" :key="`${line.number}-${tokenIndex}`" :class="`code-token code-token--${token.kind}`">{{ token.value }}</span></span></span></code></pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section use-cases-directory">
+        <div class="container">
+          <div class="section-heading">
+            <span class="section-label section-label--use-cases">Use Cases</span>
+            <h2>High-Value Data Collection Scenarios Worth Designing Around.</h2>
+            <p>
+              Help each buyer recognize their workflow quickly, then route them toward the proxy
+              behavior that best fits that target.
+            </p>
+          </div>
+
+          <div class="use-cases-page-grid">
+            <article v-for="(useCase, index) in scrapingUseCases" :key="useCase.title" class="use-cases-page-card">
+              <span class="use-cases-page-card__index">0{{ index + 1 }}</span>
+              <span class="icon-tile use-cases-page-card__icon">
+                <component :is="useCase.icon" aria-hidden="true" :size="20" :stroke-width="2" />
+              </span>
+              <h3>{{ useCase.title }}</h3>
+              <p>{{ useCase.description }}</p>
+              <span class="use-cases-page-card__signal">{{ useCase.signal }}</span>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section scraping-pricing-strip-section">
+        <div class="container scraping-pricing-strip">
+          <div>
+            <span class="section-label section-label--pricing">Pricing</span>
+            <h2>Validate Reliability First, Then Compare Pricing.</h2>
+          </div>
+          <p>
+            Use case pages should not force a pricing decision too early. Start with target fit,
+            then review per-IP plans, geo availability, and support requirements.
+          </p>
+          <a class="button button--primary" href="/#pricing">View Full Pricing</a>
+        </div>
+      </section>
+
+      <section class="section scraping-compliance-section">
+        <div class="container scraping-compliance-panel">
+          <div>
+            <span class="section-label section-label--compliance">Compliance</span>
+            <h2>Scrape Public Data with Clear Usage Boundaries.</h2>
+          </div>
+          <p>
+            Rola-IP is designed for legitimate research, monitoring, and automation. Enterprise
+            teams can request sourcing details, privacy terms, and security documentation before
+            rollout.
+          </p>
+        </div>
+      </section>
+
+      <section class="section scraping-proof-section">
+        <div class="container scraping-proof-layout">
+          <div class="section-heading">
+            <span class="section-label section-label--testimonials">Proof</span>
+            <h2>Trusted by Teams That Treat Data Collection as Infrastructure.</h2>
+            <p>
+              Social proof should make the page feel procurement-ready: practical quotes,
+              review-platform badges, and clear signals that real operators use the network.
+            </p>
+          </div>
+
+          <div class="scraping-proof-grid">
+            <article v-for="quote in scrapingTestimonials" :key="quote.author" class="scraping-proof-card">
+              <div class="scraping-proof-card__rating" aria-label="5 star rating">★★★★★</div>
+              <p>{{ quote.quote }}</p>
+              <div>
+                <strong>{{ quote.author }}</strong>
+                <span>{{ quote.role }}</span>
+              </div>
+            </article>
+          </div>
+
+          <div class="scraping-awards" aria-label="Review and media signals">
+            <span v-for="award in scrapingAwards" :key="award">{{ award }}</span>
+          </div>
+        </div>
+      </section>
+
+      <section id="use-case-faq" class="section faq-section use-cases-faq">
+        <div class="container faq-wrap">
+          <div class="section-heading section-heading--center">
+            <span class="section-label section-label--faq">FAQ</span>
+            <h2>Questions Scraping Teams Ask Before Rollout.</h2>
+          </div>
+
+          <div class="faq-list">
+            <details
+              v-for="(item, index) in scrapingFaqItems"
+              :key="item.question"
+              class="faq-item"
+              :open="openUseCaseFaqIndex === index"
+            >
+              <summary @click.prevent="openUseCaseFaq(index)">
+                <span>{{ item.question }}</span>
+              </summary>
+              <p>{{ item.answer }}</p>
+            </details>
+          </div>
+        </div>
+      </section>
+
+      <section class="final-cta">
+        <div class="container final-cta__inner">
+          <span class="section-label section-label--dark section-label--ready">Ready to Scrape</span>
+          <h2>Map the Target, Pick the Proxy Type, Then Launch with Stable Sessions.</h2>
+          <p>
+            Start with a small ISP proxy setup for a high-value scraping workflow, then expand
+            coverage and routing rules once your collection logic is validated.
+          </p>
+          <div class="final-cta__actions">
+            <a class="button button--primary button--large" href="/#pricing">Start Free Trial</a>
+            <a class="button button--dark-outline button--large" href="/#faq">Talk to Sales</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <main v-else id="top">
       <section class="hero">
         <HeroParticles class="hero__particles" :quantity="150" :ease="120" color="#70f3a8" :staticity="10" />
         <div class="container hero__grid">
@@ -507,6 +775,7 @@ import {
   Shield,
   ShieldCheck,
   ShoppingBag,
+  Smartphone,
   TerminalSquare,
   Zap,
 } from '@lucide/vue'
@@ -523,6 +792,7 @@ gsap.registerPlugin(ScrollTrigger)
 
 const pageRoot = ref<HTMLElement | null>(null)
 const isHeaderScrolled = ref(false)
+const isUseCasesPage = computed(() => window.location.pathname === '/use-cases')
 let scrollAnimationContext: ReturnType<typeof gsap.context> | undefined
 let handleHeaderScroll: (() => void) | undefined
 
@@ -538,48 +808,60 @@ onMounted(() => {
   }
 
   scrollAnimationContext = gsap.context(() => {
-    gsap.set(
-      [
-        '.hero-demo',
-        '.proof-panel',
-        '.performance-card',
-        '.pricing-card',
-        '.coverage-card',
-        '.feature-card',
-        '.use-case-card',
-        '.quick-start-card',
-        '.testimonial-card',
-        '.compliance-panel',
-        '.faq-item',
-      ],
-      { willChange: 'transform, opacity' },
+    const animatedSelectors = [
+      '.hero-demo',
+      '.proof-panel',
+      '.performance-card',
+      '.pricing-card',
+      '.coverage-card',
+      '.feature-card',
+      '.use-case-card',
+      '.quick-start-card',
+      '.testimonial-card',
+      '.compliance-panel',
+      '.scraping-challenge-card',
+      '.scraping-capability-card',
+      '.proxy-type-card',
+      '.use-cases-page-card',
+      '.scraping-compliance-panel',
+      '.scraping-proof-card',
+      '.faq-item',
+    ]
+    const animatedElements = animatedSelectors.flatMap((selector) =>
+      Array.from(document.querySelectorAll<HTMLElement>(selector)),
     )
 
-    gsap.to('.hero-demo', {
-      yPercent: 7,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: '.hero',
-        start: 'top top',
-        end: 'bottom top',
-        scrub: 0.8,
-      },
-    })
+    gsap.set(animatedElements, { willChange: 'transform, opacity' })
 
-    gsap.to('.hero__content', {
-      yPercent: -3,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: '.hero',
-        start: 'top top',
-        end: 'bottom top',
-        scrub: 0.9,
-      },
-    })
+    if (document.querySelector('.hero') && document.querySelector('.hero-demo')) {
+      gsap.to('.hero-demo', {
+        yPercent: 7,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '.hero',
+          start: 'top top',
+          end: 'bottom top',
+          scrub: 0.8,
+        },
+      })
+    }
+
+    if (document.querySelector('.hero') && document.querySelector('.hero__content')) {
+      gsap.to('.hero__content', {
+        yPercent: -3,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '.hero',
+          start: 'top top',
+          end: 'bottom top',
+          scrub: 0.9,
+        },
+      })
+    }
 
     gsap.utils
       .toArray<HTMLElement>(
-        '.proof-panel, .performance-layout, .pricing-card, .coverage-card, .network-card, .quick-start-card, .feature-card, .testimonial-card, .compliance-panel, .faq-item',
+        '.proof-panel, .performance-layout, .pricing-card, .coverage-card, .network-card, .quick-start-card, .feature-card, .testimonial-card, .compliance-panel, .scraping-challenge-card, .scraping-capability-card, .proxy-type-card, .use-cases-page-card, .scraping-compliance-panel, .scraping-proof-card, .faq-item',
       )
       .forEach((element) => {
         gsap.from(element, {
@@ -595,16 +877,18 @@ onMounted(() => {
         })
       })
 
-    gsap.to('.performance-card-grid', {
-      y: -30,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: '.performance-section',
-        start: 'top bottom',
-        end: 'bottom top',
-        scrub: 1,
-      },
-    })
+    if (document.querySelector('.performance-section') && document.querySelector('.performance-card-grid')) {
+      gsap.to('.performance-card-grid', {
+        y: -30,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '.performance-section',
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 1,
+        },
+      })
+    }
 
   }, pageRoot.value)
 })
@@ -617,11 +901,10 @@ onUnmounted(() => {
 })
 
 const navItems = [
-  { label: 'Features', href: '#features' },
-  { label: 'Pricing', href: '#pricing' },
-  { label: 'Coverage', href: '#coverage' },
-  { label: 'Use Cases', href: '#use-cases' },
-  { label: 'FAQ', href: '#faq' },
+  { label: 'Use Cases', href: '/use-cases' },
+  { label: 'Pricing', href: '/#pricing' },
+  { label: 'Coverage', href: '/#coverage' },
+  { label: 'FAQ', href: '/#faq' },
 ]
 
 const heroMeta = [
@@ -828,6 +1111,249 @@ const useCases = [
   },
 ]
 
+const scrapingHeroStats = [
+  { value: '1.3M+', label: 'ISP and residential IPs' },
+  { value: '99.9%', label: 'target success benchmark' },
+  { value: '195+', label: 'countries and regions' },
+]
+
+const scrapingChallenges = [
+  {
+    icon: Bot,
+    title: 'Bot Detection and IP Bans',
+    description:
+      'Automated traffic is easier to flag when too many requests come from reused, low-trust, or poorly routed IPs.',
+  },
+  {
+    icon: Globe2,
+    title: 'Geo Restrictions and Market Drift',
+    description:
+      'Prices, rankings, ads, and inventory often change by country or city, so unstable location context creates noisy data.',
+  },
+  {
+    icon: Shield,
+    title: 'CAPTCHA, Rate Limits, and WAFs',
+    description:
+      'CAPTCHA loops, throttling, and web application firewalls can turn simple scraping jobs into expensive retry systems.',
+  },
+  {
+    icon: ServerCog,
+    title: 'High Maintenance Cost',
+    description:
+      'Engineering teams lose time maintaining proxy pools, retry logic, browser settings, and target-specific exceptions.',
+  },
+]
+
+const scrapingCapabilities = [
+  {
+    icon: ShieldCheck,
+    metric: 'Low bans',
+    title: 'Higher Success with Trusted IPs',
+    description:
+      'Use residential-grade and ISP-backed identities to reduce suspicious traffic signals on fragile public targets.',
+  },
+  {
+    icon: Route,
+    metric: 'Rotate',
+    title: 'Large Pool with Rotation Control',
+    description:
+      'Rotate across a broader pool when reach matters, or keep a session stable when the workflow depends on continuity.',
+  },
+  {
+    icon: Globe2,
+    metric: '195+',
+    title: 'Global Geo Targeting',
+    description:
+      'Route collectors by country and region so pricing, search results, ads, and availability stay market-specific.',
+  },
+  {
+    icon: Clock3,
+    metric: 'Sticky',
+    title: 'Session Control for Stateful Targets',
+    description:
+      'Switch between rotating and sticky sessions for websites that need persistent identity across multi-step flows.',
+  },
+  {
+    icon: Code2,
+    metric: 'Fast setup',
+    title: 'Works with Existing Scraping Stacks',
+    description:
+      'Connect through standard proxy auth in curl, Python, Node, browser automation, or internal data collection runners.',
+  },
+  {
+    icon: BadgeCheck,
+    metric: 'Review-ready',
+    title: 'Cleaner Enterprise Rollout',
+    description:
+      'Support legitimate public data workflows with clearer sourcing, usage boundaries, and security documentation.',
+  },
+]
+
+const scrapingProxyFit = [
+  {
+    icon: ShieldCheck,
+    type: 'Residential',
+    fit: 'Anti-blocking and broad public web collection',
+    note: 'Best when target trust matters more than raw speed.',
+    price: 'See residential plans',
+  },
+  {
+    icon: KeyRound,
+    type: 'ISP / Static Residential',
+    fit: 'Longer scraping sessions with stable identity',
+    note: 'Best for logged-in, stateful, or repeated regional checks.',
+    price: 'See ISP plans',
+  },
+  {
+    icon: Zap,
+    type: 'Datacenter',
+    fit: 'Speed and cost-sensitive scraping',
+    note: 'Best for lower-risk targets where trust signals matter less.',
+    price: 'Speed-first option',
+  },
+  {
+    icon: Smartphone,
+    type: 'Mobile',
+    fit: 'Mobile content, app views, and hyper-local checks',
+    note: 'Best when the target behaves differently on mobile networks.',
+    price: 'Mobile fit check',
+  },
+]
+
+const scrapingUseCases = [
+  {
+    icon: ShoppingBag,
+    title: 'E-commerce Price Intelligence',
+    description:
+      'Monitor products, seller changes, stock status, and regional prices with stable identities across repeated collection windows.',
+    signal: 'Price and catalog monitoring',
+  },
+  {
+    icon: ScanSearch,
+    title: 'SEO and SERP Tracking',
+    description:
+      'Collect localized ranking snapshots without mixing market context across requests or losing continuity mid-check.',
+    signal: 'Localized search snapshots',
+  },
+  {
+    icon: Bot,
+    title: 'AI and LLM Training Data',
+    description:
+      'Support longer collection jobs for public web datasets where retry quality, regional diversity, and consistency matter.',
+    signal: 'Training data collection',
+  },
+  {
+    icon: Megaphone,
+    title: 'Ad Verification',
+    description:
+      'Validate regional delivery, landing pages, and account-specific ad paths from trusted static residential identities.',
+    signal: 'Geo-accurate ad paths',
+  },
+  {
+    icon: Search,
+    title: 'Market Research',
+    description:
+      'Collect competitive pricing, inventory, and marketplace signals while reducing noise from aggressive IP rotation.',
+    signal: 'Cleaner market snapshots',
+  },
+  {
+    icon: Shield,
+    title: 'Cybersecurity Research',
+    description:
+      'Audit impersonation, abuse surfaces, and sensitive account flows with persistent identities that fit review workflows.',
+    signal: 'Persistent audit identity',
+  },
+  {
+    icon: Globe2,
+    title: 'Travel Data Collection',
+    description:
+      'Track fares, hotel availability, regional offers, and booking flows from the markets your customers actually search from.',
+    signal: 'Localized travel checks',
+  },
+  {
+    icon: Clock3,
+    title: 'Website Change Monitoring',
+    description:
+      'Detect page, price, policy, and availability changes with repeatable snapshots instead of one-off crawler successes.',
+    signal: 'Repeatable change tracking',
+  },
+]
+
+const scrapingQuickSteps = [
+  {
+    index: '01',
+    title: 'Pick Proxy Type and Market',
+    description: 'Choose residential, ISP, datacenter, or mobile based on target risk and geo needs.',
+  },
+  {
+    index: '02',
+    title: 'Create Auth and Session Rules',
+    description: 'Generate credentials, country routing, and sticky-session keys for the crawler.',
+  },
+  {
+    index: '03',
+    title: 'Connect and Monitor Results',
+    description: 'Plug the endpoint into your scraper, then tune rotation, retries, and target coverage.',
+  },
+]
+
+const scrapingTools = ['Scrapy', 'Puppeteer', 'Playwright', 'Selenium', 'Octoparse', 'Python requests']
+
+const scrapingTestimonials = [
+  {
+    quote:
+      'Stable sessions made our price monitoring jobs easier to audit because the market context stopped changing halfway through a run.',
+    author: 'Maya Chen',
+    role: 'Data Operations Lead',
+  },
+  {
+    quote:
+      'The biggest win was reducing maintenance noise. Our team could tune target logic instead of constantly rebuilding proxy retries.',
+    author: 'Daniel Reyes',
+    role: 'Growth Systems Manager',
+  },
+]
+
+const scrapingAwards = ['G2 review signals', 'Trustpilot rating', 'Enterprise onboarding', 'Security documentation']
+
+const scrapingFaqItems = [
+  {
+    question: 'Should a web scraping workflow use ISP proxies or rotating residential proxies?',
+    answer:
+      'Use ISP proxies when the workflow depends on stable sessions, repeated regional checks, account state, or cleaner before-and-after comparisons. Use rotating residential proxies when each request can safely use a different identity.',
+  },
+  {
+    question: 'Can I target a specific country or city?',
+    answer:
+      'Country-level routing is supported for broad market checks. City-level or ASN-level availability depends on inventory and should be validated before production rollout.',
+  },
+  {
+    question: 'Can I use this with my existing scraper or browser automation stack?',
+    answer:
+      'Yes. The integration works through standard proxy authentication and session headers, so teams can connect curl, Python, Node, Playwright, Puppeteer, Scrapy, or internal collectors without rebuilding the whole pipeline.',
+  },
+  {
+    question: 'My scraper got blocked. What should I change first?',
+    answer:
+      'Start by reducing request bursts, checking headers and browser behavior, switching proxy type, and deciding whether the target needs rotation or a longer sticky session.',
+  },
+  {
+    question: 'Is web scraping legal?',
+    answer:
+      'Web scraping rules depend on the target, data type, jurisdiction, and collection method. Rola-IP is intended for legitimate public data research, monitoring, and verification, and teams should review policies before rollout.',
+  },
+  {
+    question: 'Which scraping scenarios benefit most from sticky ISP sessions?',
+    answer:
+      'E-commerce price intelligence, SEO and SERP tracking, ad verification, AI dataset collection, brand monitoring, and account-sensitive research often benefit from stable identity and predictable routing.',
+  },
+  {
+    question: 'Do you provide a managed Web Scraping API?',
+    answer:
+      'This page currently focuses on proxy-based scraping workflows. If a managed scraping or Web Data API is added, it should become a dedicated product path with rendering, retries, and structured output clearly defined.',
+  },
+]
+
 const networkSignals = [
   {
     kicker: 'Session policy',
@@ -887,6 +1413,7 @@ const codeTabs: Array<{ key: CodeTabKey; label: string; logo: string }> = [
 
 const hasCopiedCode = ref(false)
 const openFaqIndex = ref(0)
+const openUseCaseFaqIndex = ref(0)
 const activeCodeTab = ref<CodeTabKey>('curl')
 
 const activeCodeSample = computed(() => codeSamples[activeCodeTab.value])
@@ -975,6 +1502,10 @@ const copyCodeSample = async () => {
 
 const openFaq = (index: number) => {
   openFaqIndex.value = index
+}
+
+const openUseCaseFaq = (index: number) => {
+  openUseCaseFaqIndex.value = index
 }
 
 const quickStartItems = [
