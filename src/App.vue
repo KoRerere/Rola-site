@@ -1,18 +1,25 @@
 <template>
   <div ref="pageRoot" class="site-page">
-    <header class="site-header" :class="{ 'site-header--scrolled': isHeaderScrolled, 'site-header--use-cases': isUseCasesPage }" aria-label="Primary">
+    <header class="site-header" :class="{ 'site-header--scrolled': isHeaderScrolled, 'site-header--use-cases': isLightHeaderPage }" aria-label="Primary">
       <div class="container site-header__inner">
         <a class="brand" href="/" aria-label="rola-ip home">
           <img class="brand__logo" :src="brandLogo" alt="rola-ip" />
         </a>
 
         <nav class="site-nav" aria-label="Section navigation">
-          <a v-for="item in navItems" :key="item.label" :href="item.href">{{ item.label }}</a>
+          <a
+            v-for="item in navItems"
+            :key="item.label"
+            :href="item.href"
+            :class="{ 'site-nav__link--active': isNavItemActive(item) }"
+          >
+            {{ item.label }}
+          </a>
         </nav>
 
         <div class="site-actions">
           <a class="button button--ghost" href="/#faq">Talk to Sales</a>
-          <a class="button button--primary" href="/#pricing">Start Free Trial</a>
+          <a class="button button--primary" href="/pricing#pricing-page-final">Start Free Trial</a>
         </div>
       </div>
     </header>
@@ -28,15 +35,15 @@
               Residential and ISP proxies for public data collection teams that need fewer bans,
               cleaner geo coverage, and crawler sessions that survive real production workflows.
             </p>
+            <div class="use-cases-hero__actions">
+              <a class="button button--primary button--large" href="#scraping-code">Start Free Trial</a>
+              <a class="button button--outline button--large" href="/pricing">View Pricing</a>
+            </div>
             <div class="use-cases-hero__metrics" aria-label="Web scraping network highlights">
               <div v-for="metric in scrapingHeroStats" :key="metric.label" class="use-cases-hero__metric">
                 <strong>{{ metric.value }}</strong>
                 <span>{{ metric.label }}</span>
               </div>
-            </div>
-            <div class="use-cases-hero__actions">
-              <a class="button button--primary button--large" href="#scraping-code">Start Free Trial</a>
-              <a class="button button--outline button--large" href="/#pricing">View Pricing</a>
             </div>
           </div>
 
@@ -135,17 +142,22 @@
               <h3>Pre-Built Scraper Integrations</h3>
               <p>Connect proxy routing to the tools your data team already uses.</p>
               <div class="integration-list" aria-hidden="true">
+                <div class="integration-list__header">
+                  <span>Ready adapters</span>
+                  <div class="integration-connect-pill">
+                    <PlugZap aria-hidden="true" :size="17" :stroke-width="2" />
+                    Connect
+                  </div>
+                </div>
                 <div v-for="tool in scrapingIntegrationCards" :key="tool.name" class="integration-row" :class="{ 'integration-row--muted': tool.muted }">
-                  <span>{{ tool.short }}</span>
+                  <span class="integration-row__icon">
+                    <component :is="tool.icon" aria-hidden="true" :size="20" :stroke-width="2.2" />
+                  </span>
                   <div>
                     <strong>{{ tool.name }}</strong>
                     <small>{{ tool.detail }}</small>
                   </div>
                   <em>Connect</em>
-                </div>
-                <div class="integration-connect-pill">
-                  <PlugZap aria-hidden="true" :size="18" :stroke-width="2" />
-                  Connect
                 </div>
               </div>
             </article>
@@ -211,13 +223,65 @@
             </article>
 
             <article class="scraping-feature-card scraping-feature-card--code">
-              <div class="mini-code-window" aria-hidden="true">
-                <span></span>
-                <span></span>
-                <span></span>
-                <pre>session = "sticky-24h"
+              <div class="developer-setup-visual" aria-hidden="true">
+                <div class="developer-setup-visual__glow"></div>
+                <div class="setup-tool-strip">
+                  <span>
+                    <TerminalSquare aria-hidden="true" :size="15" :stroke-width="2" />
+                    curl
+                  </span>
+                  <span>
+                    <Code2 aria-hidden="true" :size="15" :stroke-width="2" />
+                    Python
+                  </span>
+                  <span>
+                    <ScanSearch aria-hidden="true" :size="15" :stroke-width="2" />
+                    Playwright
+                  </span>
+                </div>
+                <div class="setup-flow">
+                  <div class="setup-code-panel">
+                    <div class="setup-code-panel__bar">
+                      <span>proxy.config</span>
+                      <i></i>
+                      <i></i>
+                      <i></i>
+                    </div>
+                    <pre>session = "sticky-24h"
 route.country = "US"
 proxy.type = "ISP"</pre>
+                  </div>
+                  <div class="setup-connector">
+                    <i>
+                      <PlugZap aria-hidden="true" :size="18" :stroke-width="2.2" />
+                    </i>
+                  </div>
+                  <div class="setup-endpoint-card">
+                    <span class="setup-endpoint-card__icon">
+                      <ShieldCheck aria-hidden="true" :size="20" :stroke-width="2.2" />
+                    </span>
+                    <strong>Auth OK</strong>
+                    <small>proxy.rola.com:9000</small>
+                    <em>
+                      <KeyRound aria-hidden="true" :size="13" :stroke-width="2.1" />
+                      Sticky 24h
+                    </em>
+                    <em>
+                      <Globe2 aria-hidden="true" :size="13" :stroke-width="2.1" />
+                      US route
+                    </em>
+                  </div>
+                </div>
+                <div class="setup-quick-row">
+                  <span>
+                    <Route aria-hidden="true" :size="14" :stroke-width="2" />
+                    Rotating or sticky
+                  </span>
+                  <span>
+                    <Code2 aria-hidden="true" :size="14" :stroke-width="2" />
+                    3-line config
+                  </span>
+                </div>
               </div>
               <div class="scraping-feature-card__copy">
                 <h3>Developer-Friendly Setup</h3>
@@ -416,8 +480,227 @@ proxy.type = "ISP"</pre>
             coverage and routing rules once your collection logic is validated.
           </p>
           <div class="final-cta__actions">
-            <a class="button button--primary button--large" href="/#pricing">Start Free Trial</a>
+            <a class="button button--primary button--large" href="/pricing#pricing-page-final">Start Free Trial</a>
             <a class="button button--dark-outline button--large" href="/#faq">Talk to Sales</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <main v-else-if="isPricingPage" id="top" class="pricing-page">
+      <section class="pricing-page__intro">
+        <div class="container pricing-page__intro-inner">
+          <div class="pricing-page__heading">
+            <span class="section-label section-label--pricing">Pricing</span>
+            <h1>Simple Static ISP Proxy Pricing</h1>
+            <p>
+              Pick a per-IP package, validate routing with a smaller allocation, then scale into
+              larger inventory when the workflow is proven.
+            </p>
+          </div>
+
+          <div class="pricing-page__metrics" aria-label="Pricing proof points">
+            <article v-for="metric in pricingPageMetrics" :key="metric.label">
+              <component :is="metric.icon" aria-hidden="true" :size="18" :stroke-width="2.2" />
+              <strong>{{ metric.value }}</strong>
+              <span>{{ metric.label }}</span>
+            </article>
+          </div>
+
+          <div class="pricing-table-shell">
+            <div class="pricing-table-top">
+              <div>
+                <span class="pricing-model-pill">Static ISP / per-IP</span>
+                <p>Monthly packages for predictable inventory planning, with custom sourcing for larger deployments.</p>
+              </div>
+              <div class="pricing-mode-toggle" aria-label="Pricing model options">
+                <span class="pricing-mode-toggle__item pricing-mode-toggle__item--active">Monthly plans</span>
+                <span class="pricing-mode-toggle__item">Custom terms</span>
+              </div>
+            </div>
+
+            <div class="pricing-page-plan-grid">
+              <article
+                v-for="plan in pricingPagePlans"
+                :key="plan.name"
+                class="pricing-page-card"
+                :class="{ 'pricing-page-card--featured': plan.featured }"
+              >
+                <p v-if="plan.featured" class="pricing-page-card__badge">Most Popular</p>
+                <div class="pricing-page-card__top">
+                  <span class="icon-tile pricing-page-card__icon">
+                    <component :is="plan.icon" aria-hidden="true" :size="19" :stroke-width="2" />
+                  </span>
+                  <div>
+                    <p class="pricing-page-card__name">{{ plan.name }}</p>
+                    <p class="pricing-page-card__fit">{{ plan.fit }}</p>
+                  </div>
+                </div>
+                <p class="pricing-page-card__volume">{{ plan.ipCount }}</p>
+                <p class="pricing-page-card__price">{{ plan.price }}</p>
+                <p class="pricing-page-card__monthly">{{ plan.monthly }}</p>
+                <ul class="pricing-page-card__list">
+                  <li v-for="item in plan.items" :key="item">
+                    <CheckCircle2 aria-hidden="true" :size="15" :stroke-width="2.4" />
+                    <span>{{ item }}</span>
+                  </li>
+                </ul>
+                <a class="button" :class="plan.featured ? 'button--primary' : 'button--outline'" href="#pricing-page-final">
+                  {{ plan.cta }}
+                </a>
+              </article>
+            </div>
+
+            <div class="pricing-table-notes" aria-label="Billing notes">
+              <span v-for="note in pricingPageNotes" :key="note">{{ note }}</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section pricing-page-includes">
+        <div class="container pricing-page-split">
+          <div class="pricing-page-copy">
+            <span class="section-label section-label--definition">Every Plan Includes</span>
+            <h2>Lower Tiers Keep the Same Core Controls.</h2>
+            <p>
+              Make the first purchase feel safe: the table changes inventory size and support
+              depth, not the basic proxy controls teams need to validate a workflow.
+            </p>
+          </div>
+          <div class="pricing-page-include-grid">
+            <article v-for="item in pricingPlanIncludes" :key="item.title" class="pricing-page-include-card">
+              <CheckCircle2 aria-hidden="true" :size="17" :stroke-width="2.4" />
+              <div>
+                <h3>{{ item.title }}</h3>
+                <p>{{ item.description }}</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section--alt pricing-page-billing">
+        <div class="container pricing-page-split">
+          <div class="pricing-page-copy">
+            <span class="section-label section-label--why">Billing Fit</span>
+            <h2>Transparent Cost Math Before Procurement Starts.</h2>
+            <p>
+              Competitor pricing often forces buyers through bandwidth calculators, minimum
+              commitments, and unclear rules. This page keeps ISP pricing tied to inventory size.
+            </p>
+          </div>
+          <div class="pricing-page-billing-grid">
+            <article v-for="item in pricingBillingCards" :key="item.title" class="pricing-page-billing-card">
+              <component :is="item.icon" aria-hidden="true" :size="21" :stroke-width="2" />
+              <h3>{{ item.title }}</h3>
+              <p>{{ item.description }}</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section pricing-page-capabilities">
+        <div class="container">
+          <div class="section-heading section-heading--center">
+            <span class="section-label section-label--stats">Why It Is Worth the Price</span>
+            <h2>Capabilities That Make Static ISP Inventory Easier to Justify.</h2>
+          </div>
+          <div class="pricing-page-capability-grid">
+            <article v-for="item in pricingCapabilities" :key="item.title" class="pricing-page-capability-card">
+              <span class="icon-tile pricing-page-capability-card__icon">
+                <component :is="item.icon" aria-hidden="true" :size="20" :stroke-width="2" />
+              </span>
+              <h3>{{ item.title }}</h3>
+              <p>{{ item.description }}</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section--alt pricing-page-trust">
+        <div class="container">
+          <div class="pricing-trust-panel">
+            <div class="pricing-page-copy">
+              <span class="section-label section-label--testimonials">Trust Signals</span>
+              <h2>Proof for Buyers Comparing More Than Unit Price.</h2>
+              <p>
+                Procurement teams need review signals, operator quotes, and a clear support story
+                before they move from a test allocation to production.
+              </p>
+            </div>
+            <div class="pricing-review-strip" aria-label="Review sources">
+              <article v-for="review in pricingReviewSignals" :key="review.label">
+                <img :src="review.logo" :alt="review.alt" />
+                <strong>{{ review.value }}</strong>
+                <span>{{ review.label }}</span>
+              </article>
+            </div>
+            <div class="pricing-testimonial-grid">
+              <article v-for="quote in pricingTestimonials" :key="quote.author" class="pricing-testimonial-card">
+                <div aria-label="Five-star review">★★★★★</div>
+                <p>"{{ quote.quote }}"</p>
+                <span>{{ quote.author }}</span>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section pricing-page-security">
+        <div class="container pricing-security-panel">
+          <div class="pricing-page-copy">
+            <span class="section-label section-label--compliance">Secure Purchase</span>
+            <h2>Payment, Sourcing, and Review Details Stay Clear.</h2>
+            <p>
+              Keep the buying moment calm with explicit security signals, acceptable-use review,
+              and procurement support for enterprise plans.
+            </p>
+          </div>
+          <div class="pricing-security-grid">
+            <article v-for="item in pricingSecurityItems" :key="item.title">
+              <component :is="item.icon" aria-hidden="true" :size="20" :stroke-width="2" />
+              <h3>{{ item.title }}</h3>
+              <p>{{ item.description }}</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="pricing-page-faq" class="section faq-section pricing-page-faq">
+        <div class="container faq-wrap">
+          <div class="section-heading section-heading--center">
+            <span class="section-label section-label--faq">Billing FAQ</span>
+            <h2>Questions Buyers Ask Before Checkout.</h2>
+          </div>
+
+          <div class="faq-list">
+            <details
+              v-for="(item, index) in pricingPageFaqItems"
+              :key="item.question"
+              class="faq-item"
+              :open="openPricingPageFaqIndex === index"
+            >
+              <summary @click.prevent="openPricingPageFaq(index)">
+                <span>{{ item.question }}</span>
+              </summary>
+              <p>{{ item.answer }}</p>
+            </details>
+          </div>
+        </div>
+      </section>
+
+      <section id="pricing-page-final" class="final-cta pricing-page-final">
+        <div class="container final-cta__inner">
+          <span class="section-label section-label--dark section-label--ready">Ready to Start</span>
+          <h2>Validate a Small Allocation, Then Scale the Same Pricing Model.</h2>
+          <p>
+            Start with static ISP inventory for one serious workflow, or talk to sales for custom
+            markets, security review, and enterprise terms.
+          </p>
+          <div class="final-cta__actions">
+            <a class="button button--primary button--large" href="/#quick-start">Start Free Trial</a>
+            <a class="button button--dark-outline button--large" href="#pricing-page-faq">Talk to Sales</a>
           </div>
         </div>
       </section>
@@ -930,9 +1213,14 @@ gsap.registerPlugin(ScrollTrigger)
 
 const pageRoot = ref<HTMLElement | null>(null)
 const isHeaderScrolled = ref(false)
-const isUseCasesPage = computed(() => window.location.pathname === '/use-cases')
+const currentPath = ref(window.location.pathname)
+const currentHash = ref(window.location.hash)
+const isUseCasesPage = computed(() => currentPath.value === '/use-cases')
+const isPricingPage = computed(() => currentPath.value === '/pricing')
+const isLightHeaderPage = computed(() => isUseCasesPage.value || isPricingPage.value)
 let scrollAnimationContext: ReturnType<typeof gsap.context> | undefined
 let handleHeaderScroll: (() => void) | undefined
+let handleLocationChange: (() => void) | undefined
 let proofCarouselTimer: number | undefined
 const activeScrapingTestimonialIndex = ref(0)
 
@@ -952,6 +1240,14 @@ const displayedScrapingUseCases = computed(() => {
 })
 
 onMounted(() => {
+  handleLocationChange = () => {
+    currentPath.value = window.location.pathname
+    currentHash.value = window.location.hash
+  }
+  handleLocationChange()
+  window.addEventListener('hashchange', handleLocationChange)
+  window.addEventListener('popstate', handleLocationChange)
+
   handleHeaderScroll = () => {
     isHeaderScrolled.value = window.scrollY > 16
   }
@@ -1060,6 +1356,10 @@ onUnmounted(() => {
   if (handleHeaderScroll) {
     window.removeEventListener('scroll', handleHeaderScroll)
   }
+  if (handleLocationChange) {
+    window.removeEventListener('hashchange', handleLocationChange)
+    window.removeEventListener('popstate', handleLocationChange)
+  }
   scrollAnimationContext?.revert()
   if (proofCarouselTimer) {
     window.clearInterval(proofCarouselTimer)
@@ -1067,11 +1367,24 @@ onUnmounted(() => {
 })
 
 const navItems = [
-  { label: 'Use Cases', href: '/use-cases' },
-  { label: 'Pricing', href: '/#pricing' },
+  { label: 'Service', href: '/' },
+  { label: 'Features', href: '/use-cases' },
+  { label: 'Pricing', href: '/pricing' },
   { label: 'Coverage', href: '/#coverage' },
   { label: 'FAQ', href: '/#faq' },
 ]
+
+const isNavItemActive = (item: (typeof navItems)[number]) => {
+  if (item.href === '/') {
+    return currentPath.value === '/' && !currentHash.value
+  }
+
+  if (item.href.startsWith('/#')) {
+    return currentPath.value === '/' && currentHash.value === item.href.slice(1)
+  }
+
+  return currentPath.value === item.href
+}
 
 const heroMeta = [
   'Sticky sessions for longer workflows',
@@ -1218,6 +1531,229 @@ const pricingPlans = [
     items: ['Custom sourcing strategy', 'Security review support', 'Commercial terms'],
     cta: 'Talk to Sales',
     featured: false,
+  },
+]
+
+const pricingPageMetrics = [
+  { icon: Database, value: '1.3M+', label: 'ISP and residential IPs' },
+  { icon: BadgeCheck, value: '99.9%', label: 'Published success rate' },
+  { icon: Globe2, value: '195+', label: 'Countries and regions' },
+  { icon: Clock3, value: '24h', label: 'Sticky session window' },
+]
+
+const pricingPagePlans = [
+  {
+    name: 'Starter',
+    icon: KeyRound,
+    fit: 'Validate one workflow',
+    ipCount: '10 IPs',
+    price: '$1.80/IP',
+    monthly: '$18 monthly package',
+    items: ['Country routing', 'Dashboard access', 'Email support'],
+    cta: 'Start Trial',
+    featured: false,
+  },
+  {
+    name: 'Advanced',
+    icon: Route,
+    fit: 'Scale a repeatable run',
+    ipCount: '100 IPs',
+    price: '$1.50/IP',
+    monthly: '$150 monthly package',
+    items: ['Larger IP inventory', 'Priority routing', '24/7 support'],
+    cta: 'Choose Plan',
+    featured: false,
+  },
+  {
+    name: 'Premium',
+    icon: Headphones,
+    fit: 'Production rollout',
+    ipCount: '500 IPs',
+    price: '$1.30/IP',
+    monthly: '$650 monthly package',
+    items: ['Dedicated onboarding', 'Broader geo access', 'Account manager'],
+    cta: 'Choose Plan',
+    featured: true,
+  },
+  {
+    name: 'Enterprise',
+    icon: ServerCog,
+    fit: 'Custom procurement',
+    ipCount: '2,000+ IPs',
+    price: 'Custom Pricing',
+    monthly: 'Routing and sourcing review',
+    items: ['Custom sourcing strategy', 'Security review support', 'Commercial terms'],
+    cta: 'Talk to Sales',
+    featured: false,
+  },
+]
+
+const pricingPageNotes = [
+  'VAT or local tax may apply by billing location',
+  'Bandwidth policy is confirmed before checkout',
+  'Enterprise terms available after routing review',
+]
+
+const pricingPlanIncludes = [
+  {
+    title: 'HTTP(S) and SOCKS5',
+    description: 'Use standard proxy protocols across browsers, scrapers, and internal tools.',
+  },
+  {
+    title: 'Country-level routing',
+    description: 'Route by priority market, with deeper availability review for larger allocations.',
+  },
+  {
+    title: 'Sticky sessions',
+    description: 'Keep the same identity active for workflows that need continuity across steps.',
+  },
+  {
+    title: 'Dashboard visibility',
+    description: 'Monitor allocation, routing choices, and usage context before scaling.',
+  },
+  {
+    title: 'Usage boundaries',
+    description: 'Acceptable-use review helps keep sensitive workflows inside clear rules.',
+  },
+  {
+    title: 'Support path',
+    description: 'Get setup help, routing review, and procurement support as plans grow.',
+  },
+]
+
+const pricingBillingCards = [
+  {
+    icon: DollarSign,
+    title: 'Predictable per-IP math',
+    description: 'Forecast cost from inventory size instead of translating every workflow into bandwidth estimates.',
+  },
+  {
+    icon: Clock3,
+    title: 'Start small, then scale',
+    description: 'Validate one route and session pattern before moving into larger regional allocations.',
+  },
+  {
+    icon: ShieldCheck,
+    title: 'Review before commitment',
+    description: 'Custom and sensitive workflows can go through sourcing, compliance, and traffic review first.',
+  },
+]
+
+const pricingCapabilities = [
+  {
+    icon: Database,
+    title: 'Large ISP Pool',
+    description: 'Access a broad static ISP and residential pool for commercial research and verification workflows.',
+  },
+  {
+    icon: KeyRound,
+    title: 'Session Control',
+    description: 'Pin sticky sessions for login-heavy, stateful, or multi-step automation paths.',
+  },
+  {
+    icon: Shield,
+    title: 'Lower Block Risk',
+    description: 'Use residential-grade trust signals where datacenter routes create too much friction.',
+  },
+  {
+    icon: Zap,
+    title: 'Fewer Retry Loops',
+    description: 'Stable identity helps reduce wasted retries when target context must stay consistent.',
+  },
+  {
+    icon: Globe2,
+    title: 'Global Coverage',
+    description: 'Plan market-specific checks across 195+ countries and priority commercial regions.',
+  },
+  {
+    icon: Headphones,
+    title: 'Support for Scale',
+    description: 'Premium and enterprise packages add onboarding, routing review, and account management.',
+  },
+]
+
+const pricingReviewSignals = [
+  { logo: g2Logo, alt: 'G2', value: '4.7/5', label: 'High-intent buyer rating' },
+  { logo: trustpilotLogo, alt: 'Trustpilot', value: '4.6/5', label: 'Customer satisfaction' },
+  { logo: capterraLogo, alt: 'Capterra', value: '4.5/5', label: 'Software review score' },
+]
+
+const pricingTestimonials = [
+  {
+    quote:
+      'The per-IP model made pricing easier to explain internally because the cost followed the number of stable identities we needed.',
+    author: 'Daniel Reyes, Growth Systems Manager',
+  },
+  {
+    quote:
+      'We could start with a small allocation, validate country routing, and expand without changing the integration pattern.',
+    author: 'Maya Chen, Data Operations Lead',
+  },
+]
+
+const pricingSecurityItems = [
+  {
+    icon: ShieldCheck,
+    title: 'Secure checkout review',
+    description: 'Confirm plan, billing location, and usage expectations before payment or procurement.',
+  },
+  {
+    icon: BadgeCheck,
+    title: 'Sourcing documentation',
+    description: 'Enterprise buyers can request sourcing, privacy, and security materials during review.',
+  },
+  {
+    icon: DollarSign,
+    title: 'Invoice support',
+    description: 'Larger deployments can discuss commercial terms, invoices, and custom procurement needs.',
+  },
+  {
+    icon: Headphones,
+    title: 'Onboarding support',
+    description: 'Premium and enterprise teams get setup review for sensitive or high-value workflows.',
+  },
+]
+
+const pricingPageFaqItems = [
+  {
+    question: 'Is this pricing per IP or per GB?',
+    answer:
+      'This page prices static ISP proxy packages per IP. That fits workflows where stable identities and session continuity matter more than raw bandwidth volume.',
+  },
+  {
+    question: 'Can I start without a large monthly commitment?',
+    answer:
+      'Yes. Starter is designed for validation before a team moves into Advanced, Premium, or custom enterprise inventory.',
+  },
+  {
+    question: 'Does bandwidth change the listed package price?',
+    answer:
+      'The visible package price is based on IP inventory. Bandwidth policy and unusually high-volume workflows should be confirmed before checkout or procurement approval.',
+  },
+  {
+    question: 'Can I upgrade in the middle of a rollout?',
+    answer:
+      'Teams can expand from a smaller package to a larger allocation after routing, session behavior, and target compatibility are validated.',
+  },
+  {
+    question: 'What payment or procurement options are available?',
+    answer:
+      'Self-serve and enterprise procurement needs are handled by plan. Larger deployments can request invoice, sourcing, security, and commercial documentation.',
+  },
+  {
+    question: 'Do you require compliance review or KYC?',
+    answer:
+      'Enterprise and sensitive workflows may require additional review. Rola-IP is intended for legitimate research, monitoring, verification, and automation use cases.',
+  },
+  {
+    question: 'Are there restricted targets or use cases?',
+    answer:
+      'Yes. Fraud, spam, credential abuse, and high-risk account manipulation are not allowed. Teams should validate target policies before production rollout.',
+  },
+  {
+    question: 'Is there a free trial or money-back policy?',
+    answer:
+      'Teams can start with a small ISP proxy allocation to validate fit. Any trial scope or refund terms should be confirmed before checkout.',
   },
 ]
 
@@ -1385,10 +1921,10 @@ const scrapingCapabilities = [
 ]
 
 const scrapingIntegrationCards = [
-  { short: 'Py', name: 'Python requests', detail: 'Session route · US market', muted: false },
-  { short: 'PW', name: 'Playwright', detail: 'Browser collector · sticky', muted: false },
-  { short: 'SC', name: 'Scrapy', detail: 'Queue worker · rotating', muted: false },
-  { short: 'PP', name: 'Puppeteer', detail: 'JS render · retry rules', muted: true },
+  { icon: Code2, name: 'Python requests', detail: 'Session route · US market', muted: false },
+  { icon: ScanSearch, name: 'Playwright', detail: 'Browser collector · sticky', muted: false },
+  { icon: Route, name: 'Scrapy', detail: 'Queue worker · rotating', muted: false },
+  { icon: TerminalSquare, name: 'Puppeteer', detail: 'JS render · retry rules', muted: true },
 ]
 
 const routingDiagnostics = [
@@ -1638,6 +2174,7 @@ const codeTabs: Array<{ key: CodeTabKey; label: string; logo: string }> = [
 const hasCopiedCode = ref(false)
 const openFaqIndex = ref(0)
 const openUseCaseFaqIndex = ref(0)
+const openPricingPageFaqIndex = ref(0)
 const activeCodeTab = ref<CodeTabKey>('curl')
 
 const activeCodeSample = computed(() => codeSamples[activeCodeTab.value])
@@ -1730,6 +2267,10 @@ const openFaq = (index: number) => {
 
 const openUseCaseFaq = (index: number) => {
   openUseCaseFaqIndex.value = index
+}
+
+const openPricingPageFaq = (index: number) => {
+  openPricingPageFaqIndex.value = index
 }
 
 const quickStartItems = [
