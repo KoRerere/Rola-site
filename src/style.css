@@ -4042,11 +4042,13 @@ section[id] {
   grid-template-columns: auto minmax(0, 1fr);
   gap: 4px 10px;
   align-items: center;
-  min-height: 74px;
-  padding: 14px 16px;
-  border: 1.5px solid rgba(15, 17, 23, 0.075);
-  border-radius: var(--radius-md);
-  background: rgba(255, 255, 255, 0.84);
+  min-height: 0;
+  padding: 4px 0 4px 18px;
+  border-left: 1px solid rgba(15, 17, 23, 0.1);
+}
+
+.pricing-page__metrics article:first-child {
+  border-left: 0;
 }
 
 .pricing-page__metrics svg {
@@ -4069,11 +4071,7 @@ section[id] {
 
 .pricing-table-shell {
   display: grid;
-  gap: 14px;
-  padding: 18px;
-  border: 1.5px solid rgba(15, 17, 23, 0.075);
-  border-radius: var(--radius-lg);
-  background: rgba(255, 255, 255, 0.8);
+  gap: 18px;
 }
 
 .pricing-table-top {
@@ -4081,7 +4079,7 @@ section[id] {
   align-items: center;
   justify-content: space-between;
   gap: 18px;
-  padding: 4px 4px 12px;
+  padding: 0;
 }
 
 .pricing-table-top p {
@@ -4327,21 +4325,32 @@ section[id] {
 }
 
 .pricing-page-include-card,
+.pricing-page-capability-card {
+  border-radius: 0;
+  background: transparent;
+}
+
 .pricing-page-billing-card,
-.pricing-page-capability-card,
+.pricing-review-strip article,
 .pricing-security-grid article,
 .pricing-testimonial-card {
   border: 1.5px solid rgba(15, 17, 23, 0.075);
   border-radius: var(--radius-md);
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(250, 252, 253, 0.92));
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(250, 252, 253, 0.94));
 }
 
 .pricing-page-include-card {
   display: flex;
-  gap: 10px;
-  min-height: 116px;
-  padding: 18px;
+  gap: 14px;
+  min-height: 0;
+  padding: 26px 0;
+  border-top: 1px solid rgba(15, 17, 23, 0.1);
+}
+
+.pricing-page-include-card:nth-child(-n + 2) {
+  padding-top: 0;
+  border-top: 0;
 }
 
 .pricing-page-include-card svg {
@@ -4388,21 +4397,41 @@ section[id] {
   color: var(--green);
 }
 
+.pricing-page-billing-card p,
+.pricing-security-grid p {
+  grid-column: auto;
+}
+
 .pricing-page-capability-grid {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   margin-top: 28px;
 }
 
 .pricing-page-capability-card {
-  min-height: 220px;
-  padding: 22px;
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr);
+  gap: 10px 14px;
+  min-height: 0;
+  padding: 28px 0;
+}
+
+.pricing-page-capability-card:nth-child(n + 4) {
+  border-top: 1px solid rgba(15, 17, 23, 0.1);
 }
 
 .pricing-page-capability-card__icon {
-  width: 42px;
-  height: 42px;
-  margin-bottom: 24px;
-  border-radius: 14px;
+  width: 36px;
+  height: 36px;
+  margin: 0;
+  border-radius: 12px;
+}
+
+.pricing-page-capability-card h3 {
+  align-self: center;
+}
+
+.pricing-page-capability-card p {
+  grid-column: 1 / -1;
 }
 
 .pricing-trust-panel {
@@ -4423,9 +4452,6 @@ section[id] {
   align-items: center;
   min-height: 84px;
   padding: 16px;
-  border: 1.5px solid rgba(15, 17, 23, 0.075);
-  border-radius: var(--radius-md);
-  background: #ffffff;
 }
 
 .pricing-review-strip img {
@@ -4483,6 +4509,10 @@ section[id] {
 .pricing-security-grid article {
   min-height: 178px;
   padding: 20px;
+}
+
+.pricing-security-grid article:nth-child(-n + 2) {
+  padding-top: 20px;
 }
 
 .pricing-page-final {
@@ -6346,7 +6376,7 @@ section[id] {
   }
 
   .pricing-table-shell {
-    padding: 12px;
+    padding: 0;
     border-radius: 22px;
   }
 
@@ -6386,12 +6416,28 @@ section[id] {
   }
 
   .pricing-page-include-card,
+  .pricing-page-capability-card {
+    min-height: 0;
+    padding: 22px 0;
+  }
+
   .pricing-page-billing-card,
-  .pricing-page-capability-card,
+  .pricing-review-strip article,
   .pricing-security-grid article,
   .pricing-testimonial-card {
     min-height: 0;
     padding: 20px;
+  }
+
+  .pricing-page-include-card:first-child,
+  .pricing-page-capability-card:first-child {
+    padding-top: 0;
+    border-top: 0;
+  }
+
+  .pricing-page-include-card:nth-child(n + 2),
+  .pricing-page-capability-card:nth-child(n + 2) {
+    border-top: 1px solid rgba(15, 17, 23, 0.1);
   }
 
   .use-cases-hero {
