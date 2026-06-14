@@ -2,8 +2,8 @@
   <div ref="pageRoot" class="site-page">
     <header class="site-header" :class="{ 'site-header--scrolled': isHeaderScrolled, 'site-header--use-cases': isLightHeaderPage }" aria-label="Primary">
       <div class="container site-header__inner">
-        <a class="brand" href="/" aria-label="rola-ip home">
-          <img class="brand__logo" :src="brandLogo" alt="rola-ip" />
+        <a class="brand" href="/" aria-label="ROLA-IP home">
+          <img class="brand__logo" :src="brandLogo" alt="ROLA-IP" />
         </a>
 
         <nav class="site-nav" aria-label="Section navigation">
@@ -18,7 +18,7 @@
         </nav>
 
         <div class="site-actions">
-          <a class="button button--ghost" href="/#faq">Talk to Sales</a>
+          <a class="button button--ghost" href="/faq#faq-contact">Talk to Sales</a>
           <a class="button button--primary" href="/pricing#pricing-page-final">Start Free Trial</a>
         </div>
       </div>
@@ -63,7 +63,7 @@
               <div>
                 <i>Collector</i>
                 <b></b>
-                <i>Rola-IP Gateway</i>
+                <i>ROLA-IP Gateway</i>
                 <b></b>
                 <i>Public Web</i>
               </div>
@@ -129,7 +129,7 @@
       <section class="section scraping-capabilities">
         <div class="container">
           <div class="section-heading section-heading--center">
-            <span class="section-label section-label--stats">Why Rola-IP</span>
+            <span class="section-label section-label--stats">Why ROLA-IP</span>
             <h2>Core Proxy Capabilities Behind a More Reliable Data Pipeline.</h2>
             <p>
               Match each target with the right identity behavior: rotate when you need reach,
@@ -227,15 +227,15 @@
                 <div class="developer-setup-visual__glow"></div>
                 <div class="setup-tool-strip">
                   <span>
-                    <TerminalSquare aria-hidden="true" :size="15" :stroke-width="2" />
+                    <img class="setup-tool-strip__logo" :src="curlLogo" alt="" aria-hidden="true" />
                     curl
                   </span>
                   <span>
-                    <Code2 aria-hidden="true" :size="15" :stroke-width="2" />
+                    <img class="setup-tool-strip__logo" :src="pythonLogo" alt="" aria-hidden="true" />
                     Python
                   </span>
                   <span>
-                    <ScanSearch aria-hidden="true" :size="15" :stroke-width="2" />
+                    <img class="setup-tool-strip__logo setup-tool-strip__logo--playwright" :src="playwrightLogo" alt="" aria-hidden="true" />
                     Playwright
                   </span>
                 </div>
@@ -261,7 +261,7 @@ proxy.type = "ISP"</pre>
                       <ShieldCheck aria-hidden="true" :size="20" :stroke-width="2.2" />
                     </span>
                     <strong>Auth OK</strong>
-                    <small>proxy.rola.com:9000</small>
+                    <small>gateway.rola-ip.com:9000</small>
                     <em>
                       <KeyRound aria-hidden="true" :size="13" :stroke-width="2.1" />
                       Sticky 24h
@@ -350,9 +350,6 @@ proxy.type = "ISP"</pre>
                   </button>
                 </div>
                 <div class="code-editor__actions">
-                  <span class="code-editor__icon" aria-label="Request example info" title="Request example info">
-                    <TerminalSquare aria-hidden="true" :size="18" :stroke-width="1.9" />
-                  </span>
                   <button class="code-editor__copy" type="button" :aria-label="hasCopiedCode ? 'Copied' : 'Copy code'" @click="copyCodeSample">
                     <component :is="hasCopiedCode ? CheckCircle2 : Copy" aria-hidden="true" :size="18" :stroke-width="1.9" />
                   </button>
@@ -404,7 +401,7 @@ proxy.type = "ISP"</pre>
             <h2>Scrape Public Data with Clear Usage Boundaries.</h2>
           </div>
           <p>
-            Rola-IP is designed for legitimate research, monitoring, and automation. Enterprise
+            ROLA-IP is designed for legitimate research, monitoring, and automation. Enterprise
             teams can request sourcing details, privacy terms, and security documentation before
             rollout.
           </p>
@@ -421,11 +418,25 @@ proxy.type = "ISP"</pre>
               review-platform badges, and clear signals that real operators use the network.
             </p>
             <div class="scraping-awards" aria-label="Review and media signals">
-              <span v-for="award in scrapingAwards" :key="award">{{ award }}</span>
+              <a
+                v-for="award in scrapingAwards"
+                :key="award.label"
+                :href="award.href"
+                :target="award.external ? '_blank' : undefined"
+                :rel="award.external ? 'noopener noreferrer' : undefined"
+              >
+                {{ award.label }}
+              </a>
             </div>
           </div>
 
-          <div class="scraping-proof-window">
+          <div
+            class="scraping-proof-window"
+            @mouseenter="pauseProofCarousel"
+            @mouseleave="resumeProofCarousel"
+            @focusin="pauseProofCarousel"
+            @focusout="resumeProofCarousel"
+          >
             <div class="scraping-proof-grid">
               <article
                 v-for="quote in visibleScrapingTestimonials"
@@ -441,9 +452,16 @@ proxy.type = "ISP"</pre>
                     <span>{{ quote.role }}</span>
                   </div>
                 </div>
+                <a
+                  class="scraping-proof-card__detail"
+                  href="#use-case-faq"
+                  :aria-label="`View details for ${quote.author}'s quote`"
+                >
+                  View Details
+                  <ArrowUpRight aria-hidden="true" :size="16" :stroke-width="2.2" />
+                </a>
               </article>
             </div>
-            <span class="scraping-proof-window__fade" aria-hidden="true"></span>
           </div>
         </div>
       </section>
@@ -451,7 +469,7 @@ proxy.type = "ISP"</pre>
       <section id="use-case-faq" class="section faq-section use-cases-faq">
         <div class="container faq-wrap">
           <div class="section-heading section-heading--center">
-            <span class="section-label section-label--faq">FAQ</span>
+            <span class="section-label section-label--faq">Frequently Asked Questions</span>
             <h2>Questions Scraping Teams Ask Before Rollout.</h2>
           </div>
 
@@ -481,7 +499,7 @@ proxy.type = "ISP"</pre>
           </p>
           <div class="final-cta__actions">
             <a class="button button--primary button--large" href="/pricing#pricing-page-final">Start Free Trial</a>
-            <a class="button button--dark-outline button--large" href="/#faq">Talk to Sales</a>
+            <a class="button button--dark-outline button--large" href="/faq#faq-contact">Talk to Sales</a>
           </div>
         </div>
       </section>
@@ -501,30 +519,20 @@ proxy.type = "ISP"</pre>
 
           <div class="pricing-page__metrics" aria-label="Pricing proof points">
             <article v-for="metric in pricingPageMetrics" :key="metric.label">
-              <component :is="metric.icon" aria-hidden="true" :size="18" :stroke-width="2.2" />
+              <component :is="metric.icon" aria-hidden="true" :size="24" :stroke-width="2" />
               <strong>{{ metric.value }}</strong>
               <span>{{ metric.label }}</span>
             </article>
           </div>
 
           <div class="pricing-table-shell">
-            <div class="pricing-table-top">
-              <div>
-                <span class="pricing-model-pill">Static ISP / per-IP</span>
-                <p>Monthly packages for predictable inventory planning, with custom sourcing for larger deployments.</p>
-              </div>
-              <div class="pricing-mode-toggle" aria-label="Pricing model options">
-                <span class="pricing-mode-toggle__item pricing-mode-toggle__item--active">Monthly plans</span>
-                <span class="pricing-mode-toggle__item">Custom terms</span>
-              </div>
-            </div>
-
-            <div class="pricing-page-plan-grid">
+            <div id="pricing-plans" class="pricing-page-plan-grid">
               <article
                 v-for="plan in pricingPagePlans"
                 :key="plan.name"
                 class="pricing-page-card"
                 :class="{ 'pricing-page-card--featured': plan.featured }"
+                :id="plan.name === 'Enterprise' ? 'pricing-custom-terms' : undefined"
               >
                 <p v-if="plan.featured" class="pricing-page-card__badge">Most Popular</p>
                 <div class="pricing-page-card__top">
@@ -570,7 +578,7 @@ proxy.type = "ISP"</pre>
           </div>
           <div class="pricing-page-include-grid">
             <article v-for="item in pricingPlanIncludes" :key="item.title" class="pricing-page-include-card">
-              <CheckCircle2 aria-hidden="true" :size="17" :stroke-width="2.4" />
+              <CheckCircle2 aria-hidden="true" :size="20" :stroke-width="2.4" />
               <div>
                 <h3>{{ item.title }}</h3>
                 <p>{{ item.description }}</p>
@@ -608,8 +616,8 @@ proxy.type = "ISP"</pre>
           </div>
           <div class="pricing-page-capability-grid">
             <article v-for="item in pricingCapabilities" :key="item.title" class="pricing-page-capability-card">
-              <span class="icon-tile pricing-page-capability-card__icon">
-                <component :is="item.icon" aria-hidden="true" :size="20" :stroke-width="2" />
+              <span class="pricing-page-capability-card__icon">
+                <component :is="item.icon" aria-hidden="true" :size="24" :stroke-width="2" />
               </span>
               <h3>{{ item.title }}</h3>
               <p>{{ item.description }}</p>
@@ -623,25 +631,30 @@ proxy.type = "ISP"</pre>
           <div class="pricing-trust-panel">
             <div class="pricing-page-copy">
               <span class="section-label section-label--testimonials">Trust Signals</span>
-              <h2>Proof for Buyers Comparing More Than Unit Price.</h2>
+              <h2>Compliance Signals Buyers Can Verify Before Purchase.</h2>
               <p>
-                Procurement teams need review signals, operator quotes, and a clear support story
-                before they move from a test allocation to production.
+                Review security documentation, privacy coverage, and sourcing standards before
+                moving a plan into production.
               </p>
             </div>
-            <div class="pricing-review-strip" aria-label="Review sources">
-              <article v-for="review in pricingReviewSignals" :key="review.label">
-                <img :src="review.logo" :alt="review.alt" />
-                <strong>{{ review.value }}</strong>
-                <span>{{ review.label }}</span>
-              </article>
-            </div>
-            <div class="pricing-testimonial-grid">
-              <article v-for="quote in pricingTestimonials" :key="quote.author" class="pricing-testimonial-card">
-                <div aria-label="Five-star review">★★★★★</div>
-                <p>"{{ quote.quote }}"</p>
-                <span>{{ quote.author }}</span>
-              </article>
+            <div class="pricing-certification-strip" aria-label="Compliance and security documentation">
+              <div class="compliance-icon-grid">
+                <article
+                  v-for="cert in complianceCertifications"
+                  :key="cert.label"
+                  class="compliance-icon-card"
+                  :class="`compliance-icon-card--${cert.tone}`"
+                  :aria-label="`${cert.label} documentation signal`"
+                >
+                  <img class="compliance-icon-card__image" :src="cert.image" :alt="cert.alt" loading="lazy" />
+                  <span class="compliance-icon-card__label">{{ cert.label }}</span>
+                  <span class="compliance-icon-card__meta">{{ cert.meta }}</span>
+                </article>
+              </div>
+              <p class="pricing-certification-strip__copy">
+                Ethically sourced IPs with security documentation, privacy terms, and procurement
+                support available on request.
+              </p>
             </div>
           </div>
         </div>
@@ -700,7 +713,107 @@ proxy.type = "ISP"</pre>
           </p>
           <div class="final-cta__actions">
             <a class="button button--primary button--large" href="/#quick-start">Start Free Trial</a>
-            <a class="button button--dark-outline button--large" href="#pricing-page-faq">Talk to Sales</a>
+            <a class="button button--dark-outline button--large" href="/faq#faq-contact">Talk to Sales</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <main v-else-if="isCoveragePage" id="top" class="coverage-coming-page">
+      <section class="coverage-coming-page__hero">
+        <div class="container coverage-coming-page__inner">
+          <div class="coverage-coming-page__copy">
+            <span class="section-label section-label--coverage">Coverage</span>
+            <h1>
+              Coverage is
+              <span>Coming Soon.</span>
+            </h1>
+            <p>
+              Country availability, market routing, and inventory signals are coming soon.
+            </p>
+            <div class="coverage-coming-page__actions">
+              <a class="button button--primary button--large" href="/faq#faq-contact">Talk to Sales</a>
+              <a class="button button--outline button--large" href="/">Back to Service</a>
+            </div>
+            <div class="coverage-coming-page__signals" aria-label="Coverage page placeholders">
+              <span>Country availability</span>
+              <span>Market routing</span>
+              <span>Inventory signals</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <main v-else-if="isFaqPage" id="top" class="faq-page">
+      <section class="faq-page-hero">
+        <div class="container faq-page-hero__inner">
+          <div class="faq-page-hero__copy">
+            <span class="section-label section-label--faq">Frequently Asked Questions</span>
+            <h1>Answers Before You Build with <span class="faq-page-hero__brand">ROLA-IP.</span></h1>
+            <p>
+              Search practical answers about pricing, routing, sessions, compliance review,
+              product setup, and rollout support before you choose a plan.
+            </p>
+          </div>
+
+          <div class="faq-page-search" role="search">
+            <Search aria-hidden="true" :size="20" :stroke-width="2" />
+            <input
+              v-model="faqPageSearch"
+              aria-label="Search frequently asked questions"
+              type="search"
+              placeholder="Search frequently asked questions..."
+              @input="openFaqPageIndex = 0"
+            />
+          </div>
+        </div>
+      </section>
+
+      <section class="section faq-page-body">
+        <div class="container faq-page-layout">
+          <div class="faq-page-results">
+            <div v-if="visibleFaqPageItems.length" class="faq-list faq-page-list">
+              <details
+                v-for="(item, index) in visibleFaqPageItems"
+                :key="item.id"
+                class="faq-item"
+                :open="openFaqPageIndex === index"
+              >
+                <summary @click.prevent="openFaqPage(index)">
+                  <span>{{ item.question }}</span>
+                </summary>
+                <p>{{ item.answer }}</p>
+              </details>
+            </div>
+
+            <div v-else class="faq-page-empty">
+              <Search aria-hidden="true" :size="22" :stroke-width="2" />
+              <h3>No matching questions yet.</h3>
+              <p>Try a broader keyword, or clear filters to see the full FAQ set.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="faq-contact" class="section faq-page-contact">
+        <div class="container faq-page-contact__inner">
+          <div class="faq-page-contact__copy">
+            <h2>Still Have Questions? We Can Help.</h2>
+            <p>
+              Send us your endpoint setup, routing target, session pattern, or rollout issue. We
+              will help you check the technical details before you move forward.
+            </p>
+          </div>
+          <div class="faq-page-contact__actions">
+            <a class="button button--primary button--large" href="mailto:support@rola-ip.com">
+              <Headphones aria-hidden="true" :size="18" :stroke-width="2.2" />
+              <span>Contact Support</span>
+            </a>
+            <a class="button button--outline button--large" href="/pricing#pricing-page-final">
+              <span>View Pricing</span>
+              <ArrowRight aria-hidden="true" :size="18" :stroke-width="2.2" />
+            </a>
           </div>
         </div>
       </section>
@@ -712,7 +825,7 @@ proxy.type = "ISP"</pre>
         <div class="container hero__grid">
           <div class="hero__content">
             <h1>
-              <span class="grad-text">ISP / Static</span>
+              <span class="grad-text">ISP / Static </span>
               <br />
               <span class="grad-text">Residential Proxies</span>
             </h1>
@@ -877,7 +990,11 @@ proxy.type = "ISP"</pre>
                   <span>{{ item }}</span>
                 </li>
               </ul>
-              <a class="button" :class="plan.featured ? 'button--primary' : 'button--outline'" href="#faq">
+              <a
+                class="button"
+                :class="plan.featured ? 'button--primary' : 'button--outline'"
+                :href="plan.cta === 'Talk to Sales' ? '/faq#faq-contact' : '#faq'"
+              >
                 {{ plan.cta }}
               </a>
             </article>
@@ -953,12 +1070,11 @@ proxy.type = "ISP"</pre>
           </div>
 
           <div class="use-case-grid">
-            <article v-for="(useCase, index) in useCases" :key="useCase.title" class="use-case-card">
+            <article v-for="useCase in useCases" :key="useCase.title" class="use-case-card">
               <div class="use-case-card__top">
-                <span class="icon-tile use-case-card__icon">
-                  <component :is="useCase.icon" aria-hidden="true" :size="20" :stroke-width="2" />
+                <span class="use-case-card__icon" aria-hidden="true">
+                  <component :is="useCase.icon" :size="32" :stroke-width="2.2" />
                 </span>
-                <span class="use-case-card__number">0{{ index + 1 }}</span>
               </div>
               <h3>{{ useCase.title }}</h3>
               <p>{{ useCase.description }}</p>
@@ -1001,9 +1117,6 @@ proxy.type = "ISP"</pre>
                   </button>
                 </div>
                 <div class="code-editor__actions">
-                  <span class="code-editor__icon" aria-label="Request example info" title="Request example info">
-                    <TerminalSquare aria-hidden="true" :size="18" :stroke-width="1.9" />
-                  </span>
                   <button class="code-editor__copy" type="button" :aria-label="hasCopiedCode ? 'Copied' : 'Copy code'" @click="copyCodeSample">
                     <component :is="hasCopiedCode ? CheckCircle2 : Copy" aria-hidden="true" :size="18" :stroke-width="1.9" />
                   </button>
@@ -1019,7 +1132,7 @@ proxy.type = "ISP"</pre>
         <div class="container compare-grid">
           <div>
             <div class="section-heading">
-              <span class="section-label section-label--why">Why ISP</span>
+              <span class="section-label section-label--why section-label--why-isp">Why ISP</span>
               <h2>Why Static ISP Proxies Outperform on Session-Sensitive Workflows.</h2>
               <p>
                 Help buyers understand when to choose static ISP proxies over rotating residential
@@ -1115,11 +1228,11 @@ proxy.type = "ISP"</pre>
                   :key="cert.label"
                   class="compliance-icon-card"
                   :class="`compliance-icon-card--${cert.tone}`"
+                  :aria-label="`${cert.label} documentation signal`"
                 >
-                  <span class="compliance-icon-card__mark" aria-hidden="true">
-                    <span class="compliance-icon-card__short">{{ cert.short }}</span>
-                  </span>
+                  <img class="compliance-icon-card__image" :src="cert.image" :alt="cert.alt" loading="lazy" />
                   <span class="compliance-icon-card__label">{{ cert.label }}</span>
+                  <span class="compliance-icon-card__meta">{{ cert.meta }}</span>
                 </article>
               </div>
               <p class="compliance-strip__copy">
@@ -1133,7 +1246,7 @@ proxy.type = "ISP"</pre>
       <section id="faq" class="section faq-section">
         <div class="container faq-wrap">
           <div class="section-heading section-heading--center">
-            <span class="section-label section-label--faq">FAQ</span>
+            <span class="section-label section-label--faq">Frequently Asked Questions</span>
             <h2>Questions Buyers Ask Before Rollout.</h2>
           </div>
 
@@ -1163,11 +1276,13 @@ proxy.type = "ISP"</pre>
           </p>
           <div class="final-cta__actions">
             <a class="button button--primary button--large" href="#pricing">Start Free Trial</a>
-            <a class="button button--dark-outline button--large" href="#faq">Talk to Sales</a>
+            <a class="button button--dark-outline button--large" href="/faq#faq-contact">Talk to Sales</a>
           </div>
         </div>
       </section>
     </main>
+
+    <SiteFooter />
   </div>
 </template>
 
@@ -1176,6 +1291,8 @@ import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import {
+  ArrowRight,
+  ArrowUpRight,
   BadgeCheck,
   Bot,
   CheckCircle2,
@@ -1192,6 +1309,7 @@ import {
   Route,
   ScanSearch,
   Search,
+  SearchCheck,
   ServerCog,
   Shield,
   ShieldCheck,
@@ -1205,9 +1323,15 @@ import capterraLogo from './assets/brand-icons/capterra.svg'
 import curlLogo from './assets/brand-icons/curl.svg'
 import g2Logo from './assets/brand-icons/g2.svg'
 import nodeLogo from './assets/brand-icons/nodejs.svg'
+import playwrightLogo from './assets/brand-icons/playwright.svg'
 import pythonLogo from './assets/brand-icons/python.svg'
 import trustpilotLogo from './assets/brand-icons/trustpilot.svg'
+import ccpaBadge from './assets/certifications/ccpa-mark.png'
+import gdprBadge from './assets/certifications/gdpr-mark.png'
+import iso27001Badge from './assets/certifications/iso-27001-mark.png'
+import soc2Badge from './assets/certifications/soc-2-mark.png'
 import HeroParticles from './components/HeroParticles.vue'
+import SiteFooter from './components/SiteFooter.vue'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -1217,19 +1341,47 @@ const currentPath = ref(window.location.pathname)
 const currentHash = ref(window.location.hash)
 const isUseCasesPage = computed(() => currentPath.value === '/use-cases')
 const isPricingPage = computed(() => currentPath.value === '/pricing')
-const isLightHeaderPage = computed(() => isUseCasesPage.value || isPricingPage.value)
+const isCoveragePage = computed(() => currentPath.value === '/coverage')
+const isFaqPage = computed(() => currentPath.value === '/faq')
+const isLightHeaderPage = computed(() => isUseCasesPage.value || isPricingPage.value || isCoveragePage.value || isFaqPage.value)
 let scrollAnimationContext: ReturnType<typeof gsap.context> | undefined
 let handleHeaderScroll: (() => void) | undefined
 let handleLocationChange: (() => void) | undefined
 let proofCarouselTimer: number | undefined
 const activeScrapingTestimonialIndex = ref(0)
+const shouldRunProofCarousel = ref(false)
 
 const visibleScrapingTestimonials = computed(() => {
-  return [0, 1, 2].map((offset) => ({
+  return [0, 1].map((offset) => ({
     ...scrapingTestimonials[(activeScrapingTestimonialIndex.value + offset) % scrapingTestimonials.length],
     slot: offset,
   }))
 })
+
+const stopProofCarousel = () => {
+  if (proofCarouselTimer) {
+    window.clearInterval(proofCarouselTimer)
+    proofCarouselTimer = undefined
+  }
+}
+
+const startProofCarousel = () => {
+  if (!shouldRunProofCarousel.value || proofCarouselTimer) {
+    return
+  }
+
+  proofCarouselTimer = window.setInterval(() => {
+    activeScrapingTestimonialIndex.value = (activeScrapingTestimonialIndex.value + 1) % scrapingTestimonials.length
+  }, 3600)
+}
+
+const pauseProofCarousel = () => {
+  stopProofCarousel()
+}
+
+const resumeProofCarousel = () => {
+  startProofCarousel()
+}
 
 const displayedScrapingUseCases = computed(() => {
   return [
@@ -1255,12 +1407,8 @@ onMounted(() => {
   window.addEventListener('scroll', handleHeaderScroll, { passive: true })
 
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-
-  if (isUseCasesPage.value && !prefersReducedMotion) {
-    proofCarouselTimer = window.setInterval(() => {
-      activeScrapingTestimonialIndex.value = (activeScrapingTestimonialIndex.value + 1) % scrapingTestimonials.length
-    }, 6000)
-  }
+  shouldRunProofCarousel.value = isUseCasesPage.value && !prefersReducedMotion
+  startProofCarousel()
 
   if (!pageRoot.value || prefersReducedMotion) {
     return
@@ -1283,7 +1431,6 @@ onMounted(() => {
       '.proxy-type-card',
       '.use-cases-page-card',
       '.scraping-compliance-panel',
-      '.scraping-proof-card',
       '.faq-item',
     ]
     const animatedElements = animatedSelectors.flatMap((selector) =>
@@ -1320,7 +1467,7 @@ onMounted(() => {
 
     gsap.utils
       .toArray<HTMLElement>(
-        '.proof-panel, .performance-layout, .pricing-card, .coverage-card, .network-card, .quick-start-card, .feature-card, .testimonial-card, .compliance-panel, .scraping-challenge-card, .scraping-capability-card, .proxy-type-card, .use-cases-page-card, .scraping-compliance-panel, .scraping-proof-card, .faq-item',
+        '.performance-layout, .pricing-card, .coverage-card, .network-card, .quick-start-card, .feature-card, .testimonial-card, .compliance-panel, .scraping-challenge-card, .scraping-capability-card, .proxy-type-card, .use-cases-page-card, .scraping-compliance-panel, .faq-item',
       )
       .forEach((element) => {
         gsap.from(element, {
@@ -1361,17 +1508,15 @@ onUnmounted(() => {
     window.removeEventListener('popstate', handleLocationChange)
   }
   scrollAnimationContext?.revert()
-  if (proofCarouselTimer) {
-    window.clearInterval(proofCarouselTimer)
-  }
+  stopProofCarousel()
 })
 
 const navItems = [
   { label: 'Service', href: '/' },
   { label: 'Features', href: '/use-cases' },
   { label: 'Pricing', href: '/pricing' },
-  { label: 'Coverage', href: '/#coverage' },
-  { label: 'FAQ', href: '/#faq' },
+  { label: 'Coverage', href: '/coverage' },
+  { label: 'FAQ', href: '/faq' },
 ]
 
 const isNavItemActive = (item: (typeof navItems)[number]) => {
@@ -1421,7 +1566,7 @@ const stats = [
   { value: '99.9%', label: 'Success Rate on Fragile Targets', icon: Zap },
   { value: '1.3M+', label: 'ISP IP Pool Size', icon: Database },
   { value: 'From $1.30/IP', label: 'Starting Price per IP', icon: DollarSign },
-  { value: '195+', label: 'Countries Covered', icon: Globe2 },
+  { value: '200+', label: 'Countries Covered', icon: Globe2 },
 ]
 
 const socialAvatars = [
@@ -1537,7 +1682,7 @@ const pricingPlans = [
 const pricingPageMetrics = [
   { icon: Database, value: '1.3M+', label: 'ISP and residential IPs' },
   { icon: BadgeCheck, value: '99.9%', label: 'Published success rate' },
-  { icon: Globe2, value: '195+', label: 'Countries and regions' },
+  { icon: Globe2, value: '200+', label: 'Countries and regions' },
   { icon: Clock3, value: '24h', label: 'Sticky session window' },
 ]
 
@@ -1663,31 +1808,12 @@ const pricingCapabilities = [
   {
     icon: Globe2,
     title: 'Global Coverage',
-    description: 'Plan market-specific checks across 195+ countries and priority commercial regions.',
+    description: 'Plan market-specific checks across 200+ countries and priority commercial regions.',
   },
   {
     icon: Headphones,
     title: 'Support for Scale',
     description: 'Premium and enterprise packages add onboarding, routing review, and account management.',
-  },
-]
-
-const pricingReviewSignals = [
-  { logo: g2Logo, alt: 'G2', value: '4.7/5', label: 'High-intent buyer rating' },
-  { logo: trustpilotLogo, alt: 'Trustpilot', value: '4.6/5', label: 'Customer satisfaction' },
-  { logo: capterraLogo, alt: 'Capterra', value: '4.5/5', label: 'Software review score' },
-]
-
-const pricingTestimonials = [
-  {
-    quote:
-      'The per-IP model made pricing easier to explain internally because the cost followed the number of stable identities we needed.',
-    author: 'Daniel Reyes, Growth Systems Manager',
-  },
-  {
-    quote:
-      'We could start with a small allocation, validate country routing, and expand without changing the integration pattern.',
-    author: 'Maya Chen, Data Operations Lead',
   },
 ]
 
@@ -1743,7 +1869,7 @@ const pricingPageFaqItems = [
   {
     question: 'Do you require compliance review or KYC?',
     answer:
-      'Enterprise and sensitive workflows may require additional review. Rola-IP is intended for legitimate research, monitoring, verification, and automation use cases.',
+      'Enterprise and sensitive workflows may require additional review. ROLA-IP is intended for legitimate research, monitoring, verification, and automation use cases.',
   },
   {
     question: 'Are there restricted targets or use cases?',
@@ -1757,7 +1883,7 @@ const pricingPageFaqItems = [
   },
 ]
 
-const coverageSummary = '195+ Countries'
+const coverageSummary = '200+ Countries'
 
 const coverage = [
   { flag: '🇺🇸', name: 'United States', count: '5.4M+ IPs' },
@@ -1784,14 +1910,14 @@ const useCases = [
     signal: 'Geo-accurate ad paths',
   },
   {
-    icon: Search,
+    icon: SearchCheck,
     title: 'Market Research',
     description:
       'Collect location-sensitive pricing and catalog signals without the churn that often comes with aggressive rotation.',
     signal: 'Cleaner market snapshots',
   },
   {
-    icon: Shield,
+    icon: ShieldCheck,
     title: 'Cybersecurity Operations',
     description:
       'Audit abuse surfaces, monitor impersonation, and test sensitive account flows with believable, persistent sessions.',
@@ -1816,7 +1942,7 @@ const useCases = [
 const scrapingHeroStats = [
   { value: '1.3M+', label: 'ISP and residential IPs' },
   { value: '99.9%', label: 'target success benchmark' },
-  { value: '195+', label: 'countries and regions' },
+  { value: '200+', label: 'countries and regions' },
 ]
 
 const scrapingHeroJobs = [
@@ -1892,7 +2018,7 @@ const scrapingCapabilities = [
   },
   {
     icon: Globe2,
-    metric: '195+',
+    metric: '200+',
     title: 'Global Geo Targeting',
     description:
       'Route collectors by country and region so pricing, search results, ads, and availability stay market-specific.',
@@ -2074,7 +2200,12 @@ const scrapingTestimonials = [
   },
 ]
 
-const scrapingAwards = ['G2 review signals', 'Trustpilot rating', 'Enterprise onboarding', 'Security documentation']
+const scrapingAwards = [
+  { label: 'G2 review signals', href: 'https://www.g2.com/products/rola-ip/reviews', external: true },
+  { label: 'Trustpilot rating', href: 'https://www.trustpilot.com/search?query=rola-ip', external: true },
+  { label: 'Enterprise onboarding', href: '/faq#faq-contact', external: false },
+  { label: 'Security documentation', href: '/#compliance', external: false },
+]
 
 const scrapingFaqItems = [
   {
@@ -2100,7 +2231,7 @@ const scrapingFaqItems = [
   {
     question: 'Is web scraping legal?',
     answer:
-      'Web scraping rules depend on the target, data type, jurisdiction, and collection method. Rola-IP is intended for legitimate public data research, monitoring, and verification, and teams should review policies before rollout.',
+      'Web scraping rules depend on the target, data type, jurisdiction, and collection method. ROLA-IP is intended for legitimate public data research, monitoring, and verification, and teams should review policies before rollout.',
   },
   {
     question: 'Which scraping scenarios benefit most from sticky ISP sessions?',
@@ -2127,7 +2258,7 @@ const networkSignals = [
     icon: Route,
     title: 'Map Country, Session, and Plan Rules Before Requests Leave Your Stack.',
     description:
-      'Route by country, plan tier, and sticky-session key across 195+ markets without rebuilding endpoint logic.',
+      'Route by country, plan tier, and sticky-session key across 200+ markets without rebuilding endpoint logic.',
   },
   {
     kicker: 'Support layer',
@@ -2175,6 +2306,8 @@ const hasCopiedCode = ref(false)
 const openFaqIndex = ref(0)
 const openUseCaseFaqIndex = ref(0)
 const openPricingPageFaqIndex = ref(0)
+const openFaqPageIndex = ref(0)
+const faqPageSearch = ref('')
 const activeCodeTab = ref<CodeTabKey>('curl')
 
 const activeCodeSample = computed(() => codeSamples[activeCodeTab.value])
@@ -2273,6 +2406,10 @@ const openPricingPageFaq = (index: number) => {
   openPricingPageFaqIndex.value = index
 }
 
+const openFaqPage = (index: number) => {
+  openFaqPageIndex.value = index
+}
+
 const quickStartItems = [
   {
     icon: TerminalSquare,
@@ -2346,10 +2483,10 @@ const testimonials = [
 ]
 
 const complianceCertifications = [
-  { label: 'ISO 27001', short: 'ISO', tone: 'iso' },
-  { label: 'SOC 2', short: 'SOC', tone: 'soc' },
-  { label: 'GDPR', short: 'EU', tone: 'gdpr' },
-  { label: 'CCPA', short: 'CA', tone: 'ccpa' },
+  { label: 'ISO 27001', image: iso27001Badge, alt: 'ISO 27001 information security visual', meta: 'Security review', tone: 'iso' },
+  { label: 'SOC 2', image: soc2Badge, alt: 'SOC 2 audit visual', meta: 'Audit material', tone: 'soc' },
+  { label: 'GDPR', image: gdprBadge, alt: 'GDPR privacy visual', meta: 'EU privacy', tone: 'gdpr' },
+  { label: 'CCPA', image: ccpaBadge, alt: 'CCPA privacy notice visual', meta: 'CA privacy', tone: 'ccpa' },
 ]
 
 const faqItems = [
@@ -2376,7 +2513,7 @@ const faqItems = [
   {
     question: 'Which Locations Are Supported?',
     answer:
-      'Rola-IP supports 195+ countries, with priority ISP inventory in the United States, United Kingdom, Germany, France, Canada, Australia, and other major commercial markets.',
+      'ROLA-IP supports 200+ countries, with priority ISP inventory in the United States, United Kingdom, Germany, France, Canada, Australia, and other major commercial markets.',
   },
   {
     question: 'Are There Any Target Restrictions?',
@@ -2394,6 +2531,139 @@ const faqItems = [
       'Enterprise customers can request security documentation, data-processing terms, sourcing information, and procurement questionnaire support during onboarding.',
   },
 ]
+
+type FaqQuestionCategoryKey = 'basics' | 'pricing' | 'routing' | 'compliance' | 'support'
+
+const faqPageCategoryLabels: Record<FaqQuestionCategoryKey, string> = {
+  basics: 'Basics',
+  pricing: 'Pricing',
+  routing: 'Routing',
+  compliance: 'Compliance',
+  support: 'Support',
+}
+
+const faqPageItems: Array<{
+  id: string
+  category: FaqQuestionCategoryKey
+  question: string
+  answer: string
+}> = [
+  {
+    id: 'static-isp-proxy',
+    category: 'basics',
+    question: 'What is a static ISP proxy?',
+    answer:
+      'A static ISP proxy is an ISP-assigned IP that keeps the same online identity for longer sessions while carrying residential-style trust signals. It is useful when a workflow needs continuity across login, review, checkout, monitoring, or account-sensitive steps.',
+  },
+  {
+    id: 'isp-vs-rotating',
+    category: 'basics',
+    question: 'What is the difference between static ISP and rotating residential proxies?',
+    answer:
+      'Static ISP proxies keep one consistent IP for session-sensitive work. Rotating residential proxies switch IPs on a schedule or per request, which is better for broad public collection where continuity is less important.',
+  },
+  {
+    id: 'static-isp-use-cases',
+    category: 'basics',
+    question: 'What can I use static ISP proxies for?',
+    answer:
+      'Static ISP proxies are best for workflows that need a stable residential identity, such as account operations, ad verification, localized testing, market monitoring, and longer-running research tasks.',
+  },
+  {
+    id: 'sticky-sessions',
+    category: 'routing',
+    question: 'Can I maintain long sessions with the same IP?',
+    answer:
+      'Yes. Static ISP proxies are designed for session continuity, so the same IP can stay attached to a workflow for longer interactions. ROLA-IP positions sticky sessions around up to 24-hour continuity, depending on routing and target behavior.',
+  },
+  {
+    id: 'country-routing',
+    category: 'routing',
+    question: 'Can I choose country or market-level targeting?',
+    answer:
+      'Yes. Country-level routing is part of the core workflow. If you need specific markets, inventory availability, or a sensitive rollout plan, contact support so we can confirm the best route before production.',
+  },
+  {
+    id: 'per-ip-pricing',
+    category: 'pricing',
+    question: 'How is pricing calculated for static ISP proxies?',
+    answer:
+      'ROLA-IP pricing is framed around static ISP packages per IP, not unpredictable per-GB usage. That makes planning easier when your main requirement is a stable inventory size and predictable monthly capacity.',
+  },
+  {
+    id: 'start-small',
+    category: 'pricing',
+    question: 'Can I test the proxies before committing to a larger plan?',
+    answer:
+      'Yes. Start with a smaller allocation to validate routing, session stability, target compatibility, and support needs. Once the workflow is proven, you can expand inventory or move into a custom procurement path.',
+  },
+  {
+    id: 'blocked-targets',
+    category: 'routing',
+    question: 'What happens if a target blocks or challenges traffic?',
+    answer:
+      'Start by checking route, session behavior, request pacing, and browser signals. Support can help review the workflow, but customers should also respect target policies and acceptable-use boundaries.',
+  },
+  {
+    id: 'allowed-use',
+    category: 'compliance',
+    question: 'What use cases are allowed?',
+    answer:
+      'ROLA-IP is intended for legitimate research, monitoring, verification, automation, and market intelligence workflows. Fraud, spam, credential abuse, and high-risk account manipulation are not allowed.',
+  },
+  {
+    id: 'security-review',
+    category: 'compliance',
+    question: 'Can enterprise buyers request security or sourcing documents?',
+    answer:
+      'Yes. Enterprise and procurement-led buyers can request security, sourcing, privacy, and commercial documentation during review.',
+  },
+  {
+    id: 'kyc-review',
+    category: 'compliance',
+    question: 'Do some workflows require additional review?',
+    answer:
+      'Sensitive or enterprise workflows may require additional review before approval. That review helps align routing, acceptable-use expectations, and commercial terms before launch.',
+  },
+  {
+    id: 'onboarding-help',
+    category: 'support',
+    question: 'What onboarding help is available?',
+    answer:
+      'Teams can get help with endpoint setup, country routing, sticky-session patterns, and validation steps. Premium and enterprise packages include a clearer support path for larger deployments.',
+  },
+  {
+    id: 'upgrade-plan',
+    category: 'support',
+    question: 'Can we upgrade after validating a workflow?',
+    answer:
+      'Yes. The recommended path is to validate one serious workflow first, then expand inventory, support level, and procurement terms once the route and session pattern are proven.',
+  },
+  {
+    id: 'sales-info',
+    category: 'support',
+    question: 'What details should we bring when talking to sales?',
+    answer:
+      'Bring target countries, expected session length, traffic volume, target workflow, compliance requirements, and whether you need invoice, sourcing, or security review support.',
+  },
+]
+
+const getFaqPageCategoryLabel = (key: FaqQuestionCategoryKey) => faqPageCategoryLabels[key]
+
+const normalizedFaqPageSearch = computed(() => faqPageSearch.value.trim().toLowerCase())
+
+const filteredFaqPageItems = computed(() =>
+  faqPageItems.filter((item) => {
+    const searchableText = `${item.question} ${item.answer} ${getFaqPageCategoryLabel(item.category)}`.toLowerCase()
+    const matchesSearch = !normalizedFaqPageSearch.value || searchableText.includes(normalizedFaqPageSearch.value)
+
+    return matchesSearch
+  }),
+)
+
+const visibleFaqPageItems = computed(() =>
+  normalizedFaqPageSearch.value ? filteredFaqPageItems.value : faqPageItems.slice(0, 7),
+)
 
 const isPlaceholder = (value: string) => value.startsWith('[')
 </script>
