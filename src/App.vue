@@ -19,12 +19,389 @@
 
         <div class="site-actions">
           <a class="button button--ghost" href="/faq#faq-contact">Talk to Sales</a>
-          <a class="button button--primary" href="/pricing#pricing-page-final">Start Free Trial</a>
+          <a class="button button--primary" href="/pricing/static-isp-proxies#pricing-page-final">Start Free Trial</a>
         </div>
       </div>
     </header>
 
-    <main v-if="isUseCasesPage" id="top" class="use-cases-page">
+    <main v-if="isHomePage" id="top" class="home-page">
+      <section class="home-hero">
+        <div class="container home-hero__grid">
+          <div class="home-hero__copy">
+            <span class="section-label section-label--stats">ROLA-IP Home</span>
+            <h1>Reliable Data Collection Solutions for Your Business.</h1>
+            <p>
+              Build stable proxy workflows for web data, market intelligence, automation, and
+              account operations with static ISP sessions designed for business teams.
+            </p>
+            <div class="home-hero__actions">
+              <a class="button button--primary button--large" href="/service">
+                Explore Service
+                <ArrowRight aria-hidden="true" :size="18" :stroke-width="2.2" />
+              </a>
+              <a class="button button--outline button--large" href="/pricing">
+                View Pricing
+              </a>
+            </div>
+            <div class="home-hero__signals" aria-label="Homepage proxy network signals">
+              <span v-for="item in homeHeroSignals" :key="item">{{ item }}</span>
+            </div>
+          </div>
+
+          <aside class="home-globe-card" aria-label="Rotating global proxy network">
+            <div class="home-globe-card__top">
+              <span class="home-globe-card__status">
+                <Globe2 aria-hidden="true" :size="16" :stroke-width="2.2" />
+              </span>
+              <span>Global proxy network</span>
+              <strong>Live routes</strong>
+            </div>
+
+            <div class="home-globe-stage" aria-hidden="true">
+              <span class="home-globe-stage__ring home-globe-stage__ring--outer"></span>
+              <span class="home-globe-stage__ring home-globe-stage__ring--inner"></span>
+              <span class="home-globe-stage__beam home-globe-stage__beam--one"></span>
+              <span class="home-globe-stage__beam home-globe-stage__beam--two"></span>
+              <HomeGlobe />
+            </div>
+
+            <div class="home-globe-card__metrics">
+              <span>
+                <strong>1.3M+</strong>
+                <small>IP pool</small>
+              </span>
+              <span>
+                <strong>200+</strong>
+                <small>regions</small>
+              </span>
+              <span>
+                <strong>24h</strong>
+                <small>sticky</small>
+              </span>
+            </div>
+
+            <div class="home-globe-card__routes">
+              <a v-for="item in homeCommandLinks" :key="item.label" :href="item.href" class="home-globe-route">
+                <span class="home-globe-route__icon">
+                  <component :is="item.icon" aria-hidden="true" :size="18" :stroke-width="2.2" />
+                </span>
+                <span>
+                  <strong>{{ item.label }}</strong>
+                  <small>{{ item.description }}</small>
+                </span>
+                <ArrowUpRight aria-hidden="true" :size="16" :stroke-width="2.2" />
+              </a>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="section home-distribution-section">
+        <div class="container">
+          <div class="section-heading section-heading--center">
+            <span class="section-label section-label--definition">Start Here</span>
+            <h2>Send Visitors to the Page That Matches Their Next Question.</h2>
+            <p>
+              The homepage works like a product map, so buyers can quickly move from intent to the
+              existing page that answers it.
+            </p>
+          </div>
+
+          <div class="home-route-grid">
+            <a
+              v-for="card in homeEntryCards"
+              :key="card.title"
+              class="home-route-card"
+              :class="`home-route-card--${card.tone}`"
+              :href="card.href"
+            >
+              <span class="home-route-card__icon">
+                <component :is="card.icon" aria-hidden="true" :size="26" :stroke-width="2.1" />
+              </span>
+              <span class="home-route-card__kicker">{{ card.kicker }}</span>
+              <h3>{{ card.title }}</h3>
+              <p>{{ card.description }}</p>
+              <span class="home-route-card__cta">
+                {{ card.cta }}
+                <ArrowRight aria-hidden="true" :size="17" :stroke-width="2.2" />
+              </span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section home-solution-section">
+        <div class="container home-solution-layout">
+          <div class="home-solution-copy">
+            <span class="section-label section-label--use-cases">Solution Map</span>
+            <h2>Proxy Service, Data Workflows, and Buying Signals in One Homepage.</h2>
+            <p>
+              A mature homepage should not only say what the product is. It should help visitors
+              pick the right path based on whether they care about setup, use cases, pricing, or
+              rollout confidence.
+            </p>
+            <a class="home-text-link" href="/use-cases">
+              Explore workflow features
+              <ArrowRight aria-hidden="true" :size="17" :stroke-width="2.2" />
+            </a>
+          </div>
+
+          <div class="home-solution-board" aria-label="Homepage solution map">
+            <article v-for="item in homeSolutionCards" :key="item.title" class="home-solution-card">
+              <span class="home-solution-card__line" aria-hidden="true"></span>
+              <span class="home-solution-card__icon">
+                <component :is="item.icon" aria-hidden="true" :size="30" :stroke-width="2.1" />
+              </span>
+              <h3>{{ item.title }}</h3>
+              <p>{{ item.description }}</p>
+              <a :href="item.href">
+                {{ item.cta }}
+                <ArrowUpRight aria-hidden="true" :size="16" :stroke-width="2.2" />
+              </a>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section--alt home-use-case-section">
+        <div class="container">
+          <div class="section-heading">
+            <span class="section-label section-label--why">Use Case Distribution</span>
+            <h2>Route Different Buyers to the Feature Page Without Making the Home Page Heavy.</h2>
+            <p>
+              Keep homepage cards scannable, then send deeper intent into the Features page where
+              scraping, automation, monitoring, and market workflows can be explained in detail.
+            </p>
+          </div>
+
+          <div class="use-case-grid home-use-case-grid">
+            <a v-for="item in homeUseCaseCards" :key="item.title" class="use-case-card" href="/use-cases">
+              <div class="use-case-card__top">
+                <span class="use-case-card__icon" aria-hidden="true">
+                  <component :is="item.icon" :size="32" :stroke-width="2.2" />
+                </span>
+              </div>
+              <h3>{{ item.title }}</h3>
+              <p>{{ item.description }}</p>
+              <span class="use-case-card__signal">{{ item.signal }}</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section--alt home-proof-section">
+        <div class="container home-proof-panel">
+          <div class="home-proof-panel__copy">
+            <span class="section-label section-label--compliance">Decision Signals</span>
+            <h2>Give Buyers the Proof Points They Usually Hunt For First.</h2>
+            <p>
+              Keep the homepage high-level, then route deeper questions into Service, Features,
+              Pricing, Coverage, and FAQ without duplicating those pages.
+            </p>
+            <div class="home-proof-panel__signals" aria-label="Homepage decision signals">
+              <span v-for="signal in homeProofSignals" :key="signal">{{ signal }}</span>
+            </div>
+          </div>
+
+          <div class="stats-row home-stats-row" aria-label="Homepage proof points">
+            <article v-for="stat in stats" :key="stat.label" class="stat-card">
+              <component :is="stat.icon" class="stat-card__icon" aria-hidden="true" :size="20" :stroke-width="2" />
+              <p class="stat-card__value" :class="{ 'is-placeholder': isPlaceholder(stat.value) }">
+                {{ stat.value }}
+              </p>
+              <p class="stat-card__label">{{ stat.label }}</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section home-country-section">
+        <div class="container home-country-layout">
+          <div class="home-country-copy">
+            <span class="section-label section-label--coverage">Global Coverage</span>
+            <h2>Popular Country Pools Across a 90M+ Residential Network.</h2>
+            <p>
+              Give buyers an immediate sense of availability before they open the full Coverage
+              page. These popular markets are distributed from an estimated 90M+ global IP pool.
+            </p>
+          </div>
+
+          <div class="home-country-panel" aria-label="Popular country IP pool preview">
+            <div class="home-country-carousel">
+              <div class="home-country-track">
+                <article
+                  v-for="(country, index) in homeCountryCarouselPools"
+                  :key="`${country.name}-${index}`"
+                  :aria-hidden="index >= homeCountryPools.length ? 'true' : undefined"
+                  class="home-country-card"
+                >
+                  <img
+                    class="home-country-card__flag"
+                    :src="flagIcon(country.flagCode)"
+                    alt=""
+                    aria-hidden="true"
+                    loading="lazy"
+                  />
+                  <span>
+                    <strong>{{ country.name }}</strong>
+                    <small>{{ country.region }}</small>
+                  </span>
+                  <b>{{ country.ipCount }}</b>
+                </article>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section--dark quick-start-section">
+        <div class="container quick-start">
+          <div class="quick-start__copy">
+            <span class="section-label section-label--dark section-label--quick">Quick Start</span>
+            <h2>Ship Your First <span class="grad-text grad-text--dark">Scraping Request</span> in Minutes.</h2>
+            <div class="quick-start__list">
+              <article v-for="item in quickStartItems" :key="item.title" class="quick-start-card">
+                <span class="icon-tile icon-tile--dark">
+                  <component :is="item.icon" aria-hidden="true" :size="18" :stroke-width="2" />
+                </span>
+                <h3>{{ item.title }}</h3>
+              </article>
+            </div>
+          </div>
+
+          <div class="quick-start__code">
+            <div class="code-editor" aria-label="Curl quick start example">
+              <div class="code-editor__header">
+                <div class="code-editor__tabs" aria-label="Code language tabs">
+                  <button
+                    v-for="tab in codeTabs"
+                    :key="tab.key"
+                    class="code-editor__tab"
+                    :class="{ 'code-editor__tab--active': activeCodeTab === tab.key }"
+                    type="button"
+                    :aria-pressed="activeCodeTab === tab.key"
+                    @click="activeCodeTab = tab.key"
+                  >
+                    <img class="code-editor__logo" :src="tab.logo" alt="" aria-hidden="true" />
+                    {{ tab.label }}
+                  </button>
+                </div>
+                <div class="code-editor__actions">
+                  <button class="code-editor__copy" type="button" :aria-label="hasCopiedCode ? 'Copied' : 'Copy code'" @click="copyCodeSample">
+                    <component :is="hasCopiedCode ? CheckCircle2 : Copy" aria-hidden="true" :size="18" :stroke-width="1.9" />
+                  </button>
+                </div>
+              </div>
+              <pre><code><span v-for="line in codeSampleLines" :key="line.number" class="code-editor__line"><span class="code-editor__line-number">{{ line.number }}</span><span class="code-editor__line-text"><span v-for="(token, tokenIndex) in line.tokens" :key="`${line.number}-${tokenIndex}`" :class="`code-token code-token--${token.kind}`">{{ token.value }}</span></span></span></code></pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section home-pricing-preview-section">
+        <div class="container home-pricing-preview">
+          <div class="section-heading section-heading--center">
+            <span class="section-label section-label--pricing">Pricing Preview</span>
+            <h2>Make Cost Discovery Visible Before Visitors Open the Full Pricing Page.</h2>
+            <p>
+              Show the buying model early, then let serious buyers jump into plan details,
+              custom terms, or support.
+            </p>
+          </div>
+
+          <div class="pricing-page-plan-grid home-pricing-grid">
+            <article
+              v-for="plan in pricingPagePlans"
+              :key="plan.name"
+              class="pricing-page-card"
+              :class="{ 'pricing-page-card--featured': plan.featured }"
+            >
+              <p v-if="plan.featured" class="pricing-page-card__badge">Most Popular</p>
+              <div class="pricing-page-card__top">
+                <span class="icon-tile pricing-page-card__icon">
+                  <component :is="plan.icon" aria-hidden="true" :size="19" :stroke-width="2" />
+                </span>
+                <div>
+                  <p class="pricing-page-card__name">{{ plan.name }}</p>
+                  <p class="pricing-page-card__fit">{{ plan.fit }}</p>
+                </div>
+              </div>
+              <p class="pricing-page-card__volume">{{ plan.ipCount }}</p>
+              <p class="pricing-page-card__price">{{ plan.price }}</p>
+              <p class="pricing-page-card__monthly">{{ plan.monthly }}</p>
+              <ul class="pricing-page-card__list">
+                <li v-for="item in plan.items" :key="item">
+                  <CheckCircle2 aria-hidden="true" :size="15" :stroke-width="2.4" />
+                  <span>{{ item }}</span>
+                </li>
+              </ul>
+              <a
+                class="button"
+                :class="plan.featured ? 'button--primary' : 'button--outline'"
+                href="/pricing/static-isp-proxies#pricing-page-final"
+              >
+                {{ plan.cta }}
+              </a>
+            </article>
+          </div>
+
+          <div class="home-pricing-preview__actions">
+            <a class="button button--primary button--large" href="/pricing/static-isp-proxies">
+              View Static ISP Pricing
+              <ArrowRight aria-hidden="true" :size="18" :stroke-width="2.2" />
+            </a>
+            <a class="button button--outline button--large" href="/faq#faq-contact">Talk to Sales</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section--alt home-resource-section">
+        <div class="container home-resource-layout">
+          <article class="home-coverage-card">
+            <span class="section-label section-label--coverage">Coverage</span>
+            <h2>Coverage Content Can Grow Later, but the Homepage Already Has the Entry Point.</h2>
+            <p>
+              Similar proxy sites give buyers a location path early. We keep the page light now
+              while still making global availability feel discoverable.
+            </p>
+            <div class="home-market-pills" aria-label="Coverage preview markets">
+              <span v-for="market in homeMarketPills" :key="market.name" class="home-market-pill">
+                <img :src="flagIcon(market.flagCode)" alt="" aria-hidden="true" loading="lazy" />
+                {{ market.name }}
+              </span>
+            </div>
+          </article>
+
+          <div class="home-resource-list" aria-label="Homepage resource links">
+            <a v-for="resource in homeResourceLinks" :key="resource.title" class="home-resource-card" :href="resource.href">
+              <component :is="resource.icon" aria-hidden="true" :size="22" :stroke-width="2.2" />
+              <span>
+                <strong>{{ resource.title }}</strong>
+                <small>{{ resource.description }}</small>
+              </span>
+              <ArrowUpRight aria-hidden="true" :size="17" :stroke-width="2.2" />
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section class="final-cta">
+        <div class="container final-cta__inner">
+          <span class="section-label section-label--dark section-label--ready">Need Help Choosing?</span>
+          <h2>Tell Us Your Workflow, We Will Point You to the Right Starting Page.</h2>
+          <p>
+            Start with the service, pricing, or feature page that matches your workflow, or talk to
+            sales for help mapping the right route.
+          </p>
+          <div class="final-cta__actions">
+            <a class="button button--primary button--large" href="/pricing/static-isp-proxies#pricing-page-final">Start Free Trial</a>
+            <a class="button button--dark-outline button--large" href="/faq#faq-contact">Talk to Sales</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <main v-else-if="isUseCasesPage" id="top" class="use-cases-page">
       <section class="use-cases-hero">
         <HeroParticles class="hero__particles" :quantity="90" :ease="120" color="#0f9f5a" :staticity="16" />
         <div class="container use-cases-hero__inner">
@@ -498,14 +875,105 @@ proxy.type = "ISP"</pre>
             coverage and routing rules once your collection logic is validated.
           </p>
           <div class="final-cta__actions">
-            <a class="button button--primary button--large" href="/pricing#pricing-page-final">Start Free Trial</a>
+            <a class="button button--primary button--large" href="/pricing/static-isp-proxies#pricing-page-final">Start Free Trial</a>
             <a class="button button--dark-outline button--large" href="/faq#faq-contact">Talk to Sales</a>
           </div>
         </div>
       </section>
     </main>
 
-    <main v-else-if="isPricingPage" id="top" class="pricing-page">
+    <main v-else-if="isPricingIndexPage" id="top" class="pricing-index-page">
+      <section class="pricing-index-hero">
+        <div class="container pricing-index-hero__inner">
+          <span class="section-label section-label--pricing">Pricing</span>
+          <h1>Proxy Pricing for Every Data Collection Workflow.</h1>
+          <p>
+            Choose the proxy type that matches your traffic pattern, session needs, and rollout
+            stage. Static ISP pricing is available now; the remaining proxy categories are ready for
+            upcoming package details.
+          </p>
+        </div>
+      </section>
+
+      <section class="section pricing-index-catalog">
+        <div class="container">
+          <div class="pricing-product-grid">
+            <component
+              :is="product.available ? 'a' : 'article'"
+              v-for="product in pricingProductCategories"
+              :key="product.title"
+              class="pricing-product-card"
+              :class="{ 'pricing-product-card--available': product.available }"
+              :href="product.available ? product.href : undefined"
+              :aria-label="product.available ? `${product.title} pricing details` : undefined"
+            >
+              <span class="pricing-product-card__mark" :class="`pricing-product-card__mark--${product.tone}`" aria-hidden="true">
+                <svg class="pricing-product-card__mark-art" viewBox="0 0 56 56" focusable="false">
+                  <rect class="pricing-product-card__mark-back" x="20" y="14" width="30" height="30" rx="10" />
+                  <path
+                    class="pricing-product-card__mark-house"
+                    d="M12 28c0-2 1-4 3-5l10-8c2-2 4-2 6 0l10 8c2 1 3 3 3 5v12c0 4-4 8-8 8H20c-4 0-8-4-8-8V28Z"
+                  />
+                  <rect class="pricing-product-card__mark-door" x="24" y="34" width="8" height="14" rx="4" />
+                  <rect class="pricing-product-card__mark-window" x="36" y="30" width="8" height="8" rx="3" />
+                </svg>
+                <b>{{ product.code }}</b>
+              </span>
+              <span class="pricing-product-card__status">{{ product.status }}</span>
+              <h2>{{ product.title }}</h2>
+              <p>{{ product.description }}</p>
+              <div class="pricing-product-card__meta" aria-label="Pricing category details">
+                <span v-for="item in product.meta" :key="item">{{ item }}</span>
+              </div>
+              <span class="pricing-product-card__link">
+                {{ product.cta }}
+                <ArrowRight aria-hidden="true" :size="17" :stroke-width="2.2" />
+              </span>
+            </component>
+          </div>
+        </div>
+      </section>
+
+      <section class="section faq-section pricing-index-faq">
+        <div class="container faq-wrap">
+          <div class="section-heading section-heading--center">
+            <span class="section-label section-label--faq">Pricing FAQ</span>
+            <h2>Choose the Right Proxy Type Before You Pick a Plan.</h2>
+          </div>
+
+          <div class="faq-list">
+            <details
+              v-for="(item, index) in pricingIndexFaqItems"
+              :key="item.question"
+              class="faq-item"
+              :open="openPricingIndexFaqIndex === index"
+            >
+              <summary @click.prevent="openPricingIndexFaq(index)">
+                <span>{{ item.question }}</span>
+              </summary>
+              <p>{{ item.answer }}</p>
+            </details>
+          </div>
+        </div>
+      </section>
+
+      <section class="final-cta">
+        <div class="container final-cta__inner">
+          <span class="section-label section-label--dark section-label--ready">Need a Recommendation?</span>
+          <h2>Tell Us the Workflow, and We Will Point You to the Right Proxy Type.</h2>
+          <p>
+            Start with static ISP inventory today, or talk to sales about upcoming residential,
+            datacenter, dedicated, and mobile proxy packages.
+          </p>
+          <div class="final-cta__actions">
+            <a class="button button--primary button--large" href="/pricing/static-isp-proxies">View Static ISP Pricing</a>
+            <a class="button button--dark-outline button--large" href="/faq#faq-contact">Talk to Sales</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <main v-else-if="isStaticIspPricingPage" id="top" class="pricing-page">
       <section class="pricing-page__intro">
         <div class="container pricing-page__intro-inner">
           <div class="pricing-page__heading">
@@ -712,7 +1180,7 @@ proxy.type = "ISP"</pre>
             markets, security review, and enterprise terms.
           </p>
           <div class="final-cta__actions">
-            <a class="button button--primary button--large" href="/#quick-start">Start Free Trial</a>
+            <a class="button button--primary button--large" href="/service#quick-start">Start Free Trial</a>
             <a class="button button--dark-outline button--large" href="/faq#faq-contact">Talk to Sales</a>
           </div>
         </div>
@@ -733,7 +1201,7 @@ proxy.type = "ISP"</pre>
             </p>
             <div class="coverage-coming-page__actions">
               <a class="button button--primary button--large" href="/faq#faq-contact">Talk to Sales</a>
-              <a class="button button--outline button--large" href="/">Back to Service</a>
+              <a class="button button--outline button--large" href="/service">Back to Service</a>
             </div>
             <div class="coverage-coming-page__signals" aria-label="Coverage page placeholders">
               <span>Country availability</span>
@@ -810,7 +1278,7 @@ proxy.type = "ISP"</pre>
               <Headphones aria-hidden="true" :size="18" :stroke-width="2.2" />
               <span>Contact Support</span>
             </a>
-            <a class="button button--outline button--large" href="/pricing#pricing-page-final">
+            <a class="button button--outline button--large" href="/pricing/static-isp-proxies#pricing-page-final">
               <span>View Pricing</span>
               <ArrowRight aria-hidden="true" :size="18" :stroke-width="2.2" />
             </a>
@@ -819,9 +1287,9 @@ proxy.type = "ISP"</pre>
       </section>
     </main>
 
-    <main v-else id="top">
+    <main v-else-if="isServicePage" id="top">
       <section class="hero">
-        <HeroParticles class="hero__particles" :quantity="150" :ease="120" color="#70f3a8" :staticity="10" />
+        <StarsBackground class="hero__stars" :factor="0.075" :speed="50" star-color="#ffffff" />
         <div class="container hero__grid">
           <div class="hero__content">
             <h1>
@@ -1028,7 +1496,13 @@ proxy.type = "ISP"</pre>
 
           <div class="coverage-grid">
             <article v-for="region in coverage" :key="region.name" class="coverage-card">
-              <span class="coverage-card__flag">{{ region.flag }}</span>
+              <img
+                class="coverage-card__flag"
+                :src="flagIcon(region.flagCode)"
+                alt=""
+                aria-hidden="true"
+                loading="lazy"
+              />
               <p class="coverage-card__name">{{ region.name }}</p>
               <p class="coverage-card__count" :class="{ 'is-placeholder': isPlaceholder(region.count) }">
                 {{ region.count }}
@@ -1294,6 +1768,7 @@ import {
   ArrowRight,
   ArrowUpRight,
   BadgeCheck,
+  BadgeDollarSign,
   Bot,
   CheckCircle2,
   Clock3,
@@ -1301,6 +1776,7 @@ import {
   Copy,
   Database,
   DollarSign,
+  Fingerprint,
   Globe2,
   Headphones,
   KeyRound,
@@ -1316,6 +1792,7 @@ import {
   ShoppingBag,
   Smartphone,
   TerminalSquare,
+  Workflow,
   Zap,
 } from '@lucide/vue'
 import brandLogo from './assets-rola-logo.svg'
@@ -1331,7 +1808,9 @@ import gdprBadge from './assets/certifications/gdpr-mark.png'
 import iso27001Badge from './assets/certifications/iso-27001-mark.png'
 import soc2Badge from './assets/certifications/soc-2-mark.png'
 import HeroParticles from './components/HeroParticles.vue'
+import HomeGlobe from './components/HomeGlobe.vue'
 import SiteFooter from './components/SiteFooter.vue'
+import StarsBackground from './components/StarsBackground.vue'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -1339,11 +1818,15 @@ const pageRoot = ref<HTMLElement | null>(null)
 const isHeaderScrolled = ref(false)
 const currentPath = ref(window.location.pathname)
 const currentHash = ref(window.location.hash)
+const knownPagePaths = ['/', '/service', '/use-cases', '/pricing', '/pricing/static-isp-proxies', '/coverage', '/faq']
+const isHomePage = computed(() => currentPath.value === '/' || !knownPagePaths.includes(currentPath.value))
+const isServicePage = computed(() => currentPath.value === '/service')
 const isUseCasesPage = computed(() => currentPath.value === '/use-cases')
-const isPricingPage = computed(() => currentPath.value === '/pricing')
+const isPricingIndexPage = computed(() => currentPath.value === '/pricing')
+const isStaticIspPricingPage = computed(() => currentPath.value === '/pricing/static-isp-proxies')
 const isCoveragePage = computed(() => currentPath.value === '/coverage')
 const isFaqPage = computed(() => currentPath.value === '/faq')
-const isLightHeaderPage = computed(() => isUseCasesPage.value || isPricingPage.value || isCoveragePage.value || isFaqPage.value)
+const isLightHeaderPage = computed(() => isUseCasesPage.value || isPricingIndexPage.value || isStaticIspPricingPage.value || isCoveragePage.value || isFaqPage.value)
 let scrollAnimationContext: ReturnType<typeof gsap.context> | undefined
 let handleHeaderScroll: (() => void) | undefined
 let handleLocationChange: (() => void) | undefined
@@ -1417,6 +1900,11 @@ onMounted(() => {
   scrollAnimationContext = gsap.context(() => {
     const animatedSelectors = [
       '.hero-demo',
+      '.home-route-card',
+      '.home-solution-card',
+      '.home-country-card',
+      '.home-resource-card',
+      '.stat-card',
       '.proof-panel',
       '.performance-card',
       '.pricing-card',
@@ -1467,7 +1955,7 @@ onMounted(() => {
 
     gsap.utils
       .toArray<HTMLElement>(
-        '.performance-layout, .pricing-card, .coverage-card, .network-card, .quick-start-card, .feature-card, .testimonial-card, .compliance-panel, .scraping-challenge-card, .scraping-capability-card, .proxy-type-card, .use-cases-page-card, .scraping-compliance-panel, .faq-item',
+        '.home-route-card, .home-solution-card, .home-country-card, .home-resource-card, .stat-card, .performance-layout, .pricing-card, .coverage-card, .network-card, .quick-start-card, .feature-card, .testimonial-card, .compliance-panel, .scraping-challenge-card, .scraping-capability-card, .proxy-type-card, .use-cases-page-card, .scraping-compliance-panel, .faq-item',
       )
       .forEach((element) => {
         gsap.from(element, {
@@ -1512,7 +2000,7 @@ onUnmounted(() => {
 })
 
 const navItems = [
-  { label: 'Service', href: '/' },
+  { label: 'Service', href: '/service' },
   { label: 'Features', href: '/use-cases' },
   { label: 'Pricing', href: '/pricing' },
   { label: 'Coverage', href: '/coverage' },
@@ -1520,16 +2008,233 @@ const navItems = [
 ]
 
 const isNavItemActive = (item: (typeof navItems)[number]) => {
-  if (item.href === '/') {
-    return currentPath.value === '/' && !currentHash.value
+  if (item.href === '/pricing') {
+    return currentPath.value === '/pricing' || currentPath.value.startsWith('/pricing/')
   }
 
-  if (item.href.startsWith('/#')) {
-    return currentPath.value === '/' && currentHash.value === item.href.slice(1)
+  if (item.href.includes('#')) {
+    const [path, hash] = item.href.split('#')
+    return currentPath.value === path && currentHash.value === `#${hash}`
   }
 
   return currentPath.value === item.href
 }
+
+const homeHeroSignals = [
+  'Static ISP identity',
+  'Sticky session control',
+  'Per-IP pricing',
+]
+
+const homeCommandLinks = [
+  {
+    label: 'Service',
+    description: 'Static ISP proxy details and quick start.',
+    href: '/service',
+    icon: ShieldCheck,
+  },
+  {
+    label: 'Pricing',
+    description: 'Compare per-IP plans and packages.',
+    href: '/pricing',
+    icon: DollarSign,
+  },
+  {
+    label: 'Features',
+    description: 'See use cases for scraping and data teams.',
+    href: '/use-cases',
+    icon: ScanSearch,
+  },
+]
+
+const homeEntryCards = [
+  {
+    kicker: 'Product Service',
+    title: 'Static ISP Proxy Service',
+    description:
+      'Open the current product page for sticky sessions, protocols, routing controls, proof points, and setup details.',
+    cta: 'Open Service',
+    href: '/service',
+    icon: ServerCog,
+    tone: 'service',
+  },
+  {
+    kicker: 'Use Cases',
+    title: 'Features for Real Workflows',
+    description:
+      'Send visitors to scraping, data collection, monitoring, account operation, and automation scenarios.',
+    cta: 'View Features',
+    href: '/use-cases',
+    icon: Route,
+    tone: 'features',
+  },
+  {
+    kicker: 'Plans',
+    title: 'Pricing and Packages',
+    description:
+      'Help buyers compare 10 IP, 100 IP, 500 IP, and enterprise packages with predictable per-IP pricing.',
+    cta: 'Check Pricing',
+    href: '/pricing',
+    icon: DollarSign,
+    tone: 'pricing',
+  },
+  {
+    kicker: 'Availability',
+    title: 'Coverage Status',
+    description:
+      'Route availability questions to the coverage page while the detailed country inventory content is being prepared.',
+    cta: 'View Coverage',
+    href: '/coverage',
+    icon: Globe2,
+    tone: 'coverage',
+  },
+  {
+    kicker: 'Support',
+    title: 'FAQ and Technical Help',
+    description:
+      'Move setup, billing, compliance, and rollout questions into the FAQ page or support contact section.',
+    cta: 'Read FAQ',
+    href: '/faq',
+    icon: Headphones,
+    tone: 'support',
+  },
+]
+
+const homeSolutionCards = [
+  {
+    kicker: 'Service',
+    title: 'Static ISP Proxy Infrastructure',
+    description:
+      'Position the current product page as the primary service entry for sticky sessions, protocol setup, proof, and routing details.',
+    cta: 'View Service',
+    href: '/service',
+    icon: Fingerprint,
+    meta: 'Product entry',
+  },
+  {
+    kicker: 'Workflow',
+    title: 'Data Collection and Automation Paths',
+    description:
+      'Give scraping, monitoring, account operation, and research buyers a clear path into use-case specific content.',
+    cta: 'View Features',
+    href: '/use-cases',
+    icon: Workflow,
+    meta: 'Workflow paths',
+  },
+  {
+    kicker: 'Rollout',
+    title: 'Pricing, Coverage, and Support',
+    description:
+      'Help procurement and technical teams find cost, availability, and support answers without searching the whole site.',
+    cta: 'Compare Plans',
+    href: '/pricing',
+    icon: BadgeDollarSign,
+    meta: 'Buying signals',
+  },
+]
+
+const homeProofSignals = [
+  'Published metrics',
+  'Clear pricing model',
+  'Support-ready rollout',
+]
+
+const homeCountryPools = [
+  { flagCode: 'US', name: 'United States', region: 'North America', ipCount: '18.6M+' },
+  { flagCode: 'IN', name: 'India', region: 'Asia Pacific', ipCount: '11.4M+' },
+  { flagCode: 'BR', name: 'Brazil', region: 'Latin America', ipCount: '8.7M+' },
+  { flagCode: 'DE', name: 'Germany', region: 'Europe', ipCount: '6.8M+' },
+  { flagCode: 'GB', name: 'United Kingdom', region: 'Europe', ipCount: '6.4M+' },
+  { flagCode: 'FR', name: 'France', region: 'Europe', ipCount: '5.7M+' },
+  { flagCode: 'ID', name: 'Indonesia', region: 'Asia Pacific', ipCount: '5.2M+' },
+  { flagCode: 'CA', name: 'Canada', region: 'North America', ipCount: '4.9M+' },
+  { flagCode: 'JP', name: 'Japan', region: 'Asia Pacific', ipCount: '4.6M+' },
+  { flagCode: 'MX', name: 'Mexico', region: 'Latin America', ipCount: '4.3M+' },
+  { flagCode: 'AU', name: 'Australia', region: 'Oceania', ipCount: '3.7M+' },
+  { flagCode: 'ES', name: 'Spain', region: 'Europe', ipCount: '3.2M+' },
+  { flagCode: 'IT', name: 'Italy', region: 'Europe', ipCount: '3.1M+' },
+  { flagCode: 'NL', name: 'Netherlands', region: 'Europe', ipCount: '2.8M+' },
+  { flagCode: 'SG', name: 'Singapore', region: 'Asia Pacific', ipCount: '1.7M+' },
+]
+
+const homeCountryCarouselPools = computed(() => [...homeCountryPools, ...homeCountryPools])
+
+const homeUseCaseCards = [
+  {
+    icon: Bot,
+    title: 'Web Scraping',
+    description: 'Collect public web data with cleaner sessions and fewer avoidable retries.',
+    signal: 'Data collection',
+  },
+  {
+    icon: ShoppingBag,
+    title: 'Ecommerce Monitoring',
+    description: 'Track pricing, catalogs, storefront changes, and regional inventory signals.',
+    signal: 'Market intelligence',
+  },
+  {
+    icon: SearchCheck,
+    title: 'SEO and SERP Checks',
+    description: 'Review rankings, ads, and search results from consistent market locations.',
+    signal: 'Localized visibility',
+  },
+  {
+    icon: ShieldCheck,
+    title: 'Account Operations',
+    description: 'Support workflows that need identity continuity across longer session paths.',
+    signal: 'Sticky identity',
+  },
+  {
+    icon: Megaphone,
+    title: 'Ad Verification',
+    description: 'Check campaign delivery, landing pages, and creative behavior by geography.',
+    signal: 'Geo validation',
+  },
+  {
+    icon: Database,
+    title: 'AI Data Pipelines',
+    description: 'Feed collection jobs that need predictable routing and production visibility.',
+    signal: 'Reliable inputs',
+  },
+]
+
+const homeMarketPills = [
+  { flagCode: 'US', name: 'United States' },
+  { flagCode: 'GB', name: 'United Kingdom' },
+  { flagCode: 'DE', name: 'Germany' },
+  { flagCode: 'CA', name: 'Canada' },
+  { flagCode: 'FR', name: 'France' },
+  { flagCode: 'JP', name: 'Japan' },
+  { flagCode: 'AU', name: 'Australia' },
+  { flagCode: 'SG', name: 'Singapore' },
+]
+
+const homeResourceLinks = [
+  {
+    title: 'Service quick start',
+    description: 'Jump into proxy setup, routing, and request examples.',
+    href: '/service#quick-start',
+    icon: Code2,
+  },
+  {
+    title: 'Coverage planning',
+    description: 'Prepare for country and market availability content.',
+    href: '/coverage',
+    icon: Globe2,
+  },
+  {
+    title: 'Frequently asked questions',
+    description: 'Answer pricing, routing, session, and support questions.',
+    href: '/faq',
+    icon: Search,
+  },
+  {
+    title: 'Technical support',
+    description: 'Send workflow details and get help mapping the right plan.',
+    href: '/faq#faq-contact',
+    icon: Headphones,
+  },
+]
 
 const heroMeta = [
   'Sticky sessions for longer workflows',
@@ -1684,6 +2389,114 @@ const pricingPageMetrics = [
   { icon: BadgeCheck, value: '99.9%', label: 'Published success rate' },
   { icon: Globe2, value: '200+', label: 'Countries and regions' },
   { icon: Clock3, value: '24h', label: 'Sticky session window' },
+]
+
+const pricingProductCategories = [
+  {
+    title: 'Static ISP Proxies',
+    description:
+      'Stable ISP-assigned identities for account workflows, price monitoring, scraping, and longer sessions.',
+    status: 'Available now',
+    cta: 'View pricing',
+    href: '/pricing/static-isp-proxies',
+    code: 'ISP',
+    tone: 'isp',
+    available: true,
+    meta: ['From $1.30/IP', 'Sticky sessions', 'Country routing'],
+  },
+  {
+    title: 'Residential Proxies',
+    description:
+      'Rotating residential IPs for high-volume public data collection and broad market coverage.',
+    status: 'Coming soon',
+    cta: 'Coming soon',
+    href: '/faq#faq-contact',
+    code: 'RP',
+    tone: 'residential',
+    available: false,
+    meta: ['Rotating pool', 'Global coverage', 'Public data'],
+  },
+  {
+    title: 'Datacenter Proxies',
+    description:
+      'Fast server-hosted IPs for speed-sensitive tasks where residential trust is not required.',
+    status: 'Coming soon',
+    cta: 'Coming soon',
+    href: '/faq#faq-contact',
+    code: 'DC',
+    tone: 'datacenter',
+    available: false,
+    meta: ['High throughput', 'Low latency', 'Bulk tasks'],
+  },
+  {
+    title: 'Dedicated Datacenter Proxies',
+    description:
+      'Private datacenter routes for predictable performance, fixed allocation, and team-owned workflows.',
+    status: 'Coming soon',
+    cta: 'Coming soon',
+    href: '/faq#faq-contact',
+    code: 'DDC',
+    tone: 'dedicated-dc',
+    available: false,
+    meta: ['Private IPs', 'Fixed allocation', 'Predictable speed'],
+  },
+  {
+    title: 'Dedicated ISP Proxies',
+    description:
+      'Dedicated ISP inventory for teams that need cleaner trust signals and exclusive route planning.',
+    status: 'Coming soon',
+    cta: 'Coming soon',
+    href: '/faq#faq-contact',
+    code: 'DIP',
+    tone: 'dedicated-isp',
+    available: false,
+    meta: ['Exclusive routes', 'ISP identity', 'Workflow review'],
+  },
+  {
+    title: 'Mobile Proxies',
+    description:
+      'Carrier-backed mobile IPs for app testing, ad verification, and mobile-first market checks.',
+    status: 'Coming soon',
+    cta: 'Coming soon',
+    href: '/faq#faq-contact',
+    code: 'MP',
+    tone: 'mobile',
+    available: false,
+    meta: ['Carrier routes', 'Mobile contexts', 'App testing'],
+  },
+]
+
+const pricingIndexFaqItems = [
+  {
+    question: 'Which proxy type should I start with?',
+    answer:
+      'Start with Static ISP Proxies when the workflow needs stable identity, sticky sessions, account continuity, or repeated checks from the same market. Use rotating residential or mobile routes when each request can safely use a different identity.',
+  },
+  {
+    question: 'Why is Static ISP pricing available first?',
+    answer:
+      'Static ISP inventory is the current package with published per-IP plans, routing expectations, and support scope. The remaining proxy categories are listed now so the pricing page can grow into a complete product catalog.',
+  },
+  {
+    question: 'Are the coming-soon proxy types available through sales?',
+    answer:
+      'Some residential, datacenter, dedicated, and mobile requirements can be reviewed with sales before public pricing is published. Share the target countries, volume, session needs, and use case so the team can confirm fit.',
+  },
+  {
+    question: 'What is the difference between ISP and dedicated ISP proxies?',
+    answer:
+      'Static ISP plans are packaged for standard stable-session workflows. Dedicated ISP packages will be positioned for teams that need exclusive allocation, route review, or more controlled sourcing.',
+  },
+  {
+    question: 'Will every proxy type use per-IP pricing?',
+    answer:
+      'Not necessarily. Static ISP packages are priced per IP. Other categories may use different units, such as bandwidth, private allocation size, carrier route, or custom enterprise terms.',
+  },
+  {
+    question: 'Can I compare all proxy types before buying?',
+    answer:
+      'Yes. The pricing catalog is meant to make comparison easier. For now, use the Static ISP detail page for active plans and contact support for a recommendation if the workflow may need another proxy type.',
+  },
 ]
 
 const pricingPagePlans = [
@@ -1886,12 +2699,12 @@ const pricingPageFaqItems = [
 const coverageSummary = '200+ Countries'
 
 const coverage = [
-  { flag: '🇺🇸', name: 'United States', count: '5.4M+ IPs' },
-  { flag: '🇬🇧', name: 'United Kingdom', count: '110K+ IPs' },
-  { flag: '🇩🇪', name: 'Germany', count: '376K+ IPs' },
-  { flag: '🇫🇷', name: 'France', count: '190K+ IPs' },
-  { flag: '🇨🇦', name: 'Canada', count: '320K+ IPs' },
-  { flag: '🇦🇺', name: 'Australia', count: '95K+ IPs' },
+  { flagCode: 'US', name: 'United States', count: '5.4M+ IPs' },
+  { flagCode: 'GB', name: 'United Kingdom', count: '110K+ IPs' },
+  { flagCode: 'DE', name: 'Germany', count: '376K+ IPs' },
+  { flagCode: 'FR', name: 'France', count: '190K+ IPs' },
+  { flagCode: 'CA', name: 'Canada', count: '320K+ IPs' },
+  { flagCode: 'AU', name: 'Australia', count: '95K+ IPs' },
 ]
 
 const useCases = [
@@ -2204,7 +3017,7 @@ const scrapingAwards = [
   { label: 'G2 review signals', href: 'https://www.g2.com/products/rola-ip/reviews', external: true },
   { label: 'Trustpilot rating', href: 'https://www.trustpilot.com/search?query=rola-ip', external: true },
   { label: 'Enterprise onboarding', href: '/faq#faq-contact', external: false },
-  { label: 'Security documentation', href: '/#compliance', external: false },
+  { label: 'Security documentation', href: '/service#compliance', external: false },
 ]
 
 const scrapingFaqItems = [
@@ -2305,6 +3118,7 @@ const codeTabs: Array<{ key: CodeTabKey; label: string; logo: string }> = [
 const hasCopiedCode = ref(false)
 const openFaqIndex = ref(0)
 const openUseCaseFaqIndex = ref(0)
+const openPricingIndexFaqIndex = ref(0)
 const openPricingPageFaqIndex = ref(0)
 const openFaqPageIndex = ref(0)
 const faqPageSearch = ref('')
@@ -2400,6 +3214,10 @@ const openFaq = (index: number) => {
 
 const openUseCaseFaq = (index: number) => {
   openUseCaseFaqIndex.value = index
+}
+
+const openPricingIndexFaq = (index: number) => {
+  openPricingIndexFaqIndex.value = index
 }
 
 const openPricingPageFaq = (index: number) => {
@@ -2666,4 +3484,5 @@ const visibleFaqPageItems = computed(() =>
 )
 
 const isPlaceholder = (value: string) => value.startsWith('[')
+const flagIcon = (code: string) => `/flags/${code.toUpperCase()}.svg`
 </script>

@@ -14,7 +14,6 @@
         <section class="service-footer__column service-footer__resources" aria-labelledby="service-footer-title">
           <div class="service-footer__resources-head">
             <h2 id="service-footer-title" class="service-footer__title">Partner Links</h2>
-            <span>{{ footerPartnerLinks.length }} resources</span>
           </div>
           <div class="service-footer__resource-grid" aria-label="Partner resources">
             <span v-for="link in footerPartnerLinks" :key="link" class="service-footer__resource-link">
@@ -77,7 +76,7 @@
 import { Mail, MapPin, PhoneCall, SquareArrowOutUpRight } from '@lucide/vue'
 
 const footerCompanyLinks = [
-  { label: 'Service', href: '/' },
+  { label: 'Service', href: '/service' },
   { label: 'Features', href: '/use-cases' },
   { label: 'Pricing', href: '/pricing' },
   { label: 'Coverage', href: '/coverage' },
@@ -130,14 +129,6 @@ const footerSocialLinks = [
     ],
   },
   {
-    label: 'LinkedIn',
-    href: 'https://www.linkedin.com/',
-    viewBox: '0 0 24 24',
-    paths: [
-      'M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.85-3.037-1.852 0-2.136 1.446-2.136 2.94v5.666H9.353V9h3.414v1.561h.049c.476-.9 1.637-1.85 3.37-1.85 3.602 0 4.267 2.371 4.267 5.455v6.286h-.006ZM5.337 7.433a2.063 2.063 0 1 1 0-4.126 2.063 2.063 0 0 1 0 4.126ZM7.119 20.452H3.554V9h3.565v11.452Z',
-    ],
-  },
-  {
     label: 'Facebook',
     href: 'https://www.facebook.com/',
     viewBox: '0 0 24 24',
@@ -151,14 +142,6 @@ const footerSocialLinks = [
     viewBox: '0 0 24 24',
     paths: [
       'M23.5 6.2a3.008 3.008 0 0 0-2.117-2.13C19.52 3.563 12 3.563 12 3.563s-7.52 0-9.383.508A3.008 3.008 0 0 0 .5 6.2 31.38 31.38 0 0 0 0 12a31.38 31.38 0 0 0 .5 5.8 3.008 3.008 0 0 0 2.117 2.13c1.863.507 9.383.507 9.383.507s7.52 0 9.383-.508A3.008 3.008 0 0 0 23.5 17.8c.337-1.867.5-3.734.5-5.8a31.38 31.38 0 0 0-.5-5.8ZM9.545 15.568V8.432L15.818 12l-6.273 3.568Z',
-    ],
-  },
-  {
-    label: 'GitHub',
-    href: 'https://github.com/',
-    viewBox: '0 0 24 24',
-    paths: [
-      'M12 .5C5.648.5.5 5.648.5 12c0 5.088 3.292 9.397 7.86 10.922.575.106.785-.25.785-.555 0-.274-.01-1-.016-1.962-3.197.694-3.872-1.542-3.872-1.542-.523-1.329-1.277-1.683-1.277-1.683-1.044-.714.08-.699.08-.699 1.154.081 1.762 1.185 1.762 1.185 1.026 1.757 2.69 1.25 3.346.956.104-.743.402-1.25.731-1.537-2.552-.29-5.235-1.276-5.235-5.68 0-1.255.448-2.281 1.184-3.085-.119-.291-.513-1.46.113-3.044 0 0 .966-.309 3.165 1.179A11.03 11.03 0 0 1 12 6.068c.978.004 1.964.132 2.884.387 2.198-1.488 3.163-1.179 3.163-1.179.627 1.584.233 2.753.114 3.044.737.804 1.183 1.83 1.183 3.085 0 4.415-2.687 5.386-5.247 5.671.413.355.78 1.057.78 2.131 0 1.538-.014 2.779-.014 3.156 0 .308.207.666.792.553C20.213 21.389 23.5 17.084 23.5 12 23.5 5.648 18.352.5 12 .5Z',
     ],
   },
   {
