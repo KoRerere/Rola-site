@@ -402,15 +402,25 @@ summary:focus-visible {
 
 .home-hero::before,
 .home-hero::after {
-  content: none;
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
 }
 
 .home-hero::before {
-  content: none;
+  z-index: 1;
+  background:
+    radial-gradient(circle at 24% 22%, rgba(255, 255, 255, 0.08), transparent 18%),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.38) 0%, rgba(0, 0, 0, 0.18) 46%, rgba(0, 0, 0, 0.02) 100%);
 }
 
 .home-hero::after {
-  content: none;
+  z-index: 1;
+  background:
+    linear-gradient(180deg, rgba(15, 17, 23, 0.06) 0%, transparent 46%, rgba(15, 17, 23, 0.44) 100%),
+    radial-gradient(circle at 85% 40%, rgba(0, 0, 0, 0.48), transparent 36%);
+  opacity: 0.84;
 }
 
 .home-hero__grid {

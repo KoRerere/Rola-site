@@ -26,9 +26,9 @@
 
     <main v-if="isHomePage" id="top" class="home-page">
       <section class="home-hero">
+        <HomeHeroShader />
         <div class="container home-hero__grid">
           <div class="home-hero__copy">
-            <span class="section-label section-label--stats">ROLA-IP Home</span>
             <h1>Reliable Data Collection Solutions for Your Business.</h1>
             <p>
               Build stable proxy workflows for web data, market intelligence, automation, and
@@ -1808,6 +1808,7 @@ import gdprBadge from './assets/certifications/gdpr-mark.png'
 import iso27001Badge from './assets/certifications/iso-27001-mark.png'
 import soc2Badge from './assets/certifications/soc-2-mark.png'
 import HeroParticles from './components/HeroParticles.vue'
+import HomeHeroShader from './components/HomeHeroShader.vue'
 import HomeGlobe from './components/HomeGlobe.vue'
 import SiteFooter from './components/SiteFooter.vue'
 import StarsBackground from './components/StarsBackground.vue'
