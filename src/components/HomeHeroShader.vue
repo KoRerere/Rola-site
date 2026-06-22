@@ -73,7 +73,7 @@ onMounted(() => {
         uAmplitude: 3.2,
         uDensity: 0.8,
         uFrequency: 5.5,
-        uSpeed: 0.3,
+        uSpeed: 0.4,
         uStrength: 0.3,
         uTime: 0,
         wireframe: false,

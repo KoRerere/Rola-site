@@ -36,15 +36,7 @@
             <MapPin aria-hidden="true" :size="18" :stroke-width="2.2" />
             <span>2307 Beverley Rd Brooklyn, New York 11226 United States.</span>
           </p>
-          <a
-            class="service-footer__directions"
-            href="https://www.google.com/maps/search/?api=1&query=2307+Beverley+Rd+Brooklyn+New+York+11226"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Get Directions
-            <SquareArrowOutUpRight aria-hidden="true" :size="15" :stroke-width="2.2" />
-          </a>
+          <p class="service-footer__social-title">Social Media</p>
 
           <div class="service-footer__socials" aria-label="Social media links">
             <a
@@ -73,7 +65,7 @@
 </template>
 
 <script setup lang="ts">
-import { Mail, MapPin, PhoneCall, SquareArrowOutUpRight } from '@lucide/vue'
+import { Mail, MapPin, PhoneCall } from '@lucide/vue'
 
 const footerCompanyLinks = [
   { label: 'Service', href: '/service' },

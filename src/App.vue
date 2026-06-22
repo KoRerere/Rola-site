@@ -7,18 +7,130 @@
         </a>
 
         <nav class="site-nav" aria-label="Section navigation">
-          <a
+          <div
             v-for="item in navItems"
             :key="item.label"
-            :href="item.href"
-            :class="{ 'site-nav__link--active': isNavItemActive(item) }"
+            class="site-nav__item"
+            :class="{ 'site-nav__item--dropdown': item.dropdown }"
           >
-            {{ item.label }}
-          </a>
+            <a
+              :href="item.href"
+              class="site-nav__link"
+              :aria-haspopup="item.dropdown ? 'true' : undefined"
+            >
+              {{ item.label }}
+              <ChevronDown
+                v-if="item.dropdown"
+                class="site-nav__chevron"
+                aria-hidden="true"
+                :size="14"
+                :stroke-width="2.4"
+              />
+            </a>
+
+            <div v-if="item.dropdown === 'service'" class="service-menu" aria-label="Service proxy options">
+              <div class="service-menu__panel service-menu__panel--products">
+                <p class="service-menu__eyebrow">Products</p>
+                <div class="service-menu__grid">
+                  <a
+                    v-for="option in serviceMenuItems"
+                    :key="option.title"
+                    :href="option.href"
+                    class="service-menu__item"
+                    :class="`service-menu__item--${option.group}`"
+                  >
+                    <span
+                      class="service-menu__icon"
+                      :class="[
+                        `service-menu__icon--${option.tone}`,
+                        `service-menu__icon--${option.group}`,
+                      ]"
+                    >
+                      <span class="service-menu__glyph" aria-hidden="true" v-html="option.iconSvg"></span>
+                    </span>
+                    <span class="service-menu__copy">
+                      <strong>{{ option.title }}</strong>
+                      <small>{{ option.description }}</small>
+                    </span>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div v-else-if="item.dropdown === 'pricing'" class="service-menu pricing-menu" aria-label="Proxy pricing options">
+              <div class="service-menu__panel pricing-menu__panel">
+                <div class="pricing-menu__head">
+                  <p class="service-menu__eyebrow">Product pricing</p>
+                  <a class="pricing-menu__all" href="/pricing">
+                    View all pricing
+                    <ArrowRight aria-hidden="true" :size="15" :stroke-width="2.2" />
+                  </a>
+                </div>
+                <div class="pricing-menu__grid">
+                  <a
+                    v-for="option in pricingMenuItems"
+                    :key="option.title"
+                    :href="option.href"
+                    class="pricing-menu__item"
+                  >
+                    <span
+                      class="service-menu__icon"
+                      :class="[
+                        `service-menu__icon--${option.tone}`,
+                        `service-menu__icon--${option.group}`,
+                      ]"
+                    >
+                      <span class="service-menu__glyph" aria-hidden="true" v-html="option.iconSvg"></span>
+                    </span>
+                    <span class="pricing-menu__copy">
+                      <strong>{{ option.title }}</strong>
+                      <small>{{ option.badge }}</small>
+                    </span>
+                    <b class="pricing-menu__price" data-no-translate>{{ option.price }}</b>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
         </nav>
 
         <div class="site-actions">
-          <a class="button button--ghost" href="/faq#faq-contact">Talk to Sales</a>
+          <div class="language-select site-language site-language--top" data-language-select data-no-translate>
+            <button
+              type="button"
+              class="language-select__trigger"
+              :aria-label="languageSwitcherLabel"
+              aria-haspopup="menu"
+              :aria-expanded="isLanguageMenuOpen"
+              @click="toggleLanguageMenu"
+              @keydown.escape="closeLanguageMenu"
+            >
+              <img class="language-select__flag" :src="flagIcon(currentLanguage.flagCode)" alt="" aria-hidden="true" />
+              <span>{{ currentLanguage.shortLabel }}</span>
+              <ChevronDown aria-hidden="true" :size="14" :stroke-width="2.4" />
+            </button>
+            <div
+              v-if="isLanguageMenuOpen"
+              class="language-select__menu"
+              role="menu"
+              :aria-label="languageSwitcherLabel"
+            >
+              <button
+                v-for="language in languageOptions"
+                :key="language.code"
+                type="button"
+                class="language-select__option"
+                :class="{ 'language-select__option--active': currentLocale === language.code }"
+                role="menuitemradio"
+                :aria-checked="currentLocale === language.code"
+                @click="setLocale(language.code)"
+              >
+                <img class="language-select__flag" :src="flagIcon(language.flagCode)" alt="" aria-hidden="true" />
+                <span>{{ language.nativeLabel }}</span>
+                <small>{{ language.shortLabel }}</small>
+              </button>
+            </div>
+          </div>
           <a class="button button--primary" href="/pricing/static-isp-proxies#pricing-page-final">Start Free Trial</a>
         </div>
       </div>
@@ -43,7 +155,7 @@
                 View Pricing
               </a>
             </div>
-            <div class="home-hero__signals" aria-label="Homepage proxy network signals">
+            <div class="home-hero__signals" aria-label="Proxy network signals">
               <span v-for="item in homeHeroSignals" :key="item">{{ item }}</span>
             </div>
           </div>
@@ -99,12 +211,8 @@
       <section class="section home-distribution-section">
         <div class="container">
           <div class="section-heading section-heading--center">
-            <span class="section-label section-label--definition">Start Here</span>
-            <h2>Send Visitors to the Page That Matches Their Next Question.</h2>
-            <p>
-              The homepage works like a product map, so buyers can quickly move from intent to the
-              existing page that answers it.
-            </p>
+            <span class="section-label section-label--definition">Service Guide</span>
+            <h2>Choose the Right Proxy Service Faster.</h2>
           </div>
 
           <div class="home-route-grid">
@@ -118,7 +226,6 @@
               <span class="home-route-card__icon">
                 <component :is="card.icon" aria-hidden="true" :size="26" :stroke-width="2.1" />
               </span>
-              <span class="home-route-card__kicker">{{ card.kicker }}</span>
               <h3>{{ card.title }}</h3>
               <p>{{ card.description }}</p>
               <span class="home-route-card__cta">
@@ -134,11 +241,10 @@
         <div class="container home-solution-layout">
           <div class="home-solution-copy">
             <span class="section-label section-label--use-cases">Solution Map</span>
-            <h2>Proxy Service, Data Workflows, and Buying Signals in One Homepage.</h2>
+            <h2>Proxy Infrastructure for Data Workflows That Need Stability.</h2>
             <p>
-              A mature homepage should not only say what the product is. It should help visitors
-              pick the right path based on whether they care about setup, use cases, pricing, or
-              rollout confidence.
+              Bring sticky sessions, protocol setup, per-IP pricing, and routing controls together
+              for scraping, monitoring, automation, and account operations.
             </p>
             <a class="home-text-link" href="/use-cases">
               Explore workflow features
@@ -146,7 +252,7 @@
             </a>
           </div>
 
-          <div class="home-solution-board" aria-label="Homepage solution map">
+          <div class="home-solution-board" aria-label="Solution overview">
             <article v-for="item in homeSolutionCards" :key="item.title" class="home-solution-card">
               <span class="home-solution-card__line" aria-hidden="true"></span>
               <span class="home-solution-card__icon">
@@ -166,11 +272,11 @@
       <section class="section section--alt home-use-case-section">
         <div class="container">
           <div class="section-heading">
-            <span class="section-label section-label--why">Use Case Distribution</span>
-            <h2>Route Different Buyers to the Feature Page Without Making the Home Page Heavy.</h2>
+            <span class="section-label section-label--why">Use Cases</span>
+            <h2>Built for Scraping, Monitoring, Automation, and Account Operations.</h2>
             <p>
-              Keep homepage cards scannable, then send deeper intent into the Features page where
-              scraping, automation, monitoring, and market workflows can be explained in detail.
+              Explore common workflows that need stable sessions, cleaner geo routing, and
+              predictable proxy behavior across production tasks.
             </p>
           </div>
 
@@ -192,18 +298,16 @@
       <section class="section section--alt home-proof-section">
         <div class="container home-proof-panel">
           <div class="home-proof-panel__copy">
-            <span class="section-label section-label--compliance">Decision Signals</span>
-            <h2>Give Buyers the Proof Points They Usually Hunt For First.</h2>
+            <h2>130万+ ISP IP，覆盖全球 200+ 国家地区</h2>
             <p>
-              Keep the homepage high-level, then route deeper questions into Service, Features,
-              Pricing, Coverage, and FAQ without duplicating those pages.
+              获取真实、稳定、高成功率的 ISP 代理资源，为广告验证、账号运营和全球业务提供可靠支持。
             </p>
-            <div class="home-proof-panel__signals" aria-label="Homepage decision signals">
+            <div class="home-proof-panel__signals" aria-label="Trust and rollout signals">
               <span v-for="signal in homeProofSignals" :key="signal">{{ signal }}</span>
             </div>
           </div>
 
-          <div class="stats-row home-stats-row" aria-label="Homepage proof points">
+          <div class="stats-row home-stats-row" aria-label="Network proof points">
             <article v-for="stat in stats" :key="stat.label" class="stat-card">
               <component :is="stat.icon" class="stat-card__icon" aria-hidden="true" :size="20" :stroke-width="2" />
               <p class="stat-card__value" :class="{ 'is-placeholder': isPlaceholder(stat.value) }">
@@ -219,10 +323,10 @@
         <div class="container home-country-layout">
           <div class="home-country-copy">
             <span class="section-label section-label--coverage">Global Coverage</span>
-            <h2>Popular Country Pools Across a 90M+ Residential Network.</h2>
+            <h2>Popular Country Pools Across a 90M+ Residential IP Network.</h2>
             <p>
-              Give buyers an immediate sense of availability before they open the full Coverage
-              page. These popular markets are distributed from an estimated 90M+ global IP pool.
+              Check priority markets at a glance with popular country pools drawn from an estimated
+              90M+ global residential IP network.
             </p>
           </div>
 
@@ -258,7 +362,7 @@
         <div class="container quick-start">
           <div class="quick-start__copy">
             <span class="section-label section-label--dark section-label--quick">Quick Start</span>
-            <h2>Ship Your First <span class="grad-text grad-text--dark">Scraping Request</span> in Minutes.</h2>
+            <h2>Ship Your First Scraping Request in Minutes.</h2>
             <div class="quick-start__list">
               <article v-for="item in quickStartItems" :key="item.title" class="quick-start-card">
                 <span class="icon-tile icon-tile--dark">
@@ -302,10 +406,10 @@
         <div class="container home-pricing-preview">
           <div class="section-heading section-heading--center">
             <span class="section-label section-label--pricing">Pricing Preview</span>
-            <h2>Make Cost Discovery Visible Before Visitors Open the Full Pricing Page.</h2>
+            <h2>Preview Static ISP Pricing Before You Choose a Plan.</h2>
             <p>
-              Show the buying model early, then let serious buyers jump into plan details,
-              custom terms, or support.
+              Compare starter, growth, premium, and enterprise options with predictable per-IP
+              packages.
             </p>
           </div>
 
@@ -340,7 +444,9 @@
                 :class="plan.featured ? 'button--primary' : 'button--outline'"
                 href="/pricing/static-isp-proxies#pricing-page-final"
               >
+                <Headphones v-if="plan.cta === 'Talk to Sales'" aria-hidden="true" :size="16" :stroke-width="2.2" />
                 {{ plan.cta }}
+                <ChevronRight v-if="plan.cta !== 'Talk to Sales'" aria-hidden="true" :size="17" :stroke-width="2.4" />
               </a>
             </article>
           </div>
@@ -359,10 +465,10 @@
         <div class="container home-resource-layout">
           <article class="home-coverage-card">
             <span class="section-label section-label--coverage">Coverage</span>
-            <h2>Coverage Content Can Grow Later, but the Homepage Already Has the Entry Point.</h2>
+            <h2>Explore Priority Markets and Coverage Signals.</h2>
             <p>
-              Similar proxy sites give buyers a location path early. We keep the page light now
-              while still making global availability feel discoverable.
+              Review popular markets now, with more country-level inventory details available as
+              coverage expands.
             </p>
             <div class="home-market-pills" aria-label="Coverage preview markets">
               <span v-for="market in homeMarketPills" :key="market.name" class="home-market-pill">
@@ -372,7 +478,7 @@
             </div>
           </article>
 
-          <div class="home-resource-list" aria-label="Homepage resource links">
+          <div class="home-resource-list" aria-label="Resource links">
             <a v-for="resource in homeResourceLinks" :key="resource.title" class="home-resource-card" :href="resource.href">
               <component :is="resource.icon" aria-hidden="true" :size="22" :stroke-width="2.2" />
               <span>
@@ -388,10 +494,10 @@
       <section class="final-cta">
         <div class="container final-cta__inner">
           <span class="section-label section-label--dark section-label--ready">Need Help Choosing?</span>
-          <h2>Tell Us Your Workflow, We Will Point You to the Right Starting Page.</h2>
+          <h2>Tell Us Your Workflow. We Will Recommend the Right Proxy Setup.</h2>
           <p>
-            Start with the service, pricing, or feature page that matches your workflow, or talk to
-            sales for help mapping the right route.
+            Share your target countries, session needs, traffic volume, and rollout stage. Our team
+            can help map the right service, pricing, and support path.
           </p>
           <div class="final-cta__actions">
             <a class="button button--primary button--large" href="/pricing/static-isp-proxies#pricing-page-final">Start Free Trial</a>
@@ -675,8 +781,8 @@ proxy.type = "ISP"</pre>
             <span class="section-label section-label--definition">Proxy Fit</span>
             <h2>Choose the Proxy Type by Target Risk, Speed, and Session Needs.</h2>
             <p>
-              Use this as the buyer education layer: not every scraping job needs the same proxy
-              behavior, cost model, or trust signal.
+              Compare proxy types by target risk, session length, budget, and trust requirements
+              before you connect a production workflow.
             </p>
           </div>
 
@@ -698,7 +804,7 @@ proxy.type = "ISP"</pre>
         <div class="container quick-start scraping-code-layout">
           <div class="quick-start__copy scraping-code-copy">
             <span class="section-label section-label--dark section-label--quick">Quick Start</span>
-            <h2>Ship Your First <span class="grad-text grad-text--dark">Scraping Request</span> in Minutes.</h2>
+            <h2>Ship Your First Scraping Request in Minutes.</h2>
             <div class="quick-start__list">
               <article v-for="item in quickStartItems" :key="item.title" class="quick-start-card">
                 <span class="icon-tile icon-tile--dark">
@@ -744,8 +850,8 @@ proxy.type = "ISP"</pre>
             <span class="section-label section-label--use-cases">Use Cases</span>
             <h2>High-Value Data Collection Scenarios Worth Designing Around.</h2>
             <p>
-              Help each buyer recognize their workflow quickly, then route them toward the proxy
-              behavior that best fits that target.
+              Browse common workflows and choose the proxy behavior that fits each target, market,
+              and session pattern.
             </p>
           </div>
 
@@ -791,8 +897,8 @@ proxy.type = "ISP"</pre>
             <span class="section-label section-label--testimonials">Proof</span>
             <h2>Trusted by Teams That Treat Data Collection as Infrastructure.</h2>
             <p>
-              Social proof should make the page feel procurement-ready: practical quotes,
-              review-platform badges, and clear signals that real operators use the network.
+              Review practical customer quotes, third-party review signals, and rollout-ready
+              documentation before your team scales collection.
             </p>
             <div class="scraping-awards" aria-label="Review and media signals">
               <a
@@ -907,17 +1013,15 @@ proxy.type = "ISP"</pre>
               :href="product.available ? product.href : undefined"
               :aria-label="product.available ? `${product.title} pricing details` : undefined"
             >
-              <span class="pricing-product-card__mark" :class="`pricing-product-card__mark--${product.tone}`" aria-hidden="true">
-                <svg class="pricing-product-card__mark-art" viewBox="0 0 56 56" focusable="false">
-                  <rect class="pricing-product-card__mark-back" x="20" y="14" width="30" height="30" rx="10" />
-                  <path
-                    class="pricing-product-card__mark-house"
-                    d="M12 28c0-2 1-4 3-5l10-8c2-2 4-2 6 0l10 8c2 1 3 3 3 5v12c0 4-4 8-8 8H20c-4 0-8-4-8-8V28Z"
-                  />
-                  <rect class="pricing-product-card__mark-door" x="24" y="34" width="8" height="14" rx="4" />
-                  <rect class="pricing-product-card__mark-window" x="36" y="30" width="8" height="8" rx="3" />
-                </svg>
-                <b>{{ product.code }}</b>
+              <span
+                class="pricing-product-card__mark"
+                :class="[
+                  `pricing-product-card__mark--${product.tone}`,
+                  `pricing-product-card__mark--${product.group}`,
+                ]"
+                aria-hidden="true"
+              >
+                <span class="pricing-product-card__glyph" v-html="product.iconSvg"></span>
               </span>
               <span class="pricing-product-card__status">{{ product.status }}</span>
               <h2>{{ product.title }}</h2>
@@ -1022,7 +1126,9 @@ proxy.type = "ISP"</pre>
                   </li>
                 </ul>
                 <a class="button" :class="plan.featured ? 'button--primary' : 'button--outline'" href="#pricing-page-final">
+                  <Headphones v-if="plan.cta === 'Talk to Sales'" aria-hidden="true" :size="16" :stroke-width="2.2" />
                   {{ plan.cta }}
+                  <ChevronRight v-if="plan.cta !== 'Talk to Sales'" aria-hidden="true" :size="17" :stroke-width="2.4" />
                 </a>
               </article>
             </div>
@@ -1040,8 +1146,8 @@ proxy.type = "ISP"</pre>
             <span class="section-label section-label--definition">Every Plan Includes</span>
             <h2>Lower Tiers Keep the Same Core Controls.</h2>
             <p>
-              Make the first purchase feel safe: the table changes inventory size and support
-              depth, not the basic proxy controls teams need to validate a workflow.
+              Every package keeps the same core proxy controls, while inventory size and support
+              depth scale with your rollout.
             </p>
           </div>
           <div class="pricing-page-include-grid">
@@ -1062,8 +1168,8 @@ proxy.type = "ISP"</pre>
             <span class="section-label section-label--why">Billing Fit</span>
             <h2>Transparent Cost Math Before Procurement Starts.</h2>
             <p>
-              Competitor pricing often forces buyers through bandwidth calculators, minimum
-              commitments, and unclear rules. This page keeps ISP pricing tied to inventory size.
+              Plan monthly cost from inventory size instead of translating every workflow into
+              bandwidth estimates, minimum commitments, or unclear usage rules.
             </p>
           </div>
           <div class="pricing-page-billing-grid">
@@ -1099,7 +1205,7 @@ proxy.type = "ISP"</pre>
           <div class="pricing-trust-panel">
             <div class="pricing-page-copy">
               <span class="section-label section-label--testimonials">Trust Signals</span>
-              <h2>Compliance Signals Buyers Can Verify Before Purchase.</h2>
+              <h2>Compliance Signals You Can Verify Before Purchase.</h2>
               <p>
                 Review security documentation, privacy coverage, and sourcing standards before
                 moving a plan into production.
@@ -1134,8 +1240,8 @@ proxy.type = "ISP"</pre>
             <span class="section-label section-label--compliance">Secure Purchase</span>
             <h2>Payment, Sourcing, and Review Details Stay Clear.</h2>
             <p>
-              Keep the buying moment calm with explicit security signals, acceptable-use review,
-              and procurement support for enterprise plans.
+              Review security signals, acceptable-use guidance, and procurement support before
+              choosing an enterprise plan.
             </p>
           </div>
           <div class="pricing-security-grid">
@@ -1152,7 +1258,7 @@ proxy.type = "ISP"</pre>
         <div class="container faq-wrap">
           <div class="section-heading section-heading--center">
             <span class="section-label section-label--faq">Billing FAQ</span>
-            <h2>Questions Buyers Ask Before Checkout.</h2>
+            <h2>Questions Teams Ask Before Checkout.</h2>
           </div>
 
           <div class="faq-list">
@@ -1176,12 +1282,43 @@ proxy.type = "ISP"</pre>
           <span class="section-label section-label--dark section-label--ready">Ready to Start</span>
           <h2>Validate a Small Allocation, Then Scale the Same Pricing Model.</h2>
           <p>
-            Start with static ISP inventory for one serious workflow, or talk to sales for custom
+            Start with static ISP inventory for one production workflow, or talk to sales for custom
             markets, security review, and enterprise terms.
           </p>
           <div class="final-cta__actions">
             <a class="button button--primary button--large" href="/service#quick-start">Start Free Trial</a>
             <a class="button button--dark-outline button--large" href="/faq#faq-contact">Talk to Sales</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <main v-else-if="isUpcomingPricingPage && activeUpcomingPricingProduct" id="top" class="pricing-upcoming-page">
+      <section class="pricing-upcoming-page__hero">
+        <div class="container pricing-upcoming-page__inner">
+          <div class="pricing-upcoming-page__copy">
+            <span class="section-label section-label--pricing">Pricing Preview</span>
+            <h1>
+              {{ activeUpcomingPricingProduct.title }}
+              <span>pricing is coming soon.</span>
+            </h1>
+            <p>
+              Public packages are being prepared. Use the preview price below to plan early, or
+              contact support if this product matches your current workflow.
+            </p>
+            <div class="pricing-upcoming-page__price">
+              <span>{{ activeUpcomingPricingProduct.badge }}</span>
+              <strong data-no-translate>{{ activeUpcomingPricingProduct.price }}</strong>
+            </div>
+            <div class="pricing-upcoming-page__actions">
+              <a class="button button--primary button--large" href="/faq#faq-contact">Talk to Sales</a>
+              <a class="button button--outline button--large" href="/pricing">Back to Pricing</a>
+            </div>
+            <div class="pricing-upcoming-page__signals" aria-label="Upcoming pricing details">
+              <span>Package details</span>
+              <span>Route availability</span>
+              <span>Support scope</span>
+            </div>
           </div>
         </div>
       </section>
@@ -1203,7 +1340,7 @@ proxy.type = "ISP"</pre>
               <a class="button button--primary button--large" href="/faq#faq-contact">Talk to Sales</a>
               <a class="button button--outline button--large" href="/service">Back to Service</a>
             </div>
-            <div class="coverage-coming-page__signals" aria-label="Coverage page placeholders">
+            <div class="coverage-coming-page__signals" aria-label="Coverage availability signals">
               <span>Country availability</span>
               <span>Market routing</span>
               <span>Inventory signals</span>
@@ -1211,6 +1348,133 @@ proxy.type = "ISP"</pre>
           </div>
         </div>
       </section>
+    </main>
+
+    <main v-else-if="isBlogIndexPage || (isBlogDetailPath && !activeBlogPost)" id="top" class="blog-page">
+      <section class="blog-hero">
+        <div class="container blog-hero__inner">
+          <span class="section-label section-label--definition">Blog</span>
+          <h1>ROLA-IP Blog</h1>
+          <p>
+            Practical guidance for teams planning proxy routing, session strategy, data collection,
+            and rollout governance.
+          </p>
+        </div>
+      </section>
+
+      <section class="section blog-index-section">
+        <div class="container">
+          <a v-if="showFeaturedBlogPost" class="blog-featured-card" :href="`/blog/${featuredBlogPost.slug}`">
+            <span
+              class="blog-card__cover blog-card__cover--featured"
+              :class="`blog-card__cover--${featuredBlogPost.tone}`"
+              :style="blogCoverStyle(featuredBlogPost)"
+            >
+              <span>{{ featuredBlogPost.category }}</span>
+            </span>
+            <span class="blog-featured-card__content">
+              <span class="blog-card__meta">
+                <span>
+                  <CalendarDays aria-hidden="true" :size="15" :stroke-width="2.2" />
+                  {{ featuredBlogPost.publishedAt }}
+                </span>
+                <span>
+                  <Clock3 aria-hidden="true" :size="15" :stroke-width="2.2" />
+                  {{ featuredBlogPost.readTime }}
+                </span>
+              </span>
+              <strong>{{ featuredBlogPost.title }}</strong>
+              <small>{{ featuredBlogPost.excerpt }}</small>
+              <span class="blog-card__link">
+                Read article
+                <ArrowRight aria-hidden="true" :size="17" :stroke-width="2.2" />
+              </span>
+            </span>
+          </a>
+
+          <div class="blog-card-grid" aria-label="Latest blog articles">
+            <a v-for="post in paginatedBlogPosts" :key="post.slug" class="blog-card" :href="`/blog/${post.slug}`">
+              <span
+                class="blog-card__cover"
+                :class="`blog-card__cover--${post.tone}`"
+                :style="blogCoverStyle(post)"
+              >
+                <span>{{ post.category }}</span>
+              </span>
+              <span class="blog-card__body">
+                <span class="blog-card__meta">
+                  <span>
+                    <CalendarDays aria-hidden="true" :size="15" :stroke-width="2.2" />
+                    {{ post.publishedAt }}
+                  </span>
+                  <span>
+                    <Clock3 aria-hidden="true" :size="15" :stroke-width="2.2" />
+                    {{ post.readTime }}
+                  </span>
+                </span>
+                <strong>{{ post.title }}</strong>
+                <small>{{ post.excerpt }}</small>
+              </span>
+            </a>
+          </div>
+
+          <nav class="blog-pagination" aria-label="Blog pagination">
+            <button
+              type="button"
+              class="blog-pagination__button"
+              :disabled="blogPage === 1"
+              @click="setBlogPage(blogPage - 1)"
+            >
+              {{ blogPreviousLabel }}
+            </button>
+            <span class="blog-pagination__status">{{ blogPaginationLabel }}</span>
+            <button
+              type="button"
+              class="blog-pagination__button"
+              :disabled="blogPage === blogPageCount"
+              @click="setBlogPage(blogPage + 1)"
+            >
+              {{ blogNextLabel }}
+            </button>
+          </nav>
+        </div>
+      </section>
+    </main>
+
+    <main v-else-if="isBlogDetailPage && activeBlogPost" id="top" class="blog-detail-page">
+      <article>
+        <header class="blog-detail-hero">
+          <div class="container blog-detail-hero__inner">
+            <a class="blog-detail__back" href="/blog">
+              <ArrowRight aria-hidden="true" :size="16" :stroke-width="2.2" />
+              Back to Blog
+            </a>
+            <h1>{{ activeBlogPost.title }}</h1>
+            <p>{{ activeBlogPost.excerpt }}</p>
+            <div class="blog-detail__meta">
+              <span>{{ activeBlogPost.publishedAt }}</span>
+              <span>{{ activeBlogPost.readTime }}</span>
+            </div>
+          </div>
+        </header>
+
+        <div class="container">
+          <div class="blog-detail__layout">
+            <aside class="blog-detail__aside">
+              <span>Article Guide</span>
+              <a v-for="section in activeBlogPost.sections" :key="section.heading" :href="`#${slugify(section.heading)}`">
+                {{ section.heading }}
+              </a>
+            </aside>
+            <div class="blog-detail__content">
+              <section v-for="section in activeBlogPost.sections" :id="slugify(section.heading)" :key="section.heading">
+                <h2>{{ section.heading }}</h2>
+                <p v-for="paragraph in section.paragraphs" :key="paragraph">{{ paragraph }}</p>
+              </section>
+            </div>
+          </div>
+        </div>
+      </article>
     </main>
 
     <main v-else-if="isFaqPage" id="top" class="faq-page">
@@ -1425,7 +1689,7 @@ proxy.type = "ISP"</pre>
         <div class="container">
           <div class="section-heading section-heading--center">
             <span class="section-label section-label--pricing">Pricing</span>
-            <h2>Transparent <span class="grad-text">per-IP Plans</span> for Teams That Need Predictable Scaling.</h2>
+            <h2>Transparent per-IP Plans for Teams That Need Predictable Scaling.</h2>
             <p>
               Start with 10 static ISP IPs, scale into 500+ IP packages, or request dedicated
               inventory with custom routing and procurement support.
@@ -1463,7 +1727,9 @@ proxy.type = "ISP"</pre>
                 :class="plan.featured ? 'button--primary' : 'button--outline'"
                 :href="plan.cta === 'Talk to Sales' ? '/faq#faq-contact' : '#faq'"
               >
+                <Headphones v-if="plan.cta === 'Talk to Sales'" aria-hidden="true" :size="16" :stroke-width="2.2" />
                 {{ plan.cta }}
+                <ChevronRight v-if="plan.cta !== 'Talk to Sales'" aria-hidden="true" :size="17" :stroke-width="2.4" />
               </a>
             </article>
           </div>
@@ -1474,10 +1740,10 @@ proxy.type = "ISP"</pre>
         <div class="container">
           <div class="section-heading">
             <span class="section-label section-label--coverage">Geo Coverage</span>
-            <h2>Coverage Across <span class="grad-text">Priority Markets</span> Where Buyers Usually Ask First.</h2>
+            <h2>Coverage Across Priority Markets for Research and Operations.</h2>
             <p>
-              Show the footprint at a glance, then let visitors scan the key regions they need for
-              research, verification, monitoring, and account operations.
+              Check priority regions for research, verification, monitoring, and account operations
+              at a glance.
             </p>
           </div>
 
@@ -1516,7 +1782,7 @@ proxy.type = "ISP"</pre>
         <div class="container network-grid">
           <div class="network-copy">
             <span class="section-label section-label--dark section-label--network">Network Operations</span>
-            <h2 id="network-title"><span class="grad-text grad-text--dark">Control Sessions</span>, Routing, and Rollout Rules from One Operational Layer.</h2>
+            <h2 id="network-title">Control Sessions, Routing, and Rollout Rules from One Operational Layer.</h2>
             <p>
               Monitor 1.3M+ static ISP identities through one control layer, with country rules,
               session persistence, and traffic visibility designed for production teams.
@@ -1562,7 +1828,7 @@ proxy.type = "ISP"</pre>
         <div class="container quick-start">
           <div class="quick-start__copy">
             <span class="section-label section-label--dark section-label--quick">Quick Start</span>
-            <h2>Ship Your First <span class="grad-text grad-text--dark">Sticky-Session Request</span> in Minutes.</h2>
+            <h2>Ship Your First Sticky-Session Request in Minutes.</h2>
             <div class="quick-start__list">
               <article v-for="item in quickStartItems" :key="item.title" class="quick-start-card">
                 <span class="icon-tile icon-tile--dark">
@@ -1609,8 +1875,8 @@ proxy.type = "ISP"</pre>
               <span class="section-label section-label--why section-label--why-isp">Why ISP</span>
               <h2>Why Static ISP Proxies Outperform on Session-Sensitive Workflows.</h2>
               <p>
-                Help buyers understand when to choose static ISP proxies over rotating residential
-                or datacenter options, especially for login-heavy and stateful use cases.
+                Compare when static ISP proxies fit better than rotating residential or datacenter
+                options, especially for login-heavy and stateful use cases.
               </p>
             </div>
 
@@ -1688,7 +1954,7 @@ proxy.type = "ISP"</pre>
           <div class="compliance-panel">
             <div class="compliance-panel__primary">
               <span class="section-label section-label--compliance">Compliance / Security</span>
-              <h2>Security Signals Buyers Can Verify Before Rollout.</h2>
+              <h2>Security Signals You Can Verify Before Rollout.</h2>
               <p>
                 Enterprise teams can request security documentation, privacy terms, and sourcing
                 details during procurement review.
@@ -1721,7 +1987,7 @@ proxy.type = "ISP"</pre>
         <div class="container faq-wrap">
           <div class="section-heading section-heading--center">
             <span class="section-label section-label--faq">Frequently Asked Questions</span>
-            <h2>Questions Buyers Ask Before Rollout.</h2>
+            <h2>Questions Teams Ask Before Rollout.</h2>
           </div>
 
           <div class="faq-list">
@@ -1756,12 +2022,46 @@ proxy.type = "ISP"</pre>
       </section>
     </main>
 
-    <SiteFooter />
+    <div
+      ref="footerDrawerRef"
+      class="footer-drawer"
+      :class="{ 'footer-drawer--language-open': isFooterLanguageOpen }"
+    >
+      <SiteFooter />
+      <div class="footer-language-bar" data-no-translate>
+        <button
+          type="button"
+          class="footer-language-bar__handle"
+          :aria-expanded="isFooterLanguageOpen"
+          aria-controls="footer-language-switcher"
+          @click="toggleFooterLanguageDrawer"
+        >
+          {{ languageSwitcherLabel }}
+        </button>
+        <div
+          id="footer-language-switcher"
+          class="language-switcher site-language site-language--bottom"
+          aria-label="Footer language selector"
+        >
+          <button
+            v-for="language in languageOptions"
+            :key="`footer-${language.code}`"
+            type="button"
+            :class="{ 'language-switcher__button--active': currentLocale === language.code }"
+            :aria-pressed="currentLocale === language.code"
+            @click="setLocale(language.code)"
+          >
+            <img class="language-switcher__flag" :src="flagIcon(language.flagCode)" alt="" aria-hidden="true" />
+            {{ language.nativeLabel }}
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import {
@@ -1770,6 +2070,9 @@ import {
   BadgeCheck,
   BadgeDollarSign,
   Bot,
+  CalendarDays,
+  ChevronDown,
+  ChevronRight,
   CheckCircle2,
   Clock3,
   Code2,
@@ -1796,6 +2099,12 @@ import {
   Zap,
 } from '@lucide/vue'
 import brandLogo from './assets-rola-logo.svg'
+import dynamicDatacenterIcon from './assets/service-icons/dynamic-datacenter.svg?raw'
+import dynamicResidentialIcon from './assets/service-icons/dynamic-residential.svg?raw'
+import ipv6Icon from './assets/service-icons/ipv6.svg?raw'
+import mobileIcon from './assets/service-icons/mobile.svg?raw'
+import staticDatacenterIcon from './assets/service-icons/static-datacenter.svg?raw'
+import staticResidentialIcon from './assets/service-icons/static-residential.svg?raw'
 import capterraLogo from './assets/brand-icons/capterra.svg'
 import curlLogo from './assets/brand-icons/curl.svg'
 import g2Logo from './assets/brand-icons/g2.svg'
@@ -1812,26 +2121,55 @@ import HomeHeroShader from './components/HomeHeroShader.vue'
 import HomeGlobe from './components/HomeGlobe.vue'
 import SiteFooter from './components/SiteFooter.vue'
 import StarsBackground from './components/StarsBackground.vue'
+import { languageOptions, translateCopy, type Locale } from './i18n'
 
 gsap.registerPlugin(ScrollTrigger)
 
 const pageRoot = ref<HTMLElement | null>(null)
+const storedLocale = window.localStorage.getItem('rola-locale') as Locale | null
+const currentLocale = ref<Locale>(storedLocale && languageOptions.some((language) => language.code === storedLocale) ? storedLocale : 'en')
+const isLanguageMenuOpen = ref(false)
+const isFooterLanguageOpen = ref(false)
+const footerDrawerRef = ref<HTMLElement | null>(null)
+const currentLanguage = computed(() => languageOptions.find((language) => language.code === currentLocale.value) ?? languageOptions[0])
+const languageSwitcherLabel = computed(() => ({
+  en: 'Language',
+  zh: '语言',
+  ru: 'Язык',
+})[currentLocale.value])
 const isHeaderScrolled = ref(false)
 const currentPath = ref(window.location.pathname)
-const currentHash = ref(window.location.hash)
-const knownPagePaths = ['/', '/service', '/use-cases', '/pricing', '/pricing/static-isp-proxies', '/coverage', '/faq']
-const isHomePage = computed(() => currentPath.value === '/' || !knownPagePaths.includes(currentPath.value))
+const blogPage = ref(1)
+const upcomingPricingPaths = [
+  '/pricing/residential-proxies',
+  '/pricing/datacenter-proxies',
+  '/pricing/dedicated-datacenter-proxies',
+  '/pricing/dedicated-isp-proxies',
+  '/pricing/mobile-proxies',
+  '/pricing/static-ipv6-proxies',
+]
+const knownPagePaths = ['/', '/service', '/use-cases', '/pricing', '/pricing/static-isp-proxies', ...upcomingPricingPaths, '/coverage', '/faq', '/blog']
+const isHomePage = computed(() => currentPath.value === '/' || (!knownPagePaths.includes(currentPath.value) && !currentPath.value.startsWith('/blog/')))
 const isServicePage = computed(() => currentPath.value === '/service')
 const isUseCasesPage = computed(() => currentPath.value === '/use-cases')
 const isPricingIndexPage = computed(() => currentPath.value === '/pricing')
 const isStaticIspPricingPage = computed(() => currentPath.value === '/pricing/static-isp-proxies')
+const activeUpcomingPricingProduct = computed(() => pricingMenuItems.find((item) => item.href === currentPath.value && !item.available))
+const isUpcomingPricingPage = computed(() => Boolean(activeUpcomingPricingProduct.value))
 const isCoveragePage = computed(() => currentPath.value === '/coverage')
 const isFaqPage = computed(() => currentPath.value === '/faq')
-const isLightHeaderPage = computed(() => isUseCasesPage.value || isPricingIndexPage.value || isStaticIspPricingPage.value || isCoveragePage.value || isFaqPage.value)
+const isBlogIndexPage = computed(() => currentPath.value === '/blog')
+const isBlogDetailPath = computed(() => currentPath.value.startsWith('/blog/') && Boolean(currentPath.value.slice('/blog/'.length)))
+const isBlogDetailPage = computed(() => isBlogDetailPath.value && Boolean(activeBlogPost.value))
+const isLightHeaderPage = computed(() => isUseCasesPage.value || isPricingIndexPage.value || isStaticIspPricingPage.value || isUpcomingPricingPage.value || isCoveragePage.value || isFaqPage.value || isBlogIndexPage.value || isBlogDetailPage.value)
 let scrollAnimationContext: ReturnType<typeof gsap.context> | undefined
 let handleHeaderScroll: (() => void) | undefined
 let handleLocationChange: (() => void) | undefined
+let handleDocumentPointerDown: ((event: PointerEvent) => void) | undefined
 let proofCarouselTimer: number | undefined
+let translationObserver: MutationObserver | undefined
+let isTranslatingDom = false
+const textNodeSources = new WeakMap<Text, string>()
 const activeScrapingTestimonialIndex = ref(0)
 const shouldRunProofCarousel = ref(false)
 
@@ -1867,6 +2205,117 @@ const resumeProofCarousel = () => {
   startProofCarousel()
 }
 
+const normalizeCopy = (value: string) => value.replace(/\s+/g, ' ').trim()
+
+const formatTranslatedText = (currentText: string, sourceText: string, translatedText: string) => {
+  const leading = currentText.match(/^\s*/)?.[0] ?? ''
+  const trailing = currentText.match(/\s*$/)?.[0] ?? ''
+  const normalizedCurrent = normalizeCopy(currentText)
+
+  if (!normalizedCurrent || translatedText === sourceText) {
+    return currentText
+  }
+
+  return `${leading}${translatedText}${trailing}`
+}
+
+const shouldSkipTranslation = (element: Element | null) => {
+  return Boolean(element?.closest('[data-no-translate], script, style, svg, canvas, code, pre'))
+}
+
+const translateTextNode = (node: Text) => {
+  const parent = node.parentElement
+  if (shouldSkipTranslation(parent)) return
+
+  const existingSource = textNodeSources.get(node)
+  const source = existingSource ?? normalizeCopy(node.textContent ?? '')
+  if (!source) return
+
+  if (!existingSource) {
+    textNodeSources.set(node, source)
+  }
+
+  const translated = translateCopy(source, currentLocale.value)
+  const nextText = formatTranslatedText(node.textContent ?? '', source, translated)
+  if (node.textContent !== nextText) {
+    node.textContent = nextText
+  }
+}
+
+const translateElementAttributes = (element: Element) => {
+  if (shouldSkipTranslation(element)) return
+
+  ;(['aria-label', 'placeholder', 'title', 'alt'] as const).forEach((attribute) => {
+    const currentValue = element.getAttribute(attribute)
+    if (!currentValue) return
+
+    const sourceKey = `i18nSource${attribute.replace(/[^a-z]/gi, '')}`
+    const htmlElement = element as HTMLElement & Record<string, string | undefined>
+    const source = htmlElement.dataset?.[sourceKey] ?? normalizeCopy(currentValue)
+    if (!source) return
+
+    if (htmlElement.dataset && !htmlElement.dataset[sourceKey]) {
+      htmlElement.dataset[sourceKey] = source
+    }
+
+    const translated = translateCopy(source, currentLocale.value)
+    if (translated !== currentValue) {
+      element.setAttribute(attribute, translated)
+    }
+  })
+}
+
+const translateDomCopy = () => {
+  if (!pageRoot.value || isTranslatingDom) return
+
+  isTranslatingDom = true
+  const root = pageRoot.value
+  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT)
+  const textNodes: Text[] = []
+
+  while (walker.nextNode()) {
+    textNodes.push(walker.currentNode as Text)
+  }
+
+  textNodes.forEach(translateTextNode)
+  root.querySelectorAll<HTMLElement>('[aria-label], [placeholder], [title], [alt]').forEach(translateElementAttributes)
+  document.documentElement.lang = currentLocale.value === 'zh' ? 'zh-CN' : currentLocale.value
+  isTranslatingDom = false
+}
+
+const setLocale = (locale: Locale) => {
+  currentLocale.value = locale
+  isLanguageMenuOpen.value = false
+}
+
+const toggleLanguageMenu = () => {
+  isLanguageMenuOpen.value = !isLanguageMenuOpen.value
+}
+
+const closeLanguageMenu = () => {
+  isLanguageMenuOpen.value = false
+}
+
+const toggleFooterLanguageDrawer = async () => {
+  isFooterLanguageOpen.value = !isFooterLanguageOpen.value
+
+  if (isFooterLanguageOpen.value) {
+    await nextTick()
+    footerDrawerRef.value?.scrollIntoView({ block: 'end', behavior: 'smooth' })
+  }
+}
+
+const closeLanguageMenuOnOutsideClick = (event: PointerEvent) => {
+  if (!isLanguageMenuOpen.value) return
+
+  const target = event.target
+  if (target instanceof Element && target.closest('[data-language-select]')) {
+    return
+  }
+
+  closeLanguageMenu()
+}
+
 const displayedScrapingUseCases = computed(() => {
   return [
     ...scrapingUseCases.slice(0, 5),
@@ -1878,17 +2327,38 @@ const displayedScrapingUseCases = computed(() => {
 onMounted(() => {
   handleLocationChange = () => {
     currentPath.value = window.location.pathname
-    currentHash.value = window.location.hash
+    if (currentPath.value !== '/blog') {
+      blogPage.value = 1
+    }
+    nextTick(translateDomCopy)
   }
   handleLocationChange()
   window.addEventListener('hashchange', handleLocationChange)
   window.addEventListener('popstate', handleLocationChange)
+
+  handleDocumentPointerDown = closeLanguageMenuOnOutsideClick
+  document.addEventListener('pointerdown', handleDocumentPointerDown)
 
   handleHeaderScroll = () => {
     isHeaderScrolled.value = window.scrollY > 16
   }
   handleHeaderScroll()
   window.addEventListener('scroll', handleHeaderScroll, { passive: true })
+
+  translationObserver = new MutationObserver(() => {
+    if (!isTranslatingDom) {
+      window.requestAnimationFrame(translateDomCopy)
+    }
+  })
+  if (pageRoot.value) {
+    translationObserver.observe(pageRoot.value, {
+      attributes: true,
+      attributeFilter: ['aria-label', 'placeholder', 'title', 'alt'],
+      childList: true,
+      subtree: true,
+    })
+  }
+  translateDomCopy()
 
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
   shouldRunProofCarousel.value = isUseCasesPage.value && !prefersReducedMotion
@@ -1920,6 +2390,9 @@ onMounted(() => {
       '.proxy-type-card',
       '.use-cases-page-card',
       '.scraping-compliance-panel',
+      '.blog-featured-card',
+      '.blog-card',
+      '.blog-detail__content section',
       '.faq-item',
     ]
     const animatedElements = animatedSelectors.flatMap((selector) =>
@@ -1956,7 +2429,7 @@ onMounted(() => {
 
     gsap.utils
       .toArray<HTMLElement>(
-        '.home-route-card, .home-solution-card, .home-country-card, .home-resource-card, .stat-card, .performance-layout, .pricing-card, .coverage-card, .network-card, .quick-start-card, .feature-card, .testimonial-card, .compliance-panel, .scraping-challenge-card, .scraping-capability-card, .proxy-type-card, .use-cases-page-card, .scraping-compliance-panel, .faq-item',
+        '.home-route-card, .home-solution-card, .home-country-card, .home-resource-card, .stat-card, .performance-layout, .pricing-card, .coverage-card, .network-card, .quick-start-card, .feature-card, .testimonial-card, .compliance-panel, .scraping-challenge-card, .scraping-capability-card, .proxy-type-card, .use-cases-page-card, .scraping-compliance-panel, .blog-featured-card, .blog-card, .blog-detail__content section, .faq-item',
       )
       .forEach((element) => {
         gsap.from(element, {
@@ -1996,30 +2469,521 @@ onUnmounted(() => {
     window.removeEventListener('hashchange', handleLocationChange)
     window.removeEventListener('popstate', handleLocationChange)
   }
+  if (handleDocumentPointerDown) {
+    document.removeEventListener('pointerdown', handleDocumentPointerDown)
+  }
   scrollAnimationContext?.revert()
   stopProofCarousel()
+  translationObserver?.disconnect()
+})
+
+watch(currentLocale, (locale) => {
+  window.localStorage.setItem('rola-locale', locale)
+  nextTick(translateDomCopy)
 })
 
 const navItems = [
-  { label: 'Service', href: '/service' },
+  { label: 'Products', href: '/service', dropdown: 'service' },
   { label: 'Features', href: '/use-cases' },
-  { label: 'Pricing', href: '/pricing' },
+  { label: 'Pricing', href: '/pricing', dropdown: 'pricing' },
   { label: 'Coverage', href: '/coverage' },
+  { label: 'Blog', href: '/blog' },
   { label: 'FAQ', href: '/faq' },
 ]
 
-const isNavItemActive = (item: (typeof navItems)[number]) => {
-  if (item.href === '/pricing') {
-    return currentPath.value === '/pricing' || currentPath.value.startsWith('/pricing/')
+const serviceMenuItems = [
+  {
+    title: 'Dynamic Residential IP',
+    description: 'Real-user residential pools for anonymous data collection.',
+    href: '/service',
+    iconSvg: dynamicResidentialIcon,
+    tone: 'purple',
+    group: 'dynamic',
+  },
+  {
+    title: 'Static Residential IP',
+    description: 'Sticky residential identity for stable account workflows.',
+    href: '/service',
+    iconSvg: staticResidentialIcon,
+    tone: 'blue',
+    group: 'static',
+  },
+  {
+    title: 'Dynamic Datacenter IP',
+    description: 'Fast rotating proxy access for scale and monitoring.',
+    href: '/service',
+    iconSvg: dynamicDatacenterIcon,
+    tone: 'sky',
+    group: 'dynamic',
+  },
+  {
+    title: 'Static Datacenter IP',
+    description: 'Dedicated static routes for predictable high-volume jobs.',
+    href: '/service',
+    iconSvg: staticDatacenterIcon,
+    tone: 'amber',
+    group: 'static',
+  },
+  {
+    title: 'Mobile IP',
+    description: 'Mobile network profiles for app and device simulation.',
+    href: '/service',
+    iconSvg: mobileIcon,
+    tone: 'mint',
+    group: 'dynamic',
+  },
+  {
+    title: 'Static IPv6',
+    description: 'Long-lived IPv6 proxy access for stable collection flows.',
+    href: '/service',
+    iconSvg: ipv6Icon,
+    tone: 'green',
+    group: 'static',
+  },
+]
+
+const pricingMenuItems = [
+  {
+    title: 'Dynamic Residential IP',
+    badge: 'Most popular',
+    price: '$1.08/GB',
+    href: '/pricing/residential-proxies',
+    iconSvg: dynamicResidentialIcon,
+    tone: 'purple',
+    group: 'dynamic',
+    available: false,
+  },
+  {
+    title: 'Static Residential IP',
+    badge: 'Dedicated ISP',
+    price: '$1.30/IP',
+    href: '/pricing/static-isp-proxies',
+    iconSvg: staticResidentialIcon,
+    tone: 'blue',
+    group: 'static',
+    available: true,
+  },
+  {
+    title: 'Dynamic Datacenter IP',
+    badge: 'Cost efficient',
+    price: '$0.40/GB',
+    href: '/pricing/datacenter-proxies',
+    iconSvg: dynamicDatacenterIcon,
+    tone: 'sky',
+    group: 'dynamic',
+    available: false,
+  },
+  {
+    title: 'Static Datacenter IP',
+    badge: 'Dedicated datacenter',
+    price: '$1.60/IP',
+    href: '/pricing/dedicated-datacenter-proxies',
+    iconSvg: staticDatacenterIcon,
+    tone: 'amber',
+    group: 'static',
+    available: false,
+  },
+  {
+    title: 'Mobile IP',
+    badge: 'Native carrier',
+    price: '$3.20/GB',
+    href: '/pricing/mobile-proxies',
+    iconSvg: mobileIcon,
+    tone: 'mint',
+    group: 'dynamic',
+    available: false,
+  },
+  {
+    title: 'Static IPv6',
+    badge: 'Dedicated IPv6',
+    price: '$0.80/IP',
+    href: '/pricing/static-ipv6-proxies',
+    iconSvg: ipv6Icon,
+    tone: 'green',
+    group: 'static',
+    available: false,
+  },
+]
+
+const blogPosts = [
+  {
+    slug: 'static-isp-proxy-rollout-checklist',
+    category: 'Operations',
+    title: 'Static ISP Proxy Rollout Checklist for Production Teams',
+    excerpt:
+      'Plan routing, session rules, monitoring, and procurement checkpoints before moving a static ISP proxy workflow into production.',
+    publishedAt: 'June 18, 2026',
+    readTime: '7 min read',
+    tone: 'green',
+    coverImage: '/blog-covers/static-isp-proxy-rollout-checklist.png',
+    featured: true,
+    sections: [
+      {
+        heading: 'Start with the workflow, not the proxy type',
+        paragraphs: [
+          'A static ISP rollout works best when the team starts from the job it needs to protect: account operations, price monitoring, ad verification, research, or another workflow where identity continuity matters.',
+          'Map the target markets, session length, expected request volume, and acceptable retry budget before choosing allocation size. This keeps the proxy plan tied to operational risk instead of a generic inventory number.',
+        ],
+      },
+      {
+        heading: 'Define routing and session rules early',
+        paragraphs: [
+          'Country routing, sticky-session keys, endpoint naming, and fallback behavior should be documented before the first production run. The clearer these rules are, the easier it becomes to debug data quality later.',
+          'Teams usually benefit from starting with one market and one session pattern, then expanding once the first route is stable.',
+        ],
+      },
+      {
+        heading: 'Measure quality before scaling',
+        paragraphs: [
+          'Track clean reads, challenge rate, latency, session drift, and target-level errors. These signals show whether the workflow is ready for more IPs, more markets, or a different routing strategy.',
+          'A small validation window is cheaper than scaling a noisy setup. Treat the first run as an operational review, not only a technical connection test.',
+        ],
+      },
+    ],
+  },
+  {
+    slug: 'sticky-sessions-data-collection',
+    category: 'Session Strategy',
+    title: 'When Sticky Sessions Improve Data Collection Quality',
+    excerpt:
+      'Learn where persistent identity helps reduce noisy reads, mid-flow failures, and unnecessary retries across longer collection tasks.',
+    publishedAt: 'June 12, 2026',
+    readTime: '5 min read',
+    tone: 'blue',
+    coverImage: '/blog-covers/sticky-sessions-data-collection.png',
+    featured: false,
+    sections: [
+      {
+        heading: 'Continuity protects context',
+        paragraphs: [
+          'Some workflows fail when identity rotates too soon. Logged-in checks, carts, regional account states, and multi-step verification paths often need the same route long enough to complete the job.',
+          'Sticky sessions help the target see a consistent context, which can reduce false changes and noisy comparisons.',
+        ],
+      },
+      {
+        heading: 'Rotation still has a place',
+        paragraphs: [
+          'Broad public collection may work better with rotation when each request can safely stand alone. The right choice depends on target risk, session depth, and whether downstream data depends on continuity.',
+        ],
+      },
+    ],
+  },
+  {
+    slug: 'proxy-cost-planning-per-ip',
+    category: 'Pricing',
+    title: 'How to Plan Proxy Cost with Per-IP Packages',
+    excerpt:
+      'A practical way to forecast proxy budget by inventory size, rollout stage, support depth, and market coverage needs.',
+    publishedAt: 'June 5, 2026',
+    readTime: '6 min read',
+    tone: 'cyan',
+    coverImage: '/blog-covers/proxy-cost-planning-per-ip.png',
+    featured: false,
+    sections: [
+      {
+        heading: 'Inventory size is the baseline',
+        paragraphs: [
+          'Per-IP pricing is easier to forecast when the main requirement is stable capacity. Start with the number of concurrent identities a workflow needs, then add room for market expansion and validation runs.',
+        ],
+      },
+      {
+        heading: 'Support depth changes the plan',
+        paragraphs: [
+          'Teams moving into production often need more than raw IPs. Onboarding, routing review, procurement documents, and support expectations can change which package is the better fit.',
+        ],
+      },
+    ],
+  },
+  {
+    slug: 'regional-market-monitoring-proxy-routing',
+    category: 'Market Coverage',
+    title: 'Proxy Routing Tips for Regional Market Monitoring',
+    excerpt:
+      'Use country routing, stable identity, and rollout checks to keep pricing, inventory, and search data aligned to the right market.',
+    publishedAt: 'May 29, 2026',
+    readTime: '4 min read',
+    tone: 'purple',
+    coverImage: '/blog-covers/regional-market-monitoring-proxy-routing.png',
+    featured: false,
+    sections: [
+      {
+        heading: 'Keep market context consistent',
+        paragraphs: [
+          'Regional monitoring becomes noisy when location context changes between requests. Country routing and stable sessions help keep price, catalog, search, and availability checks aligned to the same market.',
+        ],
+      },
+      {
+        heading: 'Review markets before expanding',
+        paragraphs: [
+          'Start with priority countries, review success and latency, then expand coverage. This makes the rollout easier to explain to stakeholders and easier to debug for operators.',
+        ],
+      },
+    ],
+  },
+  {
+    slug: 'account-operations-stable-proxy-identity',
+    category: 'Account Operations',
+    title: 'Stable Proxy Identity for Account Operations',
+    excerpt:
+      'How stable IP allocation, session review, and market routing help teams reduce account friction during repeated operational checks.',
+    publishedAt: 'May 22, 2026',
+    readTime: '6 min read',
+    tone: 'green',
+    coverImage: '/blog-covers/account-operations-stable-proxy-identity.png',
+    featured: false,
+    sections: [
+      {
+        heading: 'Keep identity predictable',
+        paragraphs: [
+          'Account workflows often depend on repeatable context. When the route changes too often, teams can see unnecessary verification prompts, location drift, or inconsistent account state.',
+          'Stable proxy identity gives operators a clearer baseline for repeated checks, especially when the same accounts need to access the same markets over time.',
+        ],
+      },
+      {
+        heading: 'Separate markets and workflows',
+        paragraphs: [
+          'Use clear route labels for each market and workflow so support, engineering, and operations teams can debug problems without guessing which proxy pool was involved.',
+        ],
+      },
+    ],
+  },
+  {
+    slug: 'ad-verification-geo-consistency',
+    category: 'Ad Verification',
+    title: 'Why Geo Consistency Matters in Ad Verification',
+    excerpt:
+      'Use consistent country routing and review windows to keep ad placement checks aligned with the audience location being tested.',
+    publishedAt: 'May 15, 2026',
+    readTime: '5 min read',
+    tone: 'blue',
+    coverImage: '/blog-covers/ad-verification-geo-consistency.png',
+    featured: false,
+    sections: [
+      {
+        heading: 'Geo drift creates false signals',
+        paragraphs: [
+          'Ad verification results are easiest to trust when market context stays stable. If a request drifts between regions, placement, language, and price signals can look wrong even when the campaign is healthy.',
+        ],
+      },
+      {
+        heading: 'Validate before expanding',
+        paragraphs: [
+          'Start with a small set of priority countries, confirm that the target sees the intended location, then scale the check across more inventory.',
+        ],
+      },
+    ],
+  },
+  {
+    slug: 'scraping-monitoring-signals',
+    category: 'Monitoring',
+    title: 'Monitoring Signals Every Scraping Workflow Should Track',
+    excerpt:
+      'A short list of success, latency, retry, and challenge signals that help teams catch proxy and target issues earlier.',
+    publishedAt: 'May 8, 2026',
+    readTime: '7 min read',
+    tone: 'cyan',
+    coverImage: '/blog-covers/scraping-monitoring-signals.png',
+    featured: false,
+    sections: [
+      {
+        heading: 'Track the path, not only the result',
+        paragraphs: [
+          'A successful response can still hide growing risk. Teams should review latency, retry count, challenge frequency, and target-level error patterns before a workflow becomes unstable.',
+        ],
+      },
+      {
+        heading: 'Compare by market and route',
+        paragraphs: [
+          'Segment metrics by country, endpoint, and workflow. This makes it easier to find whether a problem is target-specific, market-specific, or related to a route configuration.',
+        ],
+      },
+    ],
+  },
+  {
+    slug: 'proxy-pool-sizing-production',
+    category: 'Capacity Planning',
+    title: 'How to Size a Proxy Pool for Production Traffic',
+    excerpt:
+      'Estimate IP needs with concurrency, session length, market count, and validation overhead before moving from test traffic to production.',
+    publishedAt: 'May 1, 2026',
+    readTime: '6 min read',
+    tone: 'purple',
+    coverImage: '/blog-covers/proxy-pool-sizing-production.png',
+    featured: false,
+    sections: [
+      {
+        heading: 'Start with concurrency',
+        paragraphs: [
+          'Pool size should follow the number of identities a workflow needs at the same time. Add room for validation, failover, and market expansion instead of sizing only around average traffic.',
+        ],
+      },
+      {
+        heading: 'Review before the next jump',
+        paragraphs: [
+          'Before increasing traffic, review error rate, target feedback, and support needs. A measured expansion is easier to control than a sudden large rollout.',
+        ],
+      },
+    ],
+  },
+  {
+    slug: 'marketplace-data-quality-proxies',
+    category: 'Data Quality',
+    title: 'Improving Marketplace Data Quality with Stable Routes',
+    excerpt:
+      'Keep marketplace price, seller, and availability checks cleaner by aligning identity, region, and collection cadence.',
+    publishedAt: 'April 24, 2026',
+    readTime: '5 min read',
+    tone: 'green',
+    coverImage: '/blog-covers/marketplace-data-quality-proxies.png',
+    featured: false,
+    sections: [
+      {
+        heading: 'Route consistency reduces noise',
+        paragraphs: [
+          'Marketplace pages often vary by country, account state, delivery location, and session context. Stable routing helps teams separate real market changes from collection noise.',
+        ],
+      },
+      {
+        heading: 'Cadence matters',
+        paragraphs: [
+          'A predictable collection schedule makes it easier to compare price, stock, and seller changes over time without overloading the workflow.',
+        ],
+      },
+    ],
+  },
+  {
+    slug: 'proxy-onboarding-checklist',
+    category: 'Onboarding',
+    title: 'Proxy Onboarding Checklist for New Data Teams',
+    excerpt:
+      'A practical onboarding path for credentials, endpoints, route naming, test markets, and support expectations.',
+    publishedAt: 'April 17, 2026',
+    readTime: '4 min read',
+    tone: 'blue',
+    coverImage: '/blog-covers/proxy-onboarding-checklist.png',
+    featured: false,
+    sections: [
+      {
+        heading: 'Document the basics first',
+        paragraphs: [
+          'New teams should know which endpoints to use, how routes are named, who owns credentials, and which market to test first. Clear setup notes reduce repeated support questions.',
+        ],
+      },
+      {
+        heading: 'Run one workflow end to end',
+        paragraphs: [
+          'Before adding more targets, connect one workflow, review the output, and confirm the support path. This makes later expansion more predictable.',
+        ],
+      },
+    ],
+  },
+  {
+    slug: 'session-rotation-vs-sticky-routing',
+    category: 'Session Strategy',
+    title: 'Session Rotation vs. Sticky Routing: How to Choose',
+    excerpt:
+      'Compare rotating and sticky sessions by target risk, task depth, identity continuity, and cost control.',
+    publishedAt: 'April 10, 2026',
+    readTime: '7 min read',
+    tone: 'cyan',
+    coverImage: '/blog-covers/session-rotation-vs-sticky-routing.png',
+    featured: false,
+    sections: [
+      {
+        heading: 'Match sessions to task depth',
+        paragraphs: [
+          'Short, independent requests may benefit from rotation. Multi-step workflows, account checks, and continuity-sensitive targets usually need a route that stays stable longer.',
+        ],
+      },
+      {
+        heading: 'Use both when the workflow needs both',
+        paragraphs: [
+          'Some teams run rotation for discovery and sticky routing for follow-up checks. Separating those stages can improve quality without overusing stable identities.',
+        ],
+      },
+    ],
+  },
+  {
+    slug: 'global-coverage-rollout-plan',
+    category: 'Global Coverage',
+    title: 'Planning a Global Coverage Rollout Without Losing Control',
+    excerpt:
+      'Expand proxy coverage market by market with validation checkpoints, inventory notes, and route-level reporting.',
+    publishedAt: 'April 3, 2026',
+    readTime: '6 min read',
+    tone: 'purple',
+    coverImage: '/blog-covers/global-coverage-rollout-plan.png',
+    featured: false,
+    sections: [
+      {
+        heading: 'Prioritize markets by business value',
+        paragraphs: [
+          'A global rollout is easier to manage when markets are grouped by priority. Start with the countries that matter most to the workflow, then add coverage after each checkpoint is stable.',
+        ],
+      },
+      {
+        heading: 'Keep route reporting simple',
+        paragraphs: [
+          'Operators need to know which market, endpoint, and session pattern produced each result. Route-level reporting makes support and quality review much faster.',
+        ],
+      },
+    ],
+  },
+]
+
+const featuredBlogPost = computed(() => blogPosts.find((post) => post.featured) ?? blogPosts[0])
+const secondaryBlogPosts = computed(() => blogPosts.filter((post) => post.slug !== featuredBlogPost.value.slug))
+const blogPostsPerPage = 10
+const blogPageCount = computed(() => Math.max(1, Math.ceil(blogPosts.length / blogPostsPerPage)))
+const showFeaturedBlogPost = computed(() => blogPage.value === 1)
+const paginatedBlogPosts = computed(() => {
+  if (showFeaturedBlogPost.value) {
+    return secondaryBlogPosts.value.slice(0, blogPostsPerPage - 1)
   }
 
-  if (item.href.includes('#')) {
-    const [path, hash] = item.href.split('#')
-    return currentPath.value === path && currentHash.value === `#${hash}`
-  }
-
-  return currentPath.value === item.href
+  const start = (blogPage.value - 1) * blogPostsPerPage - 1
+  return secondaryBlogPosts.value.slice(start, start + blogPostsPerPage)
+})
+const blogPreviousLabel = computed(() => ({
+  en: 'Previous',
+  zh: '上一页',
+  ru: 'Назад',
+})[currentLocale.value])
+const blogNextLabel = computed(() => ({
+  en: 'Next',
+  zh: '下一页',
+  ru: 'Вперед',
+})[currentLocale.value])
+const blogPaginationLabel = computed(() => ({
+  en: `Page ${blogPage.value} of ${blogPageCount.value}`,
+  zh: `第 ${blogPage.value} / ${blogPageCount.value} 页`,
+  ru: `Страница ${blogPage.value} из ${blogPageCount.value}`,
+})[currentLocale.value])
+const setBlogPage = (page: number) => {
+  blogPage.value = Math.min(Math.max(page, 1), blogPageCount.value)
+  nextTick(translateDomCopy)
+  window.requestAnimationFrame(() => {
+    document.querySelector('.blog-index-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  })
 }
+const blogCoverGradients: Record<string, string> = {
+  green: 'linear-gradient(135deg, #0f766e, #14c878 56%, #4ade80)',
+  blue: 'linear-gradient(135deg, #1d4ed8, #22d3ee)',
+  cyan: 'linear-gradient(135deg, #0f766e, #38bdf8)',
+  purple: 'linear-gradient(135deg, #5b4ac7, #14c878)',
+}
+const blogCoverStyle = (post: { coverImage?: string; tone?: string }) => {
+  if (!post.coverImage) return undefined
+
+  const fallback = blogCoverGradients[post.tone ?? 'green'] ?? blogCoverGradients.green
+  return { backgroundImage: `url("${post.coverImage}"), ${fallback}` }
+}
+const activeBlogPost = computed(() => blogPosts.find((post) => `/blog/${post.slug}` === currentPath.value))
+const slugify = (value: string) =>
+  value
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '')
 
 const homeHeroSignals = [
   'Static ISP identity',
@@ -2050,40 +3014,40 @@ const homeCommandLinks = [
 
 const homeEntryCards = [
   {
-    kicker: 'Product Service',
+    kicker: 'Proxy Service',
     title: 'Static ISP Proxy Service',
     description:
-      'Open the current product page for sticky sessions, protocols, routing controls, proof points, and setup details.',
+      'Review sticky sessions, protocols, routing controls, proof points, and setup details.',
     cta: 'Open Service',
     href: '/service',
     icon: ServerCog,
     tone: 'service',
   },
   {
-    kicker: 'Use Cases',
-    title: 'Features for Real Workflows',
+    kicker: 'Workflows',
+    title: 'Use Cases for Data Teams',
     description:
-      'Send visitors to scraping, data collection, monitoring, account operation, and automation scenarios.',
+      'Explore scraping, monitoring, account operations, and automation workflows that need stable proxy identity.',
     cta: 'View Features',
     href: '/use-cases',
     icon: Route,
     tone: 'features',
   },
   {
-    kicker: 'Plans',
+    kicker: 'Pricing',
     title: 'Pricing and Packages',
     description:
-      'Help buyers compare 10 IP, 100 IP, 500 IP, and enterprise packages with predictable per-IP pricing.',
+      'Compare 10 IP, 100 IP, 500 IP, and enterprise packages with predictable per-IP pricing.',
     cta: 'Check Pricing',
     href: '/pricing',
     icon: DollarSign,
     tone: 'pricing',
   },
   {
-    kicker: 'Availability',
+    kicker: 'Coverage',
     title: 'Coverage Status',
     description:
-      'Route availability questions to the coverage page while the detailed country inventory content is being prepared.',
+      'Check current market coverage and availability signals before planning regional rollout.',
     cta: 'View Coverage',
     href: '/coverage',
     icon: Globe2,
@@ -2093,7 +3057,7 @@ const homeEntryCards = [
     kicker: 'Support',
     title: 'FAQ and Technical Help',
     description:
-      'Move setup, billing, compliance, and rollout questions into the FAQ page or support contact section.',
+      'Find answers for setup, billing, compliance, rollout planning, and support contact options.',
     cta: 'Read FAQ',
     href: '/faq',
     icon: Headphones,
@@ -2106,17 +3070,17 @@ const homeSolutionCards = [
     kicker: 'Service',
     title: 'Static ISP Proxy Infrastructure',
     description:
-      'Position the current product page as the primary service entry for sticky sessions, protocol setup, proof, and routing details.',
+      'Use static ISP routes for sticky sessions, protocol setup, proof points, and routing control.',
     cta: 'View Service',
     href: '/service',
     icon: Fingerprint,
-    meta: 'Product entry',
+    meta: 'Service details',
   },
   {
     kicker: 'Workflow',
     title: 'Data Collection and Automation Paths',
     description:
-      'Give scraping, monitoring, account operation, and research buyers a clear path into use-case specific content.',
+      'Match scraping, monitoring, account operation, and research workflows with the right proxy setup.',
     cta: 'View Features',
     href: '/use-cases',
     icon: Workflow,
@@ -2126,18 +3090,18 @@ const homeSolutionCards = [
     kicker: 'Rollout',
     title: 'Pricing, Coverage, and Support',
     description:
-      'Help procurement and technical teams find cost, availability, and support answers without searching the whole site.',
+      'Review pricing, availability, and support options before scaling a production workflow.',
     cta: 'Compare Plans',
     href: '/pricing',
     icon: BadgeDollarSign,
-    meta: 'Buying signals',
+    meta: 'Pricing signals',
   },
 ]
 
 const homeProofSignals = [
-  'Published metrics',
-  'Clear pricing model',
-  'Support-ready rollout',
+  '99.9% 成功率',
+  '透明定价',
+  '即时交付',
 ]
 
 const homeCountryPools = [
@@ -2219,7 +3183,7 @@ const homeResourceLinks = [
   },
   {
     title: 'Coverage planning',
-    description: 'Prepare for country and market availability content.',
+    description: 'Check priority markets and upcoming country availability.',
     href: '/coverage',
     icon: Globe2,
   },
@@ -2231,7 +3195,7 @@ const homeResourceLinks = [
   },
   {
     title: 'Technical support',
-    description: 'Send workflow details and get help mapping the right plan.',
+    description: 'Share workflow details and get help choosing the right plan.',
     href: '/faq#faq-contact',
     icon: Headphones,
   },
@@ -2250,7 +3214,7 @@ const heroCardFields = [
 ]
 
 const trustItems = [
-  { logo: g2Logo, alt: 'G2', source: 'Reviewed on G2', value: '4.7/5', label: 'High-Intent Buyer Rating' },
+  { logo: g2Logo, alt: 'G2', source: 'Reviewed on G2', value: '4.7/5', label: 'Independent Review Rating' },
   {
     logo: trustpilotLogo,
     alt: 'Trustpilot',
@@ -2307,7 +3271,7 @@ const features = [
     kicker: '03',
     category: 'Billing Clarity',
     icon: DollarSign,
-    title: 'Per-IP Packaging Buyers Can Understand Quickly',
+    title: 'Per-IP Packaging Teams Can Understand Quickly',
     description:
       'This is easier to compare than per-GB pricing when the real concern is continuity, not burst traffic.',
     metric: '$1.30',
@@ -2317,9 +3281,9 @@ const features = [
     kicker: '04',
     category: 'Proof Layer',
     icon: BadgeCheck,
-    title: 'Proof Points Buyers Can Verify Without Digging',
+    title: 'Proof Points Your Team Can Verify Quickly',
     description:
-      'Put the numbers that matter up front: pool size, countries, success rate, and routing controls before a buyer asks sales.',
+      'Compare the numbers that matter: pool size, countries, success rate, and routing controls before talking to sales.',
     metric: '99.9%',
     metricLabel: 'Published Success Rate',
   },
@@ -2402,6 +3366,8 @@ const pricingProductCategories = [
     href: '/pricing/static-isp-proxies',
     code: 'ISP',
     tone: 'isp',
+    group: 'static',
+    iconSvg: staticResidentialIcon,
     available: true,
     meta: ['From $1.30/IP', 'Sticky sessions', 'Country routing'],
   },
@@ -2411,9 +3377,11 @@ const pricingProductCategories = [
       'Rotating residential IPs for high-volume public data collection and broad market coverage.',
     status: 'Coming soon',
     cta: 'Coming soon',
-    href: '/faq#faq-contact',
+    href: '/pricing/residential-proxies',
     code: 'RP',
     tone: 'residential',
+    group: 'dynamic',
+    iconSvg: dynamicResidentialIcon,
     available: false,
     meta: ['Rotating pool', 'Global coverage', 'Public data'],
   },
@@ -2423,9 +3391,11 @@ const pricingProductCategories = [
       'Fast server-hosted IPs for speed-sensitive tasks where residential trust is not required.',
     status: 'Coming soon',
     cta: 'Coming soon',
-    href: '/faq#faq-contact',
+    href: '/pricing/datacenter-proxies',
     code: 'DC',
     tone: 'datacenter',
+    group: 'dynamic',
+    iconSvg: dynamicDatacenterIcon,
     available: false,
     meta: ['High throughput', 'Low latency', 'Bulk tasks'],
   },
@@ -2435,9 +3405,11 @@ const pricingProductCategories = [
       'Private datacenter routes for predictable performance, fixed allocation, and team-owned workflows.',
     status: 'Coming soon',
     cta: 'Coming soon',
-    href: '/faq#faq-contact',
+    href: '/pricing/dedicated-datacenter-proxies',
     code: 'DDC',
     tone: 'dedicated-dc',
+    group: 'static',
+    iconSvg: staticDatacenterIcon,
     available: false,
     meta: ['Private IPs', 'Fixed allocation', 'Predictable speed'],
   },
@@ -2447,9 +3419,11 @@ const pricingProductCategories = [
       'Dedicated ISP inventory for teams that need cleaner trust signals and exclusive route planning.',
     status: 'Coming soon',
     cta: 'Coming soon',
-    href: '/faq#faq-contact',
+    href: '/pricing/dedicated-isp-proxies',
     code: 'DIP',
     tone: 'dedicated-isp',
+    group: 'static',
+    iconSvg: staticResidentialIcon,
     available: false,
     meta: ['Exclusive routes', 'ISP identity', 'Workflow review'],
   },
@@ -2459,9 +3433,11 @@ const pricingProductCategories = [
       'Carrier-backed mobile IPs for app testing, ad verification, and mobile-first market checks.',
     status: 'Coming soon',
     cta: 'Coming soon',
-    href: '/faq#faq-contact',
+    href: '/pricing/mobile-proxies',
     code: 'MP',
     tone: 'mobile',
+    group: 'dynamic',
+    iconSvg: mobileIcon,
     available: false,
     meta: ['Carrier routes', 'Mobile contexts', 'App testing'],
   },
@@ -2476,7 +3452,7 @@ const pricingIndexFaqItems = [
   {
     question: 'Why is Static ISP pricing available first?',
     answer:
-      'Static ISP inventory is the current package with published per-IP plans, routing expectations, and support scope. The remaining proxy categories are listed now so the pricing page can grow into a complete product catalog.',
+      'Static ISP inventory is available now with published per-IP plans, routing expectations, and support scope. Additional proxy categories will receive public plan details as packages are finalized.',
   },
   {
     question: 'Are the coming-soon proxy types available through sales?',
@@ -2486,7 +3462,7 @@ const pricingIndexFaqItems = [
   {
     question: 'What is the difference between ISP and dedicated ISP proxies?',
     answer:
-      'Static ISP plans are packaged for standard stable-session workflows. Dedicated ISP packages will be positioned for teams that need exclusive allocation, route review, or more controlled sourcing.',
+      'Static ISP plans are packaged for standard stable-session workflows. Dedicated ISP packages are designed for teams that need exclusive allocation, route review, or more controlled sourcing.',
   },
   {
     question: 'Will every proxy type use per-IP pricing?',
@@ -2496,7 +3472,7 @@ const pricingIndexFaqItems = [
   {
     question: 'Can I compare all proxy types before buying?',
     answer:
-      'Yes. The pricing catalog is meant to make comparison easier. For now, use the Static ISP detail page for active plans and contact support for a recommendation if the workflow may need another proxy type.',
+      'Yes. Compare the active Static ISP plans now, then contact support for a recommendation if your workflow may need another proxy type.',
   },
 ]
 
@@ -2640,7 +3616,7 @@ const pricingSecurityItems = [
   {
     icon: BadgeCheck,
     title: 'Sourcing documentation',
-    description: 'Enterprise buyers can request sourcing, privacy, and security materials during review.',
+    description: 'Enterprise teams can request sourcing, privacy, and security materials during review.',
   },
   {
     icon: DollarSign,
@@ -3055,7 +4031,7 @@ const scrapingFaqItems = [
   {
     question: 'Do you provide a managed Web Scraping API?',
     answer:
-      'This page currently focuses on proxy-based scraping workflows. If a managed scraping or Web Data API is added, it should become a dedicated product path with rendering, retries, and structured output clearly defined.',
+      'ROLA-IP currently supports proxy-based scraping workflows. If you need managed rendering, retries, or structured output, contact support so we can review the requirement.',
   },
 ]
 
@@ -3433,9 +4409,9 @@ const faqPageItems: Array<{
   {
     id: 'security-review',
     category: 'compliance',
-    question: 'Can enterprise buyers request security or sourcing documents?',
+    question: 'Can enterprise teams request security or sourcing documents?',
     answer:
-      'Yes. Enterprise and procurement-led buyers can request security, sourcing, privacy, and commercial documentation during review.',
+      'Yes. Enterprise and procurement-led teams can request security, sourcing, privacy, and commercial documentation during review.',
   },
   {
     id: 'kyc-review',
