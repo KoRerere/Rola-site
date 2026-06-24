@@ -30,7 +30,6 @@
 
             <div v-if="item.dropdown === 'service'" class="service-menu" aria-label="Service proxy options">
               <div class="service-menu__panel service-menu__panel--products">
-                <p class="service-menu__eyebrow">Products</p>
                 <div class="service-menu__grid">
                   <a
                     v-for="option in serviceMenuItems"
@@ -59,13 +58,6 @@
 
             <div v-else-if="item.dropdown === 'pricing'" class="service-menu pricing-menu" aria-label="Proxy pricing options">
               <div class="service-menu__panel pricing-menu__panel">
-                <div class="pricing-menu__head">
-                  <p class="service-menu__eyebrow">Product pricing</p>
-                  <a class="pricing-menu__all" href="/pricing">
-                    View all pricing
-                    <ArrowRight aria-hidden="true" :size="15" :stroke-width="2.2" />
-                  </a>
-                </div>
                 <div class="pricing-menu__grid">
                   <a
                     v-for="option in pricingMenuItems"
@@ -82,12 +74,45 @@
                     >
                       <span class="service-menu__glyph" aria-hidden="true" v-html="option.iconSvg"></span>
                     </span>
-                    <span class="pricing-menu__copy">
+                    <span class="service-menu__copy pricing-menu__copy">
                       <strong>{{ option.title }}</strong>
-                      <small>{{ option.badge }}</small>
+                      <small>{{ option.description }}</small>
                     </span>
                     <b class="pricing-menu__price" data-no-translate>{{ option.price }}</b>
                   </a>
+                </div>
+              </div>
+            </div>
+
+            <div v-else-if="item.dropdown === 'purposes'" class="purpose-menu" aria-label="Platform purpose options">
+              <div class="purpose-menu__inner">
+                <div v-for="(column, columnIndex) in purposeMenuColumns" :key="columnIndex" class="purpose-menu__column">
+                  <section
+                    v-for="section in column"
+                    :key="section.title"
+                    class="purpose-menu__section"
+                    :class="{ 'purpose-menu__section--paired': section.paired }"
+                  >
+                    <a class="purpose-menu__heading" :href="section.href">
+                      <span class="purpose-menu__heading-icon">
+                        <component :is="section.icon" aria-hidden="true" :size="18" :stroke-width="2.25" />
+                      </span>
+                      <span>{{ section.title }}</span>
+                    </a>
+                    <div class="purpose-menu__links">
+                      <a
+                        v-for="platform in section.platforms"
+                        :key="`${section.title}-${platform.name}`"
+                      class="purpose-menu__platform"
+                      :href="platform.href"
+                    >
+                      <span class="purpose-menu__logo">
+                          <img :src="platform.icon" :alt="`${platform.name} logo`" loading="lazy" />
+                      </span>
+                      <span>{{ platform.name }}</span>
+                    </a>
+                    </div>
+                  </section>
                 </div>
               </div>
             </div>
@@ -131,7 +156,7 @@
               </button>
             </div>
           </div>
-          <a class="button button--primary" href="/pricing/static-isp-proxies#pricing-page-final">Start Free Trial</a>
+          <a class="button button--primary" href="https://console.rola-ip.co/login">Log in / Sign up</a>
         </div>
       </div>
     </header>
@@ -298,9 +323,10 @@
       <section class="section section--alt home-proof-section">
         <div class="container home-proof-panel">
           <div class="home-proof-panel__copy">
-            <h2>130万+ ISP IP，覆盖全球 200+ 国家地区</h2>
+            <h2>1.3M+ ISP IPs Across 200+ Countries and Regions.</h2>
             <p>
-              获取真实、稳定、高成功率的 ISP 代理资源，为广告验证、账号运营和全球业务提供可靠支持。
+              Access authentic, stable, high-success-rate ISP proxy resources built for ad verification,
+              account operations, and global business workflows.
             </p>
             <div class="home-proof-panel__signals" aria-label="Trust and rollout signals">
               <span v-for="signal in homeProofSignals" :key="signal">{{ signal }}</span>
@@ -464,7 +490,6 @@
       <section class="section section--alt home-resource-section">
         <div class="container home-resource-layout">
           <article class="home-coverage-card">
-            <span class="section-label section-label--coverage">Coverage</span>
             <h2>Explore Priority Markets and Coverage Signals.</h2>
             <p>
               Review popular markets now, with more country-level inventory details available as
@@ -500,7 +525,7 @@
             can help map the right service, pricing, and support path.
           </p>
           <div class="final-cta__actions">
-            <a class="button button--primary button--large" href="/pricing/static-isp-proxies#pricing-page-final">Start Free Trial</a>
+            <a class="button button--primary button--large" href="/pricing/static-isp-proxies#pricing-page-final">View Pricing</a>
             <a class="button button--dark-outline button--large" href="/faq#faq-contact">Talk to Sales</a>
           </div>
         </div>
@@ -519,7 +544,7 @@
               cleaner geo coverage, and crawler sessions that survive real production workflows.
             </p>
             <div class="use-cases-hero__actions">
-              <a class="button button--primary button--large" href="#scraping-code">Start Free Trial</a>
+              <a class="button button--primary button--large" href="/pricing/static-isp-proxies#pricing-page-final">View Pricing</a>
               <a class="button button--outline button--large" href="/pricing">View Pricing</a>
             </div>
             <div class="use-cases-hero__metrics" aria-label="Web scraping network highlights">
@@ -848,10 +873,10 @@ proxy.type = "ISP"</pre>
         <div class="container">
           <div class="section-heading">
             <span class="section-label section-label--use-cases">Use Cases</span>
-            <h2>High-Value Data Collection Scenarios Worth Designing Around.</h2>
+            <h2>Proxy Workflows That Deserve Dedicated Session Design.</h2>
             <p>
-              Browse common workflows and choose the proxy behavior that fits each target, market,
-              and session pattern.
+              Match proxy type, market routing, and session length to the operational risk behind
+              each collection job.
             </p>
           </div>
 
@@ -981,7 +1006,7 @@ proxy.type = "ISP"</pre>
             coverage and routing rules once your collection logic is validated.
           </p>
           <div class="final-cta__actions">
-            <a class="button button--primary button--large" href="/pricing/static-isp-proxies#pricing-page-final">Start Free Trial</a>
+            <a class="button button--primary button--large" href="/pricing/static-isp-proxies#pricing-page-final">View Pricing</a>
             <a class="button button--dark-outline button--large" href="/faq#faq-contact">Talk to Sales</a>
           </div>
         </div>
@@ -1286,7 +1311,7 @@ proxy.type = "ISP"</pre>
             markets, security review, and enterprise terms.
           </p>
           <div class="final-cta__actions">
-            <a class="button button--primary button--large" href="/service#quick-start">Start Free Trial</a>
+            <a class="button button--primary button--large" href="#pricing">Choose Plan</a>
             <a class="button button--dark-outline button--large" href="/faq#faq-contact">Talk to Sales</a>
           </div>
         </div>
@@ -1368,7 +1393,6 @@ proxy.type = "ISP"</pre>
             <span
               class="blog-card__cover blog-card__cover--featured"
               :class="`blog-card__cover--${featuredBlogPost.tone}`"
-              :style="blogCoverStyle(featuredBlogPost)"
             >
               <span>{{ featuredBlogPost.category }}</span>
             </span>
@@ -1376,7 +1400,7 @@ proxy.type = "ISP"</pre>
               <span class="blog-card__meta">
                 <span>
                   <CalendarDays aria-hidden="true" :size="15" :stroke-width="2.2" />
-                  {{ featuredBlogPost.publishedAt }}
+                  <span data-no-translate>{{ formatBlogDate(featuredBlogPost.publishedAt) }}</span>
                 </span>
                 <span>
                   <Clock3 aria-hidden="true" :size="15" :stroke-width="2.2" />
@@ -1397,7 +1421,6 @@ proxy.type = "ISP"</pre>
               <span
                 class="blog-card__cover"
                 :class="`blog-card__cover--${post.tone}`"
-                :style="blogCoverStyle(post)"
               >
                 <span>{{ post.category }}</span>
               </span>
@@ -1405,7 +1428,7 @@ proxy.type = "ISP"</pre>
                 <span class="blog-card__meta">
                   <span>
                     <CalendarDays aria-hidden="true" :size="15" :stroke-width="2.2" />
-                    {{ post.publishedAt }}
+                    <span data-no-translate>{{ formatBlogDate(post.publishedAt) }}</span>
                   </span>
                   <span>
                     <Clock3 aria-hidden="true" :size="15" :stroke-width="2.2" />
@@ -1452,7 +1475,7 @@ proxy.type = "ISP"</pre>
             <h1>{{ activeBlogPost.title }}</h1>
             <p>{{ activeBlogPost.excerpt }}</p>
             <div class="blog-detail__meta">
-              <span>{{ activeBlogPost.publishedAt }}</span>
+              <span data-no-translate>{{ formatBlogDate(activeBlogPost.publishedAt) }}</span>
               <span>{{ activeBlogPost.readTime }}</span>
             </div>
           </div>
@@ -1568,7 +1591,7 @@ proxy.type = "ISP"</pre>
             </p>
 
             <div class="hero__actions">
-              <a class="button button--primary button--large" href="#pricing">Start Free Trial</a>
+              <a class="button button--primary button--large" href="#pricing">Choose Plan</a>
               <a class="button button--outline button--large" href="#quick-start">See Quick Start</a>
             </div>
 
@@ -1629,7 +1652,6 @@ proxy.type = "ISP"</pre>
                 <span class="trust-item__value" :class="{ 'is-placeholder': isPlaceholder(item.value) }">
                   {{ item.value }}
                 </span>
-                <span class="trust-item__label">{{ item.label }}</span>
               </span>
             </div>
           </div>
@@ -1809,7 +1831,7 @@ proxy.type = "ISP"</pre>
             <h2>Built for Teams That Need Session Stability, Not Just Raw Request Volume.</h2>
           </div>
 
-          <div class="use-case-grid">
+          <div class="use-case-grid service-use-case-grid">
             <article v-for="useCase in useCases" :key="useCase.title" class="use-case-card">
               <div class="use-case-card__top">
                 <span class="use-case-card__icon" aria-hidden="true">
@@ -1902,11 +1924,11 @@ proxy.type = "ISP"</pre>
           </div>
 
           <aside class="explain-card">
-            <span class="section-label section-label--definition">Definition</span>
-            <h3>Static Residential Proxies Combine Residential Trust Signals with Datacenter-Grade Stability.</h3>
+            <span class="section-label section-label--definition">Best Fit</span>
+            <h3>Use Static ISP When the Same Workflow Needs the Same Trusted IP.</h3>
             <p>
-              That makes them especially useful for login-heavy, session-sensitive, or longer-lived
-              workflows where rotating identities can break continuity.
+              This card is the short answer to the table: choose Static ISP for tasks that break when
+              IP identity changes too often.
             </p>
             <ul class="explain-card__list">
               <li v-for="item in explainBullets" :key="item">
@@ -2015,7 +2037,7 @@ proxy.type = "ISP"</pre>
             coverage, routing rules, and support model as demand grows.
           </p>
           <div class="final-cta__actions">
-            <a class="button button--primary button--large" href="#pricing">Start Free Trial</a>
+            <a class="button button--primary button--large" href="#pricing">Choose Plan</a>
             <a class="button button--dark-outline button--large" href="/faq#faq-contact">Talk to Sales</a>
           </div>
         </div>
@@ -2080,11 +2102,14 @@ import {
   Database,
   DollarSign,
   Fingerprint,
+  Gamepad2,
   Globe2,
   Headphones,
   KeyRound,
   Megaphone,
+  MessageCircle,
   PlugZap,
+  Radio,
   Route,
   ScanSearch,
   Search,
@@ -2093,10 +2118,13 @@ import {
   Shield,
   ShieldCheck,
   ShoppingBag,
+  ShoppingCart,
   Smartphone,
   TerminalSquare,
   Workflow,
   Zap,
+  Share2,
+  BriefcaseBusiness,
 } from '@lucide/vue'
 import brandLogo from './assets-rola-logo.svg'
 import dynamicDatacenterIcon from './assets/service-icons/dynamic-datacenter.svg?raw'
@@ -2398,39 +2426,15 @@ onMounted(() => {
     const animatedElements = animatedSelectors.flatMap((selector) =>
       Array.from(document.querySelectorAll<HTMLElement>(selector)),
     )
+    const belowInitialViewport = (element: HTMLElement) => element.getBoundingClientRect().top > window.innerHeight
 
     gsap.set(animatedElements, { willChange: 'transform, opacity' })
-
-    if (document.querySelector('.hero') && document.querySelector('.hero-demo')) {
-      gsap.to('.hero-demo', {
-        yPercent: 7,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: '.hero',
-          start: 'top top',
-          end: 'bottom top',
-          scrub: 0.8,
-        },
-      })
-    }
-
-    if (document.querySelector('.hero') && document.querySelector('.hero__content')) {
-      gsap.to('.hero__content', {
-        yPercent: -3,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: '.hero',
-          start: 'top top',
-          end: 'bottom top',
-          scrub: 0.9,
-        },
-      })
-    }
 
     gsap.utils
       .toArray<HTMLElement>(
         '.home-route-card, .home-solution-card, .home-country-card, .home-resource-card, .stat-card, .performance-layout, .pricing-card, .coverage-card, .network-card, .quick-start-card, .feature-card, .testimonial-card, .compliance-panel, .scraping-challenge-card, .scraping-capability-card, .proxy-type-card, .use-cases-page-card, .scraping-compliance-panel, .blog-featured-card, .blog-card, .blog-detail__content section, .faq-item',
       )
+      .filter(belowInitialViewport)
       .forEach((element) => {
         gsap.from(element, {
           autoAlpha: 0,
@@ -2483,10 +2487,10 @@ watch(currentLocale, (locale) => {
 })
 
 const navItems = [
-  { label: 'Products', href: '/service', dropdown: 'service' },
+  { label: 'Proxies', href: '/service', dropdown: 'service' },
   { label: 'Features', href: '/use-cases' },
   { label: 'Pricing', href: '/pricing', dropdown: 'pricing' },
-  { label: 'Coverage', href: '/coverage' },
+  { label: 'Purposes', href: '/use-cases', dropdown: 'purposes' },
   { label: 'Blog', href: '/blog' },
   { label: 'FAQ', href: '/faq' },
 ]
@@ -2545,6 +2549,7 @@ const serviceMenuItems = [
 const pricingMenuItems = [
   {
     title: 'Dynamic Residential IP',
+    description: 'Rotating residential pools for broad public data collection.',
     badge: 'Most popular',
     price: '$1.08/GB',
     href: '/pricing/residential-proxies',
@@ -2555,6 +2560,7 @@ const pricingMenuItems = [
   },
   {
     title: 'Static Residential IP',
+    description: 'Sticky residential identity for stable account workflows.',
     badge: 'Dedicated ISP',
     price: '$1.30/IP',
     href: '/pricing/static-isp-proxies',
@@ -2565,6 +2571,7 @@ const pricingMenuItems = [
   },
   {
     title: 'Dynamic Datacenter IP',
+    description: 'Fast rotating proxy access for scale and monitoring.',
     badge: 'Cost efficient',
     price: '$0.40/GB',
     href: '/pricing/datacenter-proxies',
@@ -2575,6 +2582,7 @@ const pricingMenuItems = [
   },
   {
     title: 'Static Datacenter IP',
+    description: 'Dedicated static routes for predictable high-volume jobs.',
     badge: 'Dedicated datacenter',
     price: '$1.60/IP',
     href: '/pricing/dedicated-datacenter-proxies',
@@ -2585,6 +2593,7 @@ const pricingMenuItems = [
   },
   {
     title: 'Mobile IP',
+    description: 'Mobile network profiles for app and device simulation.',
     badge: 'Native carrier',
     price: '$3.20/GB',
     href: '/pricing/mobile-proxies',
@@ -2595,6 +2604,7 @@ const pricingMenuItems = [
   },
   {
     title: 'Static IPv6',
+    description: 'Long-lived IPv6 proxy access for stable collection flows.',
     badge: 'Dedicated IPv6',
     price: '$0.80/IP',
     href: '/pricing/static-ipv6-proxies',
@@ -2603,6 +2613,109 @@ const pricingMenuItems = [
     group: 'static',
     available: false,
   },
+]
+
+const purposeHref = '/use-cases'
+const platformIcon = (domain: string) => `https://www.google.com/s2/favicons?domain=${domain}&sz=64`
+
+const purposeMenuSections = [
+  {
+    title: 'E-commerce',
+    icon: ShoppingCart,
+    href: purposeHref,
+    platforms: [
+      { name: 'Amazon', icon: platformIcon('amazon.com'), href: purposeHref },
+      { name: 'BestBuy', icon: platformIcon('bestbuy.com'), href: purposeHref },
+      { name: 'Ebay', icon: platformIcon('ebay.com'), href: purposeHref },
+      { name: 'Etsy', icon: platformIcon('etsy.com'), href: purposeHref },
+      { name: 'Shopee', icon: platformIcon('shopee.com'), href: purposeHref },
+      { name: 'Vinted', icon: platformIcon('vinted.com'), href: purposeHref },
+    ],
+  },
+  {
+    title: 'Social Networks',
+    icon: Share2,
+    href: purposeHref,
+    platforms: [
+      { name: 'Dating', icon: platformIcon('tinder.com'), href: purposeHref },
+      { name: 'Facebook', icon: platformIcon('facebook.com'), href: purposeHref },
+      { name: 'Instagram', icon: platformIcon('instagram.com'), href: purposeHref },
+      { name: 'OnlyFans', icon: platformIcon('onlyfans.com'), href: purposeHref },
+      { name: 'Reddit', icon: platformIcon('reddit.com'), href: purposeHref },
+      { name: 'TikTok', icon: platformIcon('tiktok.com'), href: purposeHref },
+      { name: '(X) Twitter', icon: platformIcon('x.com'), href: purposeHref },
+    ],
+  },
+  {
+    title: 'Games',
+    icon: Gamepad2,
+    href: purposeHref,
+    platforms: [
+      { name: 'Aion', icon: platformIcon('aiononline.com'), href: purposeHref },
+      { name: 'Diablo 2', icon: platformIcon('diablo2.blizzard.com'), href: purposeHref },
+      { name: 'Growtopia', icon: platformIcon('growtopiagame.com'), href: purposeHref },
+      { name: 'Lords Mobile', icon: platformIcon('lordsmobile.igg.com'), href: purposeHref },
+      { name: 'Minecraft', icon: platformIcon('minecraft.net'), href: purposeHref },
+      { name: 'Path of Exile', icon: platformIcon('pathofexile.com'), href: purposeHref },
+      { name: 'RuneScape', icon: platformIcon('runescape.com'), href: purposeHref },
+      { name: 'SilkRoad', icon: platformIcon('silkroadonline.net'), href: purposeHref },
+      { name: 'World of Warcraft', icon: platformIcon('worldofwarcraft.blizzard.com'), href: purposeHref },
+    ],
+  },
+  {
+    title: 'Search Engines',
+    icon: Search,
+    href: purposeHref,
+    platforms: [
+      { name: 'Bing', icon: platformIcon('bing.com'), href: purposeHref },
+      { name: 'DuckDuckGo', icon: platformIcon('duckduckgo.com'), href: purposeHref },
+      { name: 'Google', icon: platformIcon('google.com'), href: purposeHref },
+    ],
+  },
+  {
+    title: 'Streaming',
+    icon: Radio,
+    href: purposeHref,
+    platforms: [
+      { name: 'Spotify', icon: platformIcon('spotify.com'), href: purposeHref },
+      { name: 'Twitch', icon: platformIcon('twitch.tv'), href: purposeHref },
+      { name: 'Youtube', icon: platformIcon('youtube.com'), href: purposeHref },
+    ],
+  },
+  {
+    title: 'AI & Chat',
+    icon: MessageCircle,
+    href: purposeHref,
+    paired: true,
+    platforms: [
+      { name: 'ChatGPT', icon: platformIcon('chatgpt.com'), href: purposeHref },
+      { name: 'Discord', icon: platformIcon('discord.com'), href: purposeHref },
+      { name: 'WhatsApp', icon: platformIcon('whatsapp.com'), href: purposeHref },
+      { name: 'Telegram', icon: platformIcon('telegram.org'), href: purposeHref },
+    ],
+  },
+  {
+    title: 'Marketplaces',
+    icon: BriefcaseBusiness,
+    href: purposeHref,
+    paired: true,
+    platforms: [
+      { name: 'Tickets', icon: platformIcon('stubhub.com'), href: purposeHref },
+      { name: 'Ticketmaster', icon: platformIcon('ticketmaster.com'), href: purposeHref },
+      { name: 'Upwork', icon: platformIcon('upwork.com'), href: purposeHref },
+      { name: 'Sneakers', icon: platformIcon('stockx.com'), href: purposeHref },
+      { name: 'Nike', icon: platformIcon('nike.com'), href: purposeHref },
+      { name: 'Wikipedia', icon: platformIcon('wikipedia.org'), href: purposeHref },
+      { name: 'Steam', icon: platformIcon('steampowered.com'), href: purposeHref },
+      { name: 'Apple', icon: platformIcon('apple.com'), href: purposeHref },
+    ],
+  },
+]
+
+const purposeMenuColumns = [
+  [purposeMenuSections[0], purposeMenuSections[3]],
+  [purposeMenuSections[1], purposeMenuSections[4]],
+  [purposeMenuSections[2], purposeMenuSections[5], purposeMenuSections[6]],
 ]
 
 const blogPosts = [
@@ -2944,6 +3057,18 @@ const paginatedBlogPosts = computed(() => {
   const start = (blogPage.value - 1) * blogPostsPerPage - 1
   return secondaryBlogPosts.value.slice(start, start + blogPostsPerPage)
 })
+const formatBlogDate = (publishedAt: string) => {
+  if (currentLocale.value === 'en') return publishedAt
+
+  const date = new Date(`${publishedAt} 00:00:00`)
+  if (Number.isNaN(date.getTime())) return publishedAt
+
+  const year = date.getFullYear()
+  const month = String(date.getMonth() + 1).padStart(2, '0')
+  const day = String(date.getDate()).padStart(2, '0')
+
+  return `${year}.${month}.${day}`
+}
 const blogPreviousLabel = computed(() => ({
   en: 'Previous',
   zh: '上一页',
@@ -2965,18 +3090,6 @@ const setBlogPage = (page: number) => {
   window.requestAnimationFrame(() => {
     document.querySelector('.blog-index-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
   })
-}
-const blogCoverGradients: Record<string, string> = {
-  green: 'linear-gradient(135deg, #0f766e, #14c878 56%, #4ade80)',
-  blue: 'linear-gradient(135deg, #1d4ed8, #22d3ee)',
-  cyan: 'linear-gradient(135deg, #0f766e, #38bdf8)',
-  purple: 'linear-gradient(135deg, #5b4ac7, #14c878)',
-}
-const blogCoverStyle = (post: { coverImage?: string; tone?: string }) => {
-  if (!post.coverImage) return undefined
-
-  const fallback = blogCoverGradients[post.tone ?? 'green'] ?? blogCoverGradients.green
-  return { backgroundImage: `url("${post.coverImage}"), ${fallback}` }
 }
 const activeBlogPost = computed(() => blogPosts.find((post) => `/blog/${post.slug}` === currentPath.value))
 const slugify = (value: string) =>
@@ -3099,9 +3212,9 @@ const homeSolutionCards = [
 ]
 
 const homeProofSignals = [
-  '99.9% 成功率',
-  '透明定价',
-  '即时交付',
+  '99.9% success rate',
+  'Transparent pricing',
+  'Instant delivery',
 ]
 
 const homeCountryPools = [
@@ -3317,7 +3430,7 @@ const pricingPlans = [
     ipCount: '10 IPs',
     price: '$1.80/IP',
     items: ['Location access', 'Dashboard access', 'Email support'],
-    cta: 'Start Trial',
+    cta: 'Choose Plan',
     featured: false,
   },
   {
@@ -3485,7 +3598,7 @@ const pricingPagePlans = [
     price: '$1.80/IP',
     monthly: '$18 monthly package',
     items: ['Country routing', 'Dashboard access', 'Email support'],
-    cta: 'Start Trial',
+    cta: 'Choose Plan',
     featured: false,
   },
   {
@@ -3667,9 +3780,9 @@ const pricingPageFaqItems = [
       'Yes. Fraud, spam, credential abuse, and high-risk account manipulation are not allowed. Teams should validate target policies before production rollout.',
   },
   {
-    question: 'Is there a free trial or money-back policy?',
+    question: 'Can teams validate before scaling?',
     answer:
-      'Teams can start with a small ISP proxy allocation to validate fit. Any trial scope or refund terms should be confirmed before checkout.',
+      'Teams can start with a small paid ISP proxy allocation to validate fit, while refund or procurement terms should be confirmed before checkout.',
   },
 ]
 
@@ -3885,36 +3998,36 @@ const scrapingUseCases = [
     icon: ShoppingBag,
     title: 'E-commerce Price Intelligence',
     description:
-      'Monitor products, seller changes, stock status, and regional prices with stable identities across repeated collection windows.',
-    signal: 'Price and catalog monitoring',
+      'Keep price, stock, seller, and buy-box checks tied to the same market context so repeated reads are comparable.',
+    signal: 'Price, stock, seller drift',
   },
   {
     icon: ScanSearch,
     title: 'SEO and SERP Tracking',
     description:
-      'Collect localized ranking snapshots without mixing market context across requests or losing continuity mid-check.',
-    signal: 'Localized search snapshots',
+      'Capture search results, ads, and rank positions from fixed countries without location drift between requests.',
+    signal: 'SERP snapshots by market',
   },
   {
     icon: Bot,
     title: 'AI and LLM Training Data',
     description:
-      'Support longer collection jobs for public web datasets where retry quality, regional diversity, and consistency matter.',
-    signal: 'Training data collection',
+      'Run long public-data collection jobs with controlled retries, region diversity, and cleaner source attribution.',
+    signal: 'Dataset quality control',
   },
   {
     icon: Megaphone,
     title: 'Ad Verification',
     description:
-      'Validate regional delivery, landing pages, and account-specific ad paths from trusted static residential identities.',
-    signal: 'Geo-accurate ad paths',
+      'Verify geo delivery, landing-page redirects, and account-specific funnels from trusted residential routes.',
+    signal: 'Geo delivery audit',
   },
   {
     icon: Search,
     title: 'Market Research',
     description:
-      'Collect competitive pricing, inventory, and marketplace signals while reducing noise from aggressive IP rotation.',
-    signal: 'Cleaner market snapshots',
+      'Compare competitor pricing, catalog depth, ratings, and availability with less noise from aggressive rotation.',
+    signal: 'Competitor signal tracking',
   },
   {
     icon: Shield,
@@ -4248,9 +4361,9 @@ const comparisonRows = [
 ]
 
 const explainBullets = [
-  'Residential-grade trust signals with static ISP ownership.',
-  'Predictable per-IP control for longer-running systems.',
-  'Best for logged-in, stateful, or verification-heavy flows.',
+  'Keep one IP for login, verification, and multi-step account flows.',
+  'Plan cost by IP count instead of guessing bandwidth usage.',
+  'Use it when rotating proxies cause re-login, captchas, or broken sessions.',
 ]
 
 const testimonials = [
@@ -4296,9 +4409,9 @@ const faqItems = [
       'Rotating residential proxies are useful when every request can use a different identity. ISP static proxies are better when login flows, carts, dashboards, or verification steps need the same IP for longer periods.',
   },
   {
-    question: 'Is There a Free Trial?',
+    question: 'Can Teams Validate Before Scaling?',
     answer:
-      'Yes. Teams can start with a small ISP proxy allocation to validate routing, session behavior, and target compatibility before moving into a larger plan.',
+      'Teams can choose a small paid ISP proxy allocation to validate routing, session behavior, and target compatibility before moving into a larger plan.',
   },
   {
     question: 'How Does Billing Work?',
