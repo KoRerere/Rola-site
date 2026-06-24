@@ -22,17 +22,17 @@
           </div>
         </section>
 
-        <address class="service-footer__contact" aria-label="ROLA-IP contact information">
-          <p class="service-footer__contact-kicker">Contact</p>
-          <a class="service-footer__phone" href="tel:+141353477">
+        <address class="service-footer__contact" aria-labelledby="service-footer-contact">
+          <h2 id="service-footer-contact" class="service-footer__title service-footer__contact-kicker">Contact</h2>
+          <a class="service-footer__contact-row service-footer__phone" href="tel:+141353477">
             <PhoneCall aria-hidden="true" :size="22" :stroke-width="1.9" />
             <span><span class="service-footer__phone-code">+1</span>&nbsp;413&nbsp;534&nbsp;77</span>
           </a>
-          <a class="service-footer__email" href="mailto:support@rola-ip.com">
+          <a class="service-footer__contact-row service-footer__email" href="mailto:support@rola-ip.com">
             <Mail aria-hidden="true" :size="17" :stroke-width="2.1" />
-            Email: support@rola-ip.com
+            <span>support@rola-ip.com</span>
           </a>
-          <p class="service-footer__address">
+          <p class="service-footer__contact-row service-footer__address">
             <MapPin aria-hidden="true" :size="18" :stroke-width="2.2" />
             <span>2307 Beverley Rd Brooklyn, New York 11226 United States.</span>
           </p>

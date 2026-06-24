@@ -538,14 +538,14 @@
         <div class="container use-cases-hero__inner">
           <div class="use-cases-hero__copy">
             <span class="section-label section-label--use-cases">Web Scraping</span>
-            <h1>Scale Web Scraping &amp; Data Collection Without Getting Blocked.</h1>
+            <h1>Scale Web Scraping &amp; Data Collection without Getting Blocked.</h1>
             <p>
               Residential and ISP proxies for public data collection teams that need fewer bans,
               cleaner geo coverage, and crawler sessions that survive real production workflows.
             </p>
             <div class="use-cases-hero__actions">
               <a class="button button--primary button--large" href="/pricing/static-isp-proxies#pricing-page-final">View Pricing</a>
-              <a class="button button--outline button--large" href="/pricing">View Pricing</a>
+              <a class="button button--outline button--large" href="/pricing">Compare Plans</a>
             </div>
             <div class="use-cases-hero__metrics" aria-label="Web scraping network highlights">
               <div v-for="metric in scrapingHeroStats" :key="metric.label" class="use-cases-hero__metric">
@@ -983,12 +983,12 @@ proxy.type = "ISP"</pre>
 
           <div class="faq-list">
             <details
-              v-for="(item, index) in scrapingFaqItems"
+              v-for="(item, index) in scrapingFAQItems"
               :key="item.question"
               class="faq-item"
-              :open="openUseCaseFaqIndex === index"
+              :open="openUseCaseFAQIndex === index"
             >
-              <summary @click.prevent="openUseCaseFaq(index)">
+              <summary @click.prevent="openUseCaseFAQ(index)">
                 <span>{{ item.question }}</span>
               </summary>
               <p>{{ item.answer }}</p>
@@ -1072,12 +1072,12 @@ proxy.type = "ISP"</pre>
 
           <div class="faq-list">
             <details
-              v-for="(item, index) in pricingIndexFaqItems"
+              v-for="(item, index) in pricingIndexFAQItems"
               :key="item.question"
               class="faq-item"
-              :open="openPricingIndexFaqIndex === index"
+              :open="openPricingIndexFAQIndex === index"
             >
-              <summary @click.prevent="openPricingIndexFaq(index)">
+              <summary @click.prevent="openPricingIndexFAQ(index)">
                 <span>{{ item.question }}</span>
               </summary>
               <p>{{ item.answer }}</p>
@@ -1102,7 +1102,7 @@ proxy.type = "ISP"</pre>
       </section>
     </main>
 
-    <main v-else-if="isStaticIspPricingPage" id="top" class="pricing-page">
+    <main v-else-if="isStaticISPPricingPage" id="top" class="pricing-page">
       <section class="pricing-page__intro">
         <div class="container pricing-page__intro-inner">
           <div class="pricing-page__heading">
@@ -1288,12 +1288,12 @@ proxy.type = "ISP"</pre>
 
           <div class="faq-list">
             <details
-              v-for="(item, index) in pricingPageFaqItems"
+              v-for="(item, index) in pricingPageFAQItems"
               :key="item.question"
               class="faq-item"
-              :open="openPricingPageFaqIndex === index"
+              :open="openPricingPageFAQIndex === index"
             >
-              <summary @click.prevent="openPricingPageFaq(index)">
+              <summary @click.prevent="openPricingPageFAQ(index)">
                 <span>{{ item.question }}</span>
               </summary>
               <p>{{ item.answer }}</p>
@@ -1355,7 +1355,7 @@ proxy.type = "ISP"</pre>
           <div class="coverage-coming-page__copy">
             <span class="section-label section-label--coverage">Coverage</span>
             <h1>
-              Coverage is
+              Coverage Is
               <span>Coming Soon.</span>
             </h1>
             <p>
@@ -1500,7 +1500,7 @@ proxy.type = "ISP"</pre>
       </article>
     </main>
 
-    <main v-else-if="isFaqPage" id="top" class="faq-page">
+    <main v-else-if="isFAQPage" id="top" class="faq-page">
       <section class="faq-page-hero">
         <div class="container faq-page-hero__inner">
           <div class="faq-page-hero__copy">
@@ -1519,7 +1519,7 @@ proxy.type = "ISP"</pre>
               aria-label="Search frequently asked questions"
               type="search"
               placeholder="Search frequently asked questions..."
-              @input="openFaqPageIndex = 0"
+              @input="openFAQPageIndex = 0"
             />
           </div>
         </div>
@@ -1528,14 +1528,14 @@ proxy.type = "ISP"</pre>
       <section class="section faq-page-body">
         <div class="container faq-page-layout">
           <div class="faq-page-results">
-            <div v-if="visibleFaqPageItems.length" class="faq-list faq-page-list">
+            <div v-if="visibleFAQPageItems.length" class="faq-list faq-page-list">
               <details
-                v-for="(item, index) in visibleFaqPageItems"
+                v-for="(item, index) in visibleFAQPageItems"
                 :key="item.id"
                 class="faq-item"
-                :open="openFaqPageIndex === index"
+                :open="openFAQPageIndex === index"
               >
-                <summary @click.prevent="openFaqPage(index)">
+                <summary @click.prevent="openFAQPage(index)">
                   <span>{{ item.question }}</span>
                 </summary>
                 <p>{{ item.answer }}</p>
@@ -1544,7 +1544,7 @@ proxy.type = "ISP"</pre>
 
             <div v-else class="faq-page-empty">
               <Search aria-hidden="true" :size="22" :stroke-width="2" />
-              <h3>No matching questions yet.</h3>
+              <h3>No Matching Questions Yet.</h3>
               <p>Try a broader keyword, or clear filters to see the full FAQ set.</p>
             </div>
           </div>
@@ -1711,7 +1711,7 @@ proxy.type = "ISP"</pre>
         <div class="container">
           <div class="section-heading section-heading--center">
             <span class="section-label section-label--pricing">Pricing</span>
-            <h2>Transparent per-IP Plans for Teams That Need Predictable Scaling.</h2>
+            <h2>Transparent Per-IP Plans for Teams That Need Predictable Scaling.</h2>
             <p>
               Start with 10 static ISP IPs, scale into 500+ IP packages, or request dedicated
               inventory with custom routing and procurement support.
@@ -2017,9 +2017,9 @@ proxy.type = "ISP"</pre>
               v-for="(item, index) in faqItems"
               :key="item.question"
               class="faq-item"
-              :open="openFaqIndex === index"
+              :open="openFAQIndex === index"
             >
-              <summary @click.prevent="openFaq(index)">
+              <summary @click.prevent="openFAQ(index)">
                 <span>{{ item.question }}</span>
               </summary>
               <p>{{ item.answer }}</p>
@@ -2181,15 +2181,15 @@ const isHomePage = computed(() => currentPath.value === '/' || (!knownPagePaths.
 const isServicePage = computed(() => currentPath.value === '/service')
 const isUseCasesPage = computed(() => currentPath.value === '/use-cases')
 const isPricingIndexPage = computed(() => currentPath.value === '/pricing')
-const isStaticIspPricingPage = computed(() => currentPath.value === '/pricing/static-isp-proxies')
+const isStaticISPPricingPage = computed(() => currentPath.value === '/pricing/static-isp-proxies')
 const activeUpcomingPricingProduct = computed(() => pricingMenuItems.find((item) => item.href === currentPath.value && !item.available))
 const isUpcomingPricingPage = computed(() => Boolean(activeUpcomingPricingProduct.value))
 const isCoveragePage = computed(() => currentPath.value === '/coverage')
-const isFaqPage = computed(() => currentPath.value === '/faq')
+const isFAQPage = computed(() => currentPath.value === '/faq')
 const isBlogIndexPage = computed(() => currentPath.value === '/blog')
 const isBlogDetailPath = computed(() => currentPath.value.startsWith('/blog/') && Boolean(currentPath.value.slice('/blog/'.length)))
 const isBlogDetailPage = computed(() => isBlogDetailPath.value && Boolean(activeBlogPost.value))
-const isLightHeaderPage = computed(() => isUseCasesPage.value || isPricingIndexPage.value || isStaticIspPricingPage.value || isUpcomingPricingPage.value || isCoveragePage.value || isFaqPage.value || isBlogIndexPage.value || isBlogDetailPage.value)
+const isLightHeaderPage = computed(() => isUseCasesPage.value || isPricingIndexPage.value || isStaticISPPricingPage.value || isUpcomingPricingPage.value || isCoveragePage.value || isFAQPage.value || isBlogIndexPage.value || isBlogDetailPage.value)
 let scrollAnimationContext: ReturnType<typeof gsap.context> | undefined
 let handleHeaderScroll: (() => void) | undefined
 let handleLocationChange: (() => void) | undefined
@@ -2550,7 +2550,7 @@ const pricingMenuItems = [
   {
     title: 'Dynamic Residential IP',
     description: 'Rotating residential pools for broad public data collection.',
-    badge: 'Most popular',
+    badge: 'Most Popular',
     price: '$1.08/GB',
     href: '/pricing/residential-proxies',
     iconSvg: dynamicResidentialIcon,
@@ -2572,7 +2572,7 @@ const pricingMenuItems = [
   {
     title: 'Dynamic Datacenter IP',
     description: 'Fast rotating proxy access for scale and monitoring.',
-    badge: 'Cost efficient',
+    badge: 'Cost Efficient',
     price: '$0.40/GB',
     href: '/pricing/datacenter-proxies',
     iconSvg: dynamicDatacenterIcon,
@@ -2583,7 +2583,7 @@ const pricingMenuItems = [
   {
     title: 'Static Datacenter IP',
     description: 'Dedicated static routes for predictable high-volume jobs.',
-    badge: 'Dedicated datacenter',
+    badge: 'Dedicated Datacenter',
     price: '$1.60/IP',
     href: '/pricing/dedicated-datacenter-proxies',
     iconSvg: staticDatacenterIcon,
@@ -2594,7 +2594,7 @@ const pricingMenuItems = [
   {
     title: 'Mobile IP',
     description: 'Mobile network profiles for app and device simulation.',
-    badge: 'Native carrier',
+    badge: 'Native Carrier',
     price: '$3.20/GB',
     href: '/pricing/mobile-proxies',
     iconSvg: mobileIcon,
@@ -2620,15 +2620,15 @@ const platformIcon = (domain: string) => `https://www.google.com/s2/favicons?dom
 
 const purposeMenuSections = [
   {
-    title: 'E-commerce',
+    title: 'E-Commerce',
     icon: ShoppingCart,
     href: purposeHref,
     platforms: [
       { name: 'Amazon', icon: platformIcon('amazon.com'), href: purposeHref },
       { name: 'BestBuy', icon: platformIcon('bestbuy.com'), href: purposeHref },
-      { name: 'Ebay', icon: platformIcon('ebay.com'), href: purposeHref },
+      { name: 'Ebay', icon: 'https://cdn.simpleicons.org/ebay', href: purposeHref },
       { name: 'Etsy', icon: platformIcon('etsy.com'), href: purposeHref },
-      { name: 'Shopee', icon: platformIcon('shopee.com'), href: purposeHref },
+      { name: 'Shopee', icon: platformIcon('shopee.sg'), href: purposeHref },
       { name: 'Vinted', icon: platformIcon('vinted.com'), href: purposeHref },
     ],
   },
@@ -2732,21 +2732,21 @@ const blogPosts = [
     featured: true,
     sections: [
       {
-        heading: 'Start with the workflow, not the proxy type',
+        heading: 'Start with the Workflow, Not the Proxy Type',
         paragraphs: [
           'A static ISP rollout works best when the team starts from the job it needs to protect: account operations, price monitoring, ad verification, research, or another workflow where identity continuity matters.',
           'Map the target markets, session length, expected request volume, and acceptable retry budget before choosing allocation size. This keeps the proxy plan tied to operational risk instead of a generic inventory number.',
         ],
       },
       {
-        heading: 'Define routing and session rules early',
+        heading: 'Define Routing and Session Rules Early',
         paragraphs: [
           'Country routing, sticky-session keys, endpoint naming, and fallback behavior should be documented before the first production run. The clearer these rules are, the easier it becomes to debug data quality later.',
           'Teams usually benefit from starting with one market and one session pattern, then expanding once the first route is stable.',
         ],
       },
       {
-        heading: 'Measure quality before scaling',
+        heading: 'Measure Quality Before Scaling',
         paragraphs: [
           'Track clean reads, challenge rate, latency, session drift, and target-level errors. These signals show whether the workflow is ready for more IPs, more markets, or a different routing strategy.',
           'A small validation window is cheaper than scaling a noisy setup. Treat the first run as an operational review, not only a technical connection test.',
@@ -2767,14 +2767,14 @@ const blogPosts = [
     featured: false,
     sections: [
       {
-        heading: 'Continuity protects context',
+        heading: 'Continuity Protects Context',
         paragraphs: [
           'Some workflows fail when identity rotates too soon. Logged-in checks, carts, regional account states, and multi-step verification paths often need the same route long enough to complete the job.',
-          'Sticky sessions help the target see a consistent context, which can reduce false changes and noisy comparisons.',
+          'Sticky Sessions help the target see a consistent context, which can reduce false changes and noisy comparisons.',
         ],
       },
       {
-        heading: 'Rotation still has a place',
+        heading: 'Rotation Still Has a Place',
         paragraphs: [
           'Broad public collection may work better with rotation when each request can safely stand alone. The right choice depends on target risk, session depth, and whether downstream data depends on continuity.',
         ],
@@ -2794,13 +2794,13 @@ const blogPosts = [
     featured: false,
     sections: [
       {
-        heading: 'Inventory size is the baseline',
+        heading: 'Inventory Size Is the Baseline',
         paragraphs: [
           'Per-IP pricing is easier to forecast when the main requirement is stable capacity. Start with the number of concurrent identities a workflow needs, then add room for market expansion and validation runs.',
         ],
       },
       {
-        heading: 'Support depth changes the plan',
+        heading: 'Support Depth Changes the Plan',
         paragraphs: [
           'Teams moving into production often need more than raw IPs. Onboarding, routing review, procurement documents, and support expectations can change which package is the better fit.',
         ],
@@ -2820,13 +2820,13 @@ const blogPosts = [
     featured: false,
     sections: [
       {
-        heading: 'Keep market context consistent',
+        heading: 'Keep Market Context Consistent',
         paragraphs: [
           'Regional monitoring becomes noisy when location context changes between requests. Country routing and stable sessions help keep price, catalog, search, and availability checks aligned to the same market.',
         ],
       },
       {
-        heading: 'Review markets before expanding',
+        heading: 'Review Markets Before Expanding',
         paragraphs: [
           'Start with priority countries, review success and latency, then expand coverage. This makes the rollout easier to explain to stakeholders and easier to debug for operators.',
         ],
@@ -2846,14 +2846,14 @@ const blogPosts = [
     featured: false,
     sections: [
       {
-        heading: 'Keep identity predictable',
+        heading: 'Keep Identity Predictable',
         paragraphs: [
           'Account workflows often depend on repeatable context. When the route changes too often, teams can see unnecessary verification prompts, location drift, or inconsistent account state.',
           'Stable proxy identity gives operators a clearer baseline for repeated checks, especially when the same accounts need to access the same markets over time.',
         ],
       },
       {
-        heading: 'Separate markets and workflows',
+        heading: 'Separate Markets and Workflows',
         paragraphs: [
           'Use clear route labels for each market and workflow so support, engineering, and operations teams can debug problems without guessing which proxy pool was involved.',
         ],
@@ -2873,13 +2873,13 @@ const blogPosts = [
     featured: false,
     sections: [
       {
-        heading: 'Geo drift creates false signals',
+        heading: 'Geo Drift Creates False Signals',
         paragraphs: [
           'Ad verification results are easiest to trust when market context stays stable. If a request drifts between regions, placement, language, and price signals can look wrong even when the campaign is healthy.',
         ],
       },
       {
-        heading: 'Validate before expanding',
+        heading: 'Validate Before Expanding',
         paragraphs: [
           'Start with a small set of priority countries, confirm that the target sees the intended location, then scale the check across more inventory.',
         ],
@@ -2899,13 +2899,13 @@ const blogPosts = [
     featured: false,
     sections: [
       {
-        heading: 'Track the path, not only the result',
+        heading: 'Track the Path, Not Only the Result',
         paragraphs: [
           'A successful response can still hide growing risk. Teams should review latency, retry count, challenge frequency, and target-level error patterns before a workflow becomes unstable.',
         ],
       },
       {
-        heading: 'Compare by market and route',
+        heading: 'Compare by Market and Route',
         paragraphs: [
           'Segment metrics by country, endpoint, and workflow. This makes it easier to find whether a problem is target-specific, market-specific, or related to a route configuration.',
         ],
@@ -2925,13 +2925,13 @@ const blogPosts = [
     featured: false,
     sections: [
       {
-        heading: 'Start with concurrency',
+        heading: 'Start with Concurrency',
         paragraphs: [
           'Pool size should follow the number of identities a workflow needs at the same time. Add room for validation, failover, and market expansion instead of sizing only around average traffic.',
         ],
       },
       {
-        heading: 'Review before the next jump',
+        heading: 'Review Before the Next Jump',
         paragraphs: [
           'Before increasing traffic, review error rate, target feedback, and support needs. A measured expansion is easier to control than a sudden large rollout.',
         ],
@@ -2951,13 +2951,13 @@ const blogPosts = [
     featured: false,
     sections: [
       {
-        heading: 'Route consistency reduces noise',
+        heading: 'Route Consistency Reduces Noise',
         paragraphs: [
           'Marketplace pages often vary by country, account state, delivery location, and session context. Stable routing helps teams separate real market changes from collection noise.',
         ],
       },
       {
-        heading: 'Cadence matters',
+        heading: 'Cadence Matters',
         paragraphs: [
           'A predictable collection schedule makes it easier to compare price, stock, and seller changes over time without overloading the workflow.',
         ],
@@ -2977,13 +2977,13 @@ const blogPosts = [
     featured: false,
     sections: [
       {
-        heading: 'Document the basics first',
+        heading: 'Document the Basics First',
         paragraphs: [
           'New teams should know which endpoints to use, how routes are named, who owns credentials, and which market to test first. Clear setup notes reduce repeated support questions.',
         ],
       },
       {
-        heading: 'Run one workflow end to end',
+        heading: 'Run One Workflow End to End',
         paragraphs: [
           'Before adding more targets, connect one workflow, review the output, and confirm the support path. This makes later expansion more predictable.',
         ],
@@ -3003,13 +3003,13 @@ const blogPosts = [
     featured: false,
     sections: [
       {
-        heading: 'Match sessions to task depth',
+        heading: 'Match Sessions to Task Depth',
         paragraphs: [
           'Short, independent requests may benefit from rotation. Multi-step workflows, account checks, and continuity-sensitive targets usually need a route that stays stable longer.',
         ],
       },
       {
-        heading: 'Use both when the workflow needs both',
+        heading: 'Use Both When the Workflow Needs Both',
         paragraphs: [
           'Some teams run rotation for discovery and sticky routing for follow-up checks. Separating those stages can improve quality without overusing stable identities.',
         ],
@@ -3019,7 +3019,7 @@ const blogPosts = [
   {
     slug: 'global-coverage-rollout-plan',
     category: 'Global Coverage',
-    title: 'Planning a Global Coverage Rollout Without Losing Control',
+    title: 'Planning a Global Coverage Rollout without Losing Control',
     excerpt:
       'Expand proxy coverage market by market with validation checkpoints, inventory notes, and route-level reporting.',
     publishedAt: 'April 3, 2026',
@@ -3029,13 +3029,13 @@ const blogPosts = [
     featured: false,
     sections: [
       {
-        heading: 'Prioritize markets by business value',
+        heading: 'Prioritize Markets by Business Value',
         paragraphs: [
           'A global rollout is easier to manage when markets are grouped by priority. Start with the countries that matter most to the workflow, then add coverage after each checkpoint is stable.',
         ],
       },
       {
-        heading: 'Keep route reporting simple',
+        heading: 'Keep Route Reporting Simple',
         paragraphs: [
           'Operators need to know which market, endpoint, and session pattern produced each result. Route-level reporting makes support and quality review much faster.',
         ],
@@ -3099,8 +3099,8 @@ const slugify = (value: string) =>
     .replace(/(^-|-$)/g, '')
 
 const homeHeroSignals = [
-  'Static ISP identity',
-  'Sticky session control',
+  'Static ISP Identity',
+  'Sticky Session Control',
   'Per-IP pricing',
 ]
 
@@ -3187,7 +3187,7 @@ const homeSolutionCards = [
     cta: 'View Service',
     href: '/service',
     icon: Fingerprint,
-    meta: 'Service details',
+    meta: 'Service Details',
   },
   {
     kicker: 'Workflow',
@@ -3197,7 +3197,7 @@ const homeSolutionCards = [
     cta: 'View Features',
     href: '/use-cases',
     icon: Workflow,
-    meta: 'Workflow paths',
+    meta: 'Workflow Paths',
   },
   {
     kicker: 'Rollout',
@@ -3207,12 +3207,12 @@ const homeSolutionCards = [
     cta: 'Compare Plans',
     href: '/pricing',
     icon: BadgeDollarSign,
-    meta: 'Pricing signals',
+    meta: 'Pricing Signals',
   },
 ]
 
 const homeProofSignals = [
-  '99.9% success rate',
+  '99.9% Success Rate',
   'Transparent pricing',
   'Instant delivery',
 ]
@@ -3242,37 +3242,37 @@ const homeUseCaseCards = [
     icon: Bot,
     title: 'Web Scraping',
     description: 'Collect public web data with cleaner sessions and fewer avoidable retries.',
-    signal: 'Data collection',
+    signal: 'Data Collection',
   },
   {
     icon: ShoppingBag,
-    title: 'Ecommerce Monitoring',
+    title: 'E-Commerce Monitoring',
     description: 'Track pricing, catalogs, storefront changes, and regional inventory signals.',
-    signal: 'Market intelligence',
+    signal: 'Market Intelligence',
   },
   {
     icon: SearchCheck,
     title: 'SEO and SERP Checks',
     description: 'Review rankings, ads, and search results from consistent market locations.',
-    signal: 'Localized visibility',
+    signal: 'Localized Visibility',
   },
   {
     icon: ShieldCheck,
     title: 'Account Operations',
     description: 'Support workflows that need identity continuity across longer session paths.',
-    signal: 'Sticky identity',
+    signal: 'Sticky Identity',
   },
   {
     icon: Megaphone,
     title: 'Ad Verification',
     description: 'Check campaign delivery, landing pages, and creative behavior by geography.',
-    signal: 'Geo validation',
+    signal: 'Geo Validation',
   },
   {
     icon: Database,
     title: 'AI Data Pipelines',
     description: 'Feed collection jobs that need predictable routing and production visibility.',
-    signal: 'Reliable inputs',
+    signal: 'Reliable Inputs',
   },
 ]
 
@@ -3289,25 +3289,25 @@ const homeMarketPills = [
 
 const homeResourceLinks = [
   {
-    title: 'Service quick start',
+    title: 'Service Quick Start',
     description: 'Jump into proxy setup, routing, and request examples.',
     href: '/service#quick-start',
     icon: Code2,
   },
   {
-    title: 'Coverage planning',
+    title: 'Coverage Planning',
     description: 'Check priority markets and upcoming country availability.',
     href: '/coverage',
     icon: Globe2,
   },
   {
-    title: 'Frequently asked questions',
+    title: 'Frequently Asked Questions',
     description: 'Answer pricing, routing, session, and support questions.',
     href: '/faq',
     icon: Search,
   },
   {
-    title: 'Technical support',
+    title: 'Technical Support',
     description: 'Share workflow details and get help choosing the right plan.',
     href: '/faq#faq-contact',
     icon: Headphones,
@@ -3315,7 +3315,7 @@ const homeResourceLinks = [
 ]
 
 const heroMeta = [
-  'Sticky sessions for longer workflows',
+  'Sticky Sessions for longer workflows',
   'Per-IP pricing with no surprise bandwidth math',
 ]
 
@@ -3407,13 +3407,13 @@ const performanceCards = [
     label: 'Higher Session ROI',
     icon: BadgeCheck,
     value: '99.9%',
-    description: 'Published success rate across fragile, stateful workflows.',
+    description: 'Published Success Rate across fragile, stateful workflows.',
   },
   {
     label: 'Longer Continuity',
     icon: Clock3,
     value: '24h',
-    description: 'Sticky session windows for account-sensitive operations.',
+    description: 'Sticky Session Windows for account-sensitive operations.',
   },
   {
     label: 'Cleaner Pricing',
@@ -3456,17 +3456,17 @@ const pricingPlans = [
     icon: ServerCog,
     ipCount: '2,000+ IPs',
     price: 'Custom Pricing',
-    items: ['Custom sourcing strategy', 'Security review support', 'Commercial terms'],
+    items: ['Custom sourcing strategy', 'Security Review support', 'Commercial terms'],
     cta: 'Talk to Sales',
     featured: false,
   },
 ]
 
 const pricingPageMetrics = [
-  { icon: Database, value: '1.3M+', label: 'ISP and residential IPs' },
-  { icon: BadgeCheck, value: '99.9%', label: 'Published success rate' },
-  { icon: Globe2, value: '200+', label: 'Countries and regions' },
-  { icon: Clock3, value: '24h', label: 'Sticky session window' },
+  { icon: Database, value: '1.3M+', label: 'ISP and Residential IPs' },
+  { icon: BadgeCheck, value: '99.9%', label: 'Published Success Rate' },
+  { icon: Globe2, value: '200+', label: 'Countries and Regions' },
+  { icon: Clock3, value: '24h', label: 'Sticky Session Window' },
 ]
 
 const pricingProductCategories = [
@@ -3475,21 +3475,21 @@ const pricingProductCategories = [
     description:
       'Stable ISP-assigned identities for account workflows, price monitoring, scraping, and longer sessions.',
     status: 'Available now',
-    cta: 'View pricing',
+    cta: 'View Pricing',
     href: '/pricing/static-isp-proxies',
     code: 'ISP',
     tone: 'isp',
     group: 'static',
     iconSvg: staticResidentialIcon,
     available: true,
-    meta: ['From $1.30/IP', 'Sticky sessions', 'Country routing'],
+    meta: ['From $1.30/IP', 'Sticky Sessions', 'Country routing'],
   },
   {
     title: 'Residential Proxies',
     description:
       'Rotating residential IPs for high-volume public data collection and broad market coverage.',
-    status: 'Coming soon',
-    cta: 'Coming soon',
+    status: 'Coming Soon',
+    cta: 'Coming Soon',
     href: '/pricing/residential-proxies',
     code: 'RP',
     tone: 'residential',
@@ -3502,8 +3502,8 @@ const pricingProductCategories = [
     title: 'Datacenter Proxies',
     description:
       'Fast server-hosted IPs for speed-sensitive tasks where residential trust is not required.',
-    status: 'Coming soon',
-    cta: 'Coming soon',
+    status: 'Coming Soon',
+    cta: 'Coming Soon',
     href: '/pricing/datacenter-proxies',
     code: 'DC',
     tone: 'datacenter',
@@ -3516,8 +3516,8 @@ const pricingProductCategories = [
     title: 'Dedicated Datacenter Proxies',
     description:
       'Private datacenter routes for predictable performance, fixed allocation, and team-owned workflows.',
-    status: 'Coming soon',
-    cta: 'Coming soon',
+    status: 'Coming Soon',
+    cta: 'Coming Soon',
     href: '/pricing/dedicated-datacenter-proxies',
     code: 'DDC',
     tone: 'dedicated-dc',
@@ -3530,8 +3530,8 @@ const pricingProductCategories = [
     title: 'Dedicated ISP Proxies',
     description:
       'Dedicated ISP inventory for teams that need cleaner trust signals and exclusive route planning.',
-    status: 'Coming soon',
-    cta: 'Coming soon',
+    status: 'Coming Soon',
+    cta: 'Coming Soon',
     href: '/pricing/dedicated-isp-proxies',
     code: 'DIP',
     tone: 'dedicated-isp',
@@ -3544,8 +3544,8 @@ const pricingProductCategories = [
     title: 'Mobile Proxies',
     description:
       'Carrier-backed mobile IPs for app testing, ad verification, and mobile-first market checks.',
-    status: 'Coming soon',
-    cta: 'Coming soon',
+    status: 'Coming Soon',
+    cta: 'Coming Soon',
     href: '/pricing/mobile-proxies',
     code: 'MP',
     tone: 'mobile',
@@ -3556,34 +3556,34 @@ const pricingProductCategories = [
   },
 ]
 
-const pricingIndexFaqItems = [
+const pricingIndexFAQItems = [
   {
-    question: 'Which proxy type should I start with?',
+    question: 'Which Proxy Type Should I Start with?',
     answer:
       'Start with Static ISP Proxies when the workflow needs stable identity, sticky sessions, account continuity, or repeated checks from the same market. Use rotating residential or mobile routes when each request can safely use a different identity.',
   },
   {
-    question: 'Why is Static ISP pricing available first?',
+    question: 'Why Is Static ISP Pricing Available First?',
     answer:
       'Static ISP inventory is available now with published per-IP plans, routing expectations, and support scope. Additional proxy categories will receive public plan details as packages are finalized.',
   },
   {
-    question: 'Are the coming-soon proxy types available through sales?',
+    question: 'Are the Coming-Soon Proxy Types Available through Sales?',
     answer:
       'Some residential, datacenter, dedicated, and mobile requirements can be reviewed with sales before public pricing is published. Share the target countries, volume, session needs, and use case so the team can confirm fit.',
   },
   {
-    question: 'What is the difference between ISP and dedicated ISP proxies?',
+    question: 'What Is the Difference between ISP and Dedicated ISP Proxies?',
     answer:
       'Static ISP plans are packaged for standard stable-session workflows. Dedicated ISP packages are designed for teams that need exclusive allocation, route review, or more controlled sourcing.',
   },
   {
-    question: 'Will every proxy type use per-IP pricing?',
+    question: 'Will Every Proxy Type Use per-IP Pricing?',
     answer:
       'Not necessarily. Static ISP packages are priced per IP. Other categories may use different units, such as bandwidth, private allocation size, carrier route, or custom enterprise terms.',
   },
   {
-    question: 'Can I compare all proxy types before buying?',
+    question: 'Can I Compare All Proxy Types before Buying?',
     answer:
       'Yes. Compare the active Static ISP plans now, then contact support for a recommendation if your workflow may need another proxy type.',
   },
@@ -3593,7 +3593,7 @@ const pricingPagePlans = [
   {
     name: 'Starter',
     icon: KeyRound,
-    fit: 'Validate one workflow',
+    fit: 'Validate One Workflow',
     ipCount: '10 IPs',
     price: '$1.80/IP',
     monthly: '$18 monthly package',
@@ -3604,7 +3604,7 @@ const pricingPagePlans = [
   {
     name: 'Advanced',
     icon: Route,
-    fit: 'Scale a repeatable run',
+    fit: 'Scale a Repeatable Run',
     ipCount: '100 IPs',
     price: '$1.50/IP',
     monthly: '$150 monthly package',
@@ -3615,7 +3615,7 @@ const pricingPagePlans = [
   {
     name: 'Premium',
     icon: Headphones,
-    fit: 'Production rollout',
+    fit: 'Production Rollout',
     ipCount: '500 IPs',
     price: '$1.30/IP',
     monthly: '$650 monthly package',
@@ -3626,11 +3626,11 @@ const pricingPagePlans = [
   {
     name: 'Enterprise',
     icon: ServerCog,
-    fit: 'Custom procurement',
+    fit: 'Custom Procurement',
     ipCount: '2,000+ IPs',
     price: 'Custom Pricing',
     monthly: 'Routing and sourcing review',
-    items: ['Custom sourcing strategy', 'Security review support', 'Commercial terms'],
+    items: ['Custom sourcing strategy', 'Security Review support', 'Commercial terms'],
     cta: 'Talk to Sales',
     featured: false,
   },
@@ -3648,23 +3648,23 @@ const pricingPlanIncludes = [
     description: 'Use standard proxy protocols across browsers, scrapers, and internal tools.',
   },
   {
-    title: 'Country-level routing',
+    title: 'Country-Level Routing',
     description: 'Route by priority market, with deeper availability review for larger allocations.',
   },
   {
-    title: 'Sticky sessions',
+    title: 'Sticky Sessions',
     description: 'Keep the same identity active for workflows that need continuity across steps.',
   },
   {
-    title: 'Dashboard visibility',
+    title: 'Dashboard Visibility',
     description: 'Monitor allocation, routing choices, and usage context before scaling.',
   },
   {
-    title: 'Usage boundaries',
+    title: 'Usage Boundaries',
     description: 'Acceptable-use review helps keep sensitive workflows inside clear rules.',
   },
   {
-    title: 'Support path',
+    title: 'Support Path',
     description: 'Get setup help, routing review, and procurement support as plans grow.',
   },
 ]
@@ -3672,17 +3672,17 @@ const pricingPlanIncludes = [
 const pricingBillingCards = [
   {
     icon: DollarSign,
-    title: 'Predictable per-IP math',
+    title: 'Predictable Per-IP Math',
     description: 'Forecast cost from inventory size instead of translating every workflow into bandwidth estimates.',
   },
   {
     icon: Clock3,
-    title: 'Start small, then scale',
+    title: 'Start Small, Then Scale',
     description: 'Validate one route and session pattern before moving into larger regional allocations.',
   },
   {
     icon: ShieldCheck,
-    title: 'Review before commitment',
+    title: 'Review Before Commitment',
     description: 'Custom and sensitive workflows can go through sourcing, compliance, and traffic review first.',
   },
 ]
@@ -3723,64 +3723,64 @@ const pricingCapabilities = [
 const pricingSecurityItems = [
   {
     icon: ShieldCheck,
-    title: 'Secure checkout review',
+    title: 'Secure Checkout Review',
     description: 'Confirm plan, billing location, and usage expectations before payment or procurement.',
   },
   {
     icon: BadgeCheck,
-    title: 'Sourcing documentation',
+    title: 'Sourcing Documentation',
     description: 'Enterprise teams can request sourcing, privacy, and security materials during review.',
   },
   {
     icon: DollarSign,
-    title: 'Invoice support',
+    title: 'Invoice Support',
     description: 'Larger deployments can discuss commercial terms, invoices, and custom procurement needs.',
   },
   {
     icon: Headphones,
-    title: 'Onboarding support',
+    title: 'Onboarding Support',
     description: 'Premium and enterprise teams get setup review for sensitive or high-value workflows.',
   },
 ]
 
-const pricingPageFaqItems = [
+const pricingPageFAQItems = [
   {
-    question: 'Is this pricing per IP or per GB?',
+    question: 'Is This Pricing per IP or per GB?',
     answer:
       'This page prices static ISP proxy packages per IP. That fits workflows where stable identities and session continuity matter more than raw bandwidth volume.',
   },
   {
-    question: 'Can I start without a large monthly commitment?',
+    question: 'Can I Start without a Large Monthly Commitment?',
     answer:
       'Yes. Starter is designed for validation before a team moves into Advanced, Premium, or custom enterprise inventory.',
   },
   {
-    question: 'Does bandwidth change the listed package price?',
+    question: 'Does Bandwidth Change the Listed Package Price?',
     answer:
       'The visible package price is based on IP inventory. Bandwidth policy and unusually high-volume workflows should be confirmed before checkout or procurement approval.',
   },
   {
-    question: 'Can I upgrade in the middle of a rollout?',
+    question: 'Can I Upgrade in the Middle of a Rollout?',
     answer:
       'Teams can expand from a smaller package to a larger allocation after routing, session behavior, and target compatibility are validated.',
   },
   {
-    question: 'What payment or procurement options are available?',
+    question: 'What Payment or Procurement Options Are Available?',
     answer:
       'Self-serve and enterprise procurement needs are handled by plan. Larger deployments can request invoice, sourcing, security, and commercial documentation.',
   },
   {
-    question: 'Do you require compliance review or KYC?',
+    question: 'Do You Require Compliance Review or KYC?',
     answer:
       'Enterprise and sensitive workflows may require additional review. ROLA-IP is intended for legitimate research, monitoring, verification, and automation use cases.',
   },
   {
-    question: 'Are there restricted targets or use cases?',
+    question: 'Are There Restricted Targets or Use Cases?',
     answer:
       'Yes. Fraud, spam, credential abuse, and high-risk account manipulation are not allowed. Teams should validate target policies before production rollout.',
   },
   {
-    question: 'Can teams validate before scaling?',
+    question: 'Can Teams Validate before Scaling?',
     answer:
       'Teams can start with a small paid ISP proxy allocation to validate fit, while refund or procurement terms should be confirmed before checkout.',
   },
@@ -3800,58 +3800,58 @@ const coverage = [
 const useCases = [
   {
     icon: ShoppingBag,
-    title: 'E-commerce Intelligence',
+    title: 'E-Commerce Intelligence',
     description:
       'Track listings, pricing, seller behavior, and storefront changes with more continuity across repeated collection sessions.',
-    signal: 'Stable storefront reads',
+    signal: 'Stable Storefront Reads',
   },
   {
     icon: Megaphone,
     title: 'Ad Verification',
     description:
       'Validate regional delivery, landing page behavior, and account-specific ad flows from trusted static identities.',
-    signal: 'Geo-accurate ad paths',
+    signal: 'Geo-Accurate Ad Paths',
   },
   {
     icon: SearchCheck,
     title: 'Market Research',
     description:
       'Collect location-sensitive pricing and catalog signals without the churn that often comes with aggressive rotation.',
-    signal: 'Cleaner market snapshots',
+    signal: 'Cleaner Market Snapshots',
   },
   {
     icon: ShieldCheck,
     title: 'Cybersecurity Operations',
     description:
       'Audit abuse surfaces, monitor impersonation, and test sensitive account flows with believable, persistent sessions.',
-    signal: 'Persistent audit identity',
+    signal: 'Persistent Audit Identity',
   },
   {
     icon: ScanSearch,
     title: 'SEO and SERP Monitoring',
     description:
       'Check rankings and localized results more consistently when your workflow relies on stable market identity.',
-    signal: 'Localized SERP checks',
+    signal: 'Localized SERP Checks',
   },
   {
     icon: Bot,
     title: 'AI Data Collection',
     description:
       'Support longer authenticated collection jobs that need trust, continuity, and fewer avoidable interruptions.',
-    signal: 'Long-running data jobs',
+    signal: 'Long-Running Data Jobs',
   },
 ]
 
 const scrapingHeroStats = [
-  { value: '1.3M+', label: 'ISP and residential IPs' },
-  { value: '99.9%', label: 'target success benchmark' },
-  { value: '200+', label: 'countries and regions' },
+  { value: '1.3M+', label: 'ISP and Residential IPs' },
+  { value: '99.9%', label: 'Target Success Benchmark' },
+  { value: '200+', label: 'Countries and Regions' },
 ]
 
 const scrapingHeroJobs = [
   { label: 'Requests', value: '42.8K' },
-  { label: 'Clean reads', value: '99.1%' },
-  { label: 'Avg latency', value: '0.62s' },
+  { label: 'Clean Reads', value: '99.1%' },
+  { label: 'Avg Latency', value: '0.62s' },
 ]
 
 const scrapingHeroTimeline = [
@@ -3866,15 +3866,15 @@ const scrapingHeroTimeline = [
 const scrapingChallengeSignals = [
   { label: 'Blocks', height: '64%' },
   { label: 'CAPTCHA', height: '42%' },
-  { label: 'Geo drift', height: '72%' },
+  { label: 'Geo Drift', height: '72%' },
   { label: 'Retries', height: '51%' },
   { label: 'Cost', height: '58%' },
 ]
 
 const scrapingChallengeMeta = [
-  { value: '2.8x', label: 'retry cost spike' },
-  { value: '37%', label: 'noisy market reads' },
-  { value: '24h', label: 'sticky session need' },
+  { value: '2.8x', label: 'Retry Cost Spike' },
+  { value: '37%', label: 'Noisy Market Reads' },
+  { value: '24h', label: 'Sticky Session Need' },
 ]
 
 const scrapingChallenges = [
@@ -3957,98 +3957,98 @@ const scrapingIntegrationCards = [
 ]
 
 const routingDiagnostics = [
-  { label: 'US ISP static', value: 'Healthy', fill: '96%' },
-  { label: 'CAPTCHA retry', value: 'Low', fill: '18%' },
-  { label: 'Session drift', value: 'Stable', fill: '88%' },
+  { label: 'US ISP Static', value: 'Healthy', fill: '96%' },
+  { label: 'CAPTCHA Retry', value: 'Low', fill: '18%' },
+  { label: 'Session Drift', value: 'Stable', fill: '88%' },
 ]
 
 const scrapingProxyFit = [
   {
     icon: ShieldCheck,
     type: 'Residential',
-    fit: 'Anti-blocking and broad public web collection',
+    fit: 'Anti-Blocking and Broad Public Web Collection',
     note: 'Best when target trust matters more than raw speed.',
-    price: 'See residential plans',
+    price: 'See Residential Plans',
   },
   {
     icon: KeyRound,
     type: 'ISP / Static Residential',
-    fit: 'Longer scraping sessions with stable identity',
+    fit: 'Longer Scraping Sessions with Stable Identity',
     note: 'Best for logged-in, stateful, or repeated regional checks.',
-    price: 'See ISP plans',
+    price: 'See ISP Plans',
   },
   {
     icon: Zap,
     type: 'Datacenter',
-    fit: 'Speed and cost-sensitive scraping',
+    fit: 'Speed and Cost-Sensitive Scraping',
     note: 'Best for lower-risk targets where trust signals matter less.',
-    price: 'Speed-first option',
+    price: 'Speed-First Option',
   },
   {
     icon: Smartphone,
     type: 'Mobile',
-    fit: 'Mobile content, app views, and hyper-local checks',
+    fit: 'Mobile Content, App Views, and Hyper-Local Checks',
     note: 'Best when the target behaves differently on mobile networks.',
-    price: 'Mobile fit check',
+    price: 'Mobile Fit Check',
   },
 ]
 
 const scrapingUseCases = [
   {
     icon: ShoppingBag,
-    title: 'E-commerce Price Intelligence',
+    title: 'E-Commerce Price Intelligence',
     description:
       'Keep price, stock, seller, and buy-box checks tied to the same market context so repeated reads are comparable.',
-    signal: 'Price, stock, seller drift',
+    signal: 'Price, Stock, Seller Drift',
   },
   {
     icon: ScanSearch,
     title: 'SEO and SERP Tracking',
     description:
       'Capture search results, ads, and rank positions from fixed countries without location drift between requests.',
-    signal: 'SERP snapshots by market',
+    signal: 'SERP Snapshots by Market',
   },
   {
     icon: Bot,
     title: 'AI and LLM Training Data',
     description:
       'Run long public-data collection jobs with controlled retries, region diversity, and cleaner source attribution.',
-    signal: 'Dataset quality control',
+    signal: 'Dataset Quality Control',
   },
   {
     icon: Megaphone,
     title: 'Ad Verification',
     description:
       'Verify geo delivery, landing-page redirects, and account-specific funnels from trusted residential routes.',
-    signal: 'Geo delivery audit',
+    signal: 'Geo Delivery Audit',
   },
   {
     icon: Search,
     title: 'Market Research',
     description:
       'Compare competitor pricing, catalog depth, ratings, and availability with less noise from aggressive rotation.',
-    signal: 'Competitor signal tracking',
+    signal: 'Competitor Signal Tracking',
   },
   {
     icon: Shield,
     title: 'Cybersecurity Research',
     description:
       'Audit impersonation, abuse surfaces, and sensitive account flows with persistent identities that fit review workflows.',
-    signal: 'Persistent audit identity',
+    signal: 'Persistent Audit Identity',
   },
   {
     icon: Globe2,
     title: 'Travel Data Collection',
     description:
       'Track fares, hotel availability, regional offers, and booking flows from the markets your customers actually search from.',
-    signal: 'Localized travel checks',
+    signal: 'Localized Travel Checks',
   },
   {
     icon: Clock3,
     title: 'Website Change Monitoring',
     description:
       'Detect page, price, policy, and availability changes with repeatable snapshots instead of one-off crawler successes.',
-    signal: 'Repeatable change tracking',
+    signal: 'Repeatable Change Tracking',
   },
 ]
 
@@ -4104,45 +4104,45 @@ const scrapingTestimonials = [
 ]
 
 const scrapingAwards = [
-  { label: 'G2 review signals', href: 'https://www.g2.com/products/rola-ip/reviews', external: true },
-  { label: 'Trustpilot rating', href: 'https://www.trustpilot.com/search?query=rola-ip', external: true },
-  { label: 'Enterprise onboarding', href: '/faq#faq-contact', external: false },
-  { label: 'Security documentation', href: '/service#compliance', external: false },
+  { label: 'G2 Review Signals', href: 'https://www.g2.com/products/rola-ip/reviews', external: true },
+  { label: 'Trustpilot Rating', href: 'https://www.trustpilot.com/search?query=rola-ip', external: true },
+  { label: 'Enterprise Onboarding', href: '/faq#faq-contact', external: false },
+  { label: 'Security Documentation', href: '/service#compliance', external: false },
 ]
 
-const scrapingFaqItems = [
+const scrapingFAQItems = [
   {
-    question: 'Should a web scraping workflow use ISP proxies or rotating residential proxies?',
+    question: 'Should a Web Scraping Workflow Use ISP Proxies or Rotating Residential Proxies?',
     answer:
       'Use ISP proxies when the workflow depends on stable sessions, repeated regional checks, account state, or cleaner before-and-after comparisons. Use rotating residential proxies when each request can safely use a different identity.',
   },
   {
-    question: 'Can I target a specific country or city?',
+    question: 'Can I Target a Specific Country or City?',
     answer:
-      'Country-level routing is supported for broad market checks. City-level or ASN-level availability depends on inventory and should be validated before production rollout.',
+      'Country-Level Routing is supported for broad market checks. City-level or ASN-level availability depends on inventory and should be validated before production rollout.',
   },
   {
-    question: 'Can I use this with my existing scraper or browser automation stack?',
+    question: 'Can I Use This with My Existing Scraper or Browser Automation Stack?',
     answer:
       'Yes. The integration works through standard proxy authentication and session headers, so teams can connect curl, Python, Node, Playwright, Puppeteer, Scrapy, or internal collectors without rebuilding the whole pipeline.',
   },
   {
-    question: 'My scraper got blocked. What should I change first?',
+    question: 'My Scraper Got Blocked. What Should I Change First?',
     answer:
       'Start by reducing request bursts, checking headers and browser behavior, switching proxy type, and deciding whether the target needs rotation or a longer sticky session.',
   },
   {
-    question: 'Is web scraping legal?',
+    question: 'Is Web Scraping Legal?',
     answer:
       'Web scraping rules depend on the target, data type, jurisdiction, and collection method. ROLA-IP is intended for legitimate public data research, monitoring, and verification, and teams should review policies before rollout.',
   },
   {
-    question: 'Which scraping scenarios benefit most from sticky ISP sessions?',
+    question: 'Which Scraping Scenarios Benefit Most from Sticky ISP Sessions?',
     answer:
-      'E-commerce price intelligence, SEO and SERP tracking, ad verification, AI dataset collection, brand monitoring, and account-sensitive research often benefit from stable identity and predictable routing.',
+      'E-Commerce price intelligence, SEO and SERP tracking, ad verification, AI dataset collection, brand monitoring, and account-sensitive research often benefit from stable identity and predictable routing.',
   },
   {
-    question: 'Do you provide a managed Web Scraping API?',
+    question: 'Do You Provide a Managed Web Scraping API?',
     answer:
       'ROLA-IP currently supports proxy-based scraping workflows. If you need managed rendering, retries, or structured output, contact support so we can review the requirement.',
   },
@@ -4150,21 +4150,21 @@ const scrapingFaqItems = [
 
 const networkSignals = [
   {
-    kicker: 'Session policy',
+    kicker: 'Session Policy',
     icon: KeyRound,
     title: 'Pin Identity for the Workflows That Cannot Afford Churn.',
     description:
       'Keep a single ISP identity active for up to 24 hours across account state, verification paths, and long-running research jobs.',
   },
   {
-    kicker: 'Routing control',
+    kicker: 'Routing Control',
     icon: Route,
     title: 'Map Country, Session, and Plan Rules Before Requests Leave Your Stack.',
     description:
       'Route by country, plan tier, and sticky-session key across 200+ markets without rebuilding endpoint logic.',
   },
   {
-    kicker: 'Support layer',
+    kicker: 'Support Layer',
     icon: Headphones,
     title: 'Make Escalation Paths Clear for Enterprise Teams.',
     description:
@@ -4177,7 +4177,7 @@ const codeSamples = {
   -H "X-Session-ID: sticky-session-01" \\
   "https://target.example.com"
 
-# Country: US | Session TTL: 24h | Avg latency: 0.58s
+# Country: US | Session TTL: 24h | Avg Latency: 0.58s
 # Pool: ISP Static | Auth: username/password`,
   node: `import { request } from "undici"
 
@@ -4206,11 +4206,11 @@ const codeTabs: Array<{ key: CodeTabKey; label: string; logo: string }> = [
 ]
 
 const hasCopiedCode = ref(false)
-const openFaqIndex = ref(0)
-const openUseCaseFaqIndex = ref(0)
-const openPricingIndexFaqIndex = ref(0)
-const openPricingPageFaqIndex = ref(0)
-const openFaqPageIndex = ref(0)
+const openFAQIndex = ref(0)
+const openUseCaseFAQIndex = ref(0)
+const openPricingIndexFAQIndex = ref(0)
+const openPricingPageFAQIndex = ref(0)
+const openFAQPageIndex = ref(0)
 const faqPageSearch = ref('')
 const activeCodeTab = ref<CodeTabKey>('curl')
 
@@ -4298,24 +4298,24 @@ const copyCodeSample = async () => {
   }
 }
 
-const openFaq = (index: number) => {
-  openFaqIndex.value = index
+const openFAQ = (index: number) => {
+  openFAQIndex.value = index
 }
 
-const openUseCaseFaq = (index: number) => {
-  openUseCaseFaqIndex.value = index
+const openUseCaseFAQ = (index: number) => {
+  openUseCaseFAQIndex.value = index
 }
 
-const openPricingIndexFaq = (index: number) => {
-  openPricingIndexFaqIndex.value = index
+const openPricingIndexFAQ = (index: number) => {
+  openPricingIndexFAQIndex.value = index
 }
 
-const openPricingPageFaq = (index: number) => {
-  openPricingPageFaqIndex.value = index
+const openPricingPageFAQ = (index: number) => {
+  openPricingPageFAQIndex.value = index
 }
 
-const openFaqPage = (index: number) => {
-  openFaqPageIndex.value = index
+const openFAQPage = (index: number) => {
+  openFAQPageIndex.value = index
 }
 
 const quickStartItems = [
@@ -4386,15 +4386,15 @@ const testimonials = [
       'Onboarding felt practical: clear endpoints, stable sessions, and support that understood why continuity mattered.',
     avatar: 'https://api.dicebear.com/10.x/notionists/svg?seed=Priya%20Nair&backgroundColor=ffdfbf',
     author: 'Priya Nair, Automation Architect',
-    company: 'E-commerce Research Team',
+    company: 'E-Commerce Research Team',
   },
 ]
 
 const complianceCertifications = [
-  { label: 'ISO 27001', image: iso27001Badge, alt: 'ISO 27001 information security visual', meta: 'Security review', tone: 'iso' },
-  { label: 'SOC 2', image: soc2Badge, alt: 'SOC 2 audit visual', meta: 'Audit material', tone: 'soc' },
-  { label: 'GDPR', image: gdprBadge, alt: 'GDPR privacy visual', meta: 'EU privacy', tone: 'gdpr' },
-  { label: 'CCPA', image: ccpaBadge, alt: 'CCPA privacy notice visual', meta: 'CA privacy', tone: 'ccpa' },
+  { label: 'ISO 27001', image: iso27001Badge, alt: 'ISO 27001 information security visual', meta: 'Security Review', tone: 'iso' },
+  { label: 'SOC 2', image: soc2Badge, alt: 'SOC 2 audit visual', meta: 'Audit Material', tone: 'soc' },
+  { label: 'GDPR', image: gdprBadge, alt: 'GDPR privacy visual', meta: 'EU Privacy', tone: 'gdpr' },
+  { label: 'CCPA', image: ccpaBadge, alt: 'CCPA privacy notice visual', meta: 'CA Privacy', tone: 'ccpa' },
 ]
 
 const faqItems = [
@@ -4431,7 +4431,7 @@ const faqItems = [
   {
     question: 'How Long Can a Session Stay on One IP?',
     answer:
-      'Sticky sessions can be configured for up to 24 hours, making them suitable for long-running research, verification, monitoring, and account-sensitive automation workflows.',
+      'Sticky Sessions can be configured for up to 24 hours, making them suitable for long-running research, verification, monitoring, and account-sensitive automation workflows.',
   },
   {
     question: 'What Compliance Standards Do You Support?',
@@ -4440,9 +4440,9 @@ const faqItems = [
   },
 ]
 
-type FaqQuestionCategoryKey = 'basics' | 'pricing' | 'routing' | 'compliance' | 'support'
+type FAQQuestionCategoryKey = 'basics' | 'pricing' | 'routing' | 'compliance' | 'support'
 
-const faqPageCategoryLabels: Record<FaqQuestionCategoryKey, string> = {
+const faqPageCategoryLabels: Record<FAQQuestionCategoryKey, string> = {
   basics: 'Basics',
   pricing: 'Pricing',
   routing: 'Routing',
@@ -4452,125 +4452,125 @@ const faqPageCategoryLabels: Record<FaqQuestionCategoryKey, string> = {
 
 const faqPageItems: Array<{
   id: string
-  category: FaqQuestionCategoryKey
+  category: FAQQuestionCategoryKey
   question: string
   answer: string
 }> = [
   {
     id: 'static-isp-proxy',
     category: 'basics',
-    question: 'What is a static ISP proxy?',
+    question: 'What Is a Static ISP Proxy?',
     answer:
       'A static ISP proxy is an ISP-assigned IP that keeps the same online identity for longer sessions while carrying residential-style trust signals. It is useful when a workflow needs continuity across login, review, checkout, monitoring, or account-sensitive steps.',
   },
   {
     id: 'isp-vs-rotating',
     category: 'basics',
-    question: 'What is the difference between static ISP and rotating residential proxies?',
+    question: 'What Is the Difference between Static ISP and Rotating Residential Proxies?',
     answer:
       'Static ISP proxies keep one consistent IP for session-sensitive work. Rotating residential proxies switch IPs on a schedule or per request, which is better for broad public collection where continuity is less important.',
   },
   {
     id: 'static-isp-use-cases',
     category: 'basics',
-    question: 'What can I use static ISP proxies for?',
+    question: 'What Can I Use Static ISP Proxies for?',
     answer:
       'Static ISP proxies are best for workflows that need a stable residential identity, such as account operations, ad verification, localized testing, market monitoring, and longer-running research tasks.',
   },
   {
     id: 'sticky-sessions',
     category: 'routing',
-    question: 'Can I maintain long sessions with the same IP?',
+    question: 'Can I Maintain Long Sessions with the Same IP?',
     answer:
       'Yes. Static ISP proxies are designed for session continuity, so the same IP can stay attached to a workflow for longer interactions. ROLA-IP positions sticky sessions around up to 24-hour continuity, depending on routing and target behavior.',
   },
   {
     id: 'country-routing',
     category: 'routing',
-    question: 'Can I choose country or market-level targeting?',
+    question: 'Can I Choose Country or Market-Level Targeting?',
     answer:
-      'Yes. Country-level routing is part of the core workflow. If you need specific markets, inventory availability, or a sensitive rollout plan, contact support so we can confirm the best route before production.',
+      'Yes. Country-Level Routing is part of the core workflow. If you need specific markets, inventory availability, or a sensitive rollout plan, contact support so we can confirm the best route before production.',
   },
   {
     id: 'per-ip-pricing',
     category: 'pricing',
-    question: 'How is pricing calculated for static ISP proxies?',
+    question: 'How Is Pricing Calculated for Static ISP Proxies?',
     answer:
       'ROLA-IP pricing is framed around static ISP packages per IP, not unpredictable per-GB usage. That makes planning easier when your main requirement is a stable inventory size and predictable monthly capacity.',
   },
   {
     id: 'start-small',
     category: 'pricing',
-    question: 'Can I test the proxies before committing to a larger plan?',
+    question: 'Can I Test the Proxies before Committing to a Larger Plan?',
     answer:
       'Yes. Start with a smaller allocation to validate routing, session stability, target compatibility, and support needs. Once the workflow is proven, you can expand inventory or move into a custom procurement path.',
   },
   {
     id: 'blocked-targets',
     category: 'routing',
-    question: 'What happens if a target blocks or challenges traffic?',
+    question: 'What Happens if a Target Blocks or Challenges Traffic?',
     answer:
       'Start by checking route, session behavior, request pacing, and browser signals. Support can help review the workflow, but customers should also respect target policies and acceptable-use boundaries.',
   },
   {
     id: 'allowed-use',
     category: 'compliance',
-    question: 'What use cases are allowed?',
+    question: 'What Use Cases Are Allowed?',
     answer:
       'ROLA-IP is intended for legitimate research, monitoring, verification, automation, and market intelligence workflows. Fraud, spam, credential abuse, and high-risk account manipulation are not allowed.',
   },
   {
     id: 'security-review',
     category: 'compliance',
-    question: 'Can enterprise teams request security or sourcing documents?',
+    question: 'Can Enterprise Teams Request Security or Sourcing Documents?',
     answer:
       'Yes. Enterprise and procurement-led teams can request security, sourcing, privacy, and commercial documentation during review.',
   },
   {
     id: 'kyc-review',
     category: 'compliance',
-    question: 'Do some workflows require additional review?',
+    question: 'Do Some Workflows Require Additional Review?',
     answer:
       'Sensitive or enterprise workflows may require additional review before approval. That review helps align routing, acceptable-use expectations, and commercial terms before launch.',
   },
   {
     id: 'onboarding-help',
     category: 'support',
-    question: 'What onboarding help is available?',
+    question: 'What Onboarding Help Is Available?',
     answer:
       'Teams can get help with endpoint setup, country routing, sticky-session patterns, and validation steps. Premium and enterprise packages include a clearer support path for larger deployments.',
   },
   {
     id: 'upgrade-plan',
     category: 'support',
-    question: 'Can we upgrade after validating a workflow?',
+    question: 'Can We Upgrade after Validating a Workflow?',
     answer:
       'Yes. The recommended path is to validate one serious workflow first, then expand inventory, support level, and procurement terms once the route and session pattern are proven.',
   },
   {
     id: 'sales-info',
     category: 'support',
-    question: 'What details should we bring when talking to sales?',
+    question: 'What Details Should We Bring when Talking to Sales?',
     answer:
       'Bring target countries, expected session length, traffic volume, target workflow, compliance requirements, and whether you need invoice, sourcing, or security review support.',
   },
 ]
 
-const getFaqPageCategoryLabel = (key: FaqQuestionCategoryKey) => faqPageCategoryLabels[key]
+const getFAQPageCategoryLabel = (key: FAQQuestionCategoryKey) => faqPageCategoryLabels[key]
 
-const normalizedFaqPageSearch = computed(() => faqPageSearch.value.trim().toLowerCase())
+const normalizedFAQPageSearch = computed(() => faqPageSearch.value.trim().toLowerCase())
 
-const filteredFaqPageItems = computed(() =>
+const filteredFAQPageItems = computed(() =>
   faqPageItems.filter((item) => {
-    const searchableText = `${item.question} ${item.answer} ${getFaqPageCategoryLabel(item.category)}`.toLowerCase()
-    const matchesSearch = !normalizedFaqPageSearch.value || searchableText.includes(normalizedFaqPageSearch.value)
+    const searchableText = `${item.question} ${item.answer} ${getFAQPageCategoryLabel(item.category)}`.toLowerCase()
+    const matchesSearch = !normalizedFAQPageSearch.value || searchableText.includes(normalizedFAQPageSearch.value)
 
     return matchesSearch
   }),
 )
 
-const visibleFaqPageItems = computed(() =>
-  normalizedFaqPageSearch.value ? filteredFaqPageItems.value : faqPageItems.slice(0, 7),
+const visibleFAQPageItems = computed(() =>
+  normalizedFAQPageSearch.value ? filteredFAQPageItems.value : faqPageItems.slice(0, 7),
 )
 
 const isPlaceholder = (value: string) => value.startsWith('[')
